@@ -35,7 +35,7 @@
   }
   .panel-center-left {
     border-radius: 0;
-    width: 200px;
+    width: 230px;
     height: 100%;
     overflow: auto;
     background: #F5FFFA;
