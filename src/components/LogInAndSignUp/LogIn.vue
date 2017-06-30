@@ -113,7 +113,8 @@
     top: 30%;
     height: 450px;
     width: 308px;
-    background: #F5F5F5;
+    background: transparent;
+    background-color: rgba(255,255,255,0.3);
     padding: 30px;
     margin: -160px auto 0;
   }
@@ -127,7 +128,7 @@
   }
   .login-layout {
     position: absolute;
-    background: #000000;
+    background-color: rgba(255,255,255,0.5);
     height: 100%;
     background-image: url('../../assets/background_login_2.png');
   }
