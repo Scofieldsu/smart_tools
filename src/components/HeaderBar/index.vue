@@ -1,7 +1,7 @@
 <template>
   <el-col :span="24" class="panel-top">
     <el-col :span="20" style="font-size: 26px">
-      <span class="logo-text"><span style="color: #F5FFFA">❤小工具箱❤</span></span>
+      <span class="logo-text"><span style="color: #F5FFFA">Smart-Tools</span></span>
       <i class="fa fa-navicon sideBar-toggle-btn" @click="centerRightWidth"></i>
     </el-col>
     <el-col :span="4">

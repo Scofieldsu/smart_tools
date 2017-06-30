@@ -8,6 +8,7 @@ import Home from '../components/Home.vue'
 import LogIn from '../components/LogInAndSignUp/LogIn.vue'
 import SignUp from '../components/LogInAndSignUp/SignUp.vue'
 import ExchangeRate from '../components/NavForTools/ExchangeRate.vue'
+import Overview from '../components/NavForTools/Overview.vue'
 
 Vue.use(VueRouter)
 NProgress.configure({
@@ -15,13 +16,22 @@ NProgress.configure({
 })
 
 const routes = [
-  { path: '/tools',
+  {
+    path: '/tools',
+    name: '所有工具',
+    show: true,
+    component: Home,
+    children: [
+      { path: '/tools/alltools', name: '所有工具', component: Overview, show: true }
+    ]
+  },
+  { path: '/life',
     name: '生活服务',
     show: true,
     component: Home,
     icon: 'fa fa-navicon',
     children: [
-      { path: '/tools/exchange_rate', name: '汇率换算', component: ExchangeRate, show: true }
+      { path: '/life/exchange_rate', name: '汇率换算', component: ExchangeRate, show: true }
     ]
   },
   { path: '/', redirect: '/LogIn' },
@@ -34,16 +44,7 @@ const routes = [
     path: '/SignUp',
     component: SignUp,
     name: 'SignUp'
-  },
-  {
-    path: '/tools',
-    component: Home,
-    name: '',
-    children: [
-      { path: '/tools', name: '', component: ExchangeRate }
-    ]
   }
-
 ]
 
 const router = new VueRouter({
