@@ -1,25 +1,25 @@
 <template>
-  <el-col :span="24" class="login-layout">
-    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="0px" class="demo-ruleForm login-form">
-      <img src='../../assets/home.png' width="48" height="48" style="margin: 0 40%" >
-      <h2 class="title">Sign in to SmtTol</h2>
-      <el-form-item label="" prop="name" >
-        <label class="login-label">Username or email address</label>
-        <el-input v-model="ruleForm.name" class="login-input" placeholder=""></el-input>
-      </el-form-item>
-      <el-form-item label="" prop="password" style="margin-top: -20px">
-        <label class="login-label">Password</label>
-        <el-input v-model="ruleForm.password" class="login-input" placeholder="" type="password"></el-input>
-      </el-form-item>
-      <el-form-item label="">
-        <el-checkbox label="" v-model="rememberPWD" name="rememberPWD" class="remember-pwd">Remember password</el-checkbox>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="success" @click="submitForm('ruleForm')" class="login-btn">Sign In</el-button>
-        <el-button @click="resetForm('ruleForm')" class="signin-btn">Sign Up</el-button>
-      </el-form-item>
-    </el-form>
-  </el-col>
+    <el-col :span="24" class="login-layout">
+      <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="0px" class="demo-ruleForm login-form">
+        <img src='../../assets/home.png' width="48" height="48" style="margin: 0 40%" >
+        <h2 class="title">Sign in to SmtTol</h2>
+        <el-form-item label="" prop="name" >
+          <label class="login-label">Username or email address</label>
+          <el-input v-model="ruleForm.name" class="login-input" placeholder=""></el-input>
+        </el-form-item>
+        <el-form-item label="" prop="password" style="margin-top: -20px">
+          <label class="login-label">Password</label>
+          <el-input v-model="ruleForm.password" class="login-input" placeholder="" type="password"></el-input>
+        </el-form-item>
+        <el-form-item label="">
+          <el-checkbox label="" v-model="rememberPWD" name="rememberPWD" class="remember-pwd">Keep password</el-checkbox>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="success" @click="submitForm('ruleForm')" class="login-btn">Sign In</el-button>
+          <el-button @click="resetForm('ruleForm')" class="signin-btn">Sign Up</el-button>
+        </el-form-item>
+      </el-form>
+    </el-col>
 </template>
 <script>
   import ElIcon from '../../../node_modules/element-ui/packages/icon/src/icon'
@@ -29,7 +29,7 @@
     components: {ElIcon},
     data () {
       return {
-        rememberPWD: true,
+        rememberPWD: false,
         ruleForm: {
           name: '',
           password: ''
