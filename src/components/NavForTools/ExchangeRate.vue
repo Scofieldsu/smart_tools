@@ -1,12 +1,13 @@
 <template>
   <div id="whole_div">
     <div id="left_half" style="margin: 10px 0;width: 45%;float: left">
-      <div id="left_half_top_div" style="width: 700px;height: 200px">
+      <div id="left_half_top_div" style="width: 100%;height: 200px">
         <div class="child_div_left">
-          <el-tag type="primary" style="font-size: larger;margin: 10px 0">货币兑换</el-tag>
-          <br/>
-          <span style="font-size: 30px;font-weight: bold;color: #20A0FF" v-text="msg1"></span><br/>
-          <span style="font-size: 30px;font-weight: bold;color: #13CE66" v-text="msg2"></span>
+          <el-tag type="primary" style="font-size: larger;margin-bottom: 10px">货币兑换</el-tag>
+          <br/><br/>
+          <span style="font-size: 20px;font-weight: bold;color: #20A0FF" v-text="msg1"></span>
+          <br/><br/>
+          <span style="font-size: 20px;font-weight: bold;color: #13CE66" v-text="msg2"></span>
         </div>
         <div class="child_div_right">
            <span>
@@ -24,7 +25,7 @@
            </span>
         </div>
       </div>
-      <div id="left_half_mid" style="width: 700px;height: 200px">
+      <div id="left_half_mid" style="width: 100%;height: 200px">
         <el-select v-model="origin_currency" >
           <el-option
             v-for="item in origins"
@@ -50,10 +51,10 @@
         <el-input v-model="input_num" placeholder="请输入金额" style="width: 280px;margin: 10px 0"></el-input>
         <el-button type="danger" style="margin: 10px 0">转换货币</el-button>
       </div>
-      <div id="left_half_bottom" style="width: 700px">
+      <div id="left_half_bottom" style="width: 100%">
         <el-table
           :data="tableData3"
-          height="400"
+          height="350"
           border
           style="width: 100%">
           <el-table-column
@@ -80,11 +81,11 @@
         </el-table>
       </div>
     </div>
-    <div style="float: left;width: 45%;margin: 10px 0 0 10px">
+    <div style="float: right;width: 45%;margin: 10px 0 0 10px">
       <div class="content-title">柱状图</div>
-      <schart canvasId="bar" width="700" height="350" :data="data1" type="bar" :options="options1"></schart>
+      <schart canvasId="bar" style="width: 100%;height: 40%;margin: 5px" :data="data1" type="bar" :options="options1"></schart>
       <div class="content-title">折线图</div>
-      <schart canvasId="line" width="700" height="350" :data="data1" type="line" :options="options1"></schart>
+      <schart canvasId="line" style="width: 100%;height: 40%;margin: 5px" :data="data1" type="line" :options="options1"></schart>
     </div>
   </div>
 </template>
@@ -425,10 +426,10 @@
   }
   .content-title{
     clear: both;
-    font-weight: 400;
-    line-height: 50px;
+    font-weight: 200;
+    line-height: 20px;
     margin: 10px 0;
-    font-size: 22px;
+    font-size: 18px;
     color: #1f2f3d;
   }
 </style>
