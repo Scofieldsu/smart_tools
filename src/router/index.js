@@ -19,10 +19,10 @@ const routes = [
   {
     path: '/tools',
     name: '所有工具',
-    show: true,
+    show: false,
     component: Home,
     children: [
-      { path: '/tools/alltools', name: '所有工具', component: Overview, show: true }
+      { path: '/tools/alltools', name: '所有工具', component: Overview, show: false }
     ]
   },
   { path: '/life',
