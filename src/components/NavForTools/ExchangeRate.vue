@@ -26,7 +26,7 @@
         </div>
       </div>
       <div id="left_half_mid" style="width: 100%;height: 200px">
-        <el-select v-model="origin_currency" >
+        <el-select v-model="origin_currency" v-on:change="check_currency">
           <el-option
             v-for="item in origins"
             :key="item.value"
@@ -37,7 +37,7 @@
           </el-option>
         </el-select>
         <el-button type="primary">换位</el-button>
-        <el-select v-model="trans_currency" >
+        <el-select v-model="trans_currency" v-on:change="check_currency">
           <el-option
             v-for="item in trans"
             :key="item.value"
@@ -48,13 +48,15 @@
           </el-option>
         </el-select>
         <br/>
-        <el-input v-model="input_num" placeholder="请输入金额" style="width: 280px;margin: 10px 0"></el-input>
+        <el-input v-model="input_num" placeholder="请输入金额"  v-on:blur="check_num" style="width: 280px;margin: 10px 0"></el-input>
         <el-button type="danger" style="margin: 10px 0">转换货币</el-button>
+        <br/>
+        <span style="font-size: 15px;font-weight: bold;color: #FF4949" v-text="msg3"></span>
       </div>
       <div id="left_half_bottom" style="width: 100%">
         <el-table
-          :data="tableData3"
-          height="350"
+          :data="tableData"
+          height="400"
           border
           style="width: 100%">
           <el-table-column
@@ -95,14 +97,161 @@
   import ElInput from '../../../node_modules/element-ui/packages/input/src/input'
   import ElButton from '../../../node_modules/element-ui/packages/button/src/button'
   export default {
+    methods: {
+      check_num () {
+        let num = this.input_num
+        if (Number(num) || Number(num) === 0) {
+          this.input_num = Number(num)
+          this.msg3 = ''
+          console.log(typeof (this.input_num))
+          console.log(this.origin_currency)
+          console.log(this.trans_currency)
+        } else {
+          this.msg3 = '请填写数值!'
+        }
+      },
+      check_currency () {
+        if (this.origin_currency === this.trans_currency) {
+          this.msg3 = '请选择不同货币转换!'
+        } else {
+          this.msg3 = ''
+        }
+      }
+    },
     components: {
       Schart,
       ElButton,
       ElInput},
     data () {
+      let AllBanks = [{
+        value: 'ICBC',
+        label: '工商银行'
+      }, {
+        value: 'BOC',
+        label: '中国银行'
+      }, {
+        value: 'ABCHINA',
+        label: '农业银行'
+      }, {
+        value: 'BANKCOMM',
+        label: '交通银行'
+      }, {
+        value: 'CCB',
+        label: '建设银行'
+      }, {
+        value: 'CMBCHINA',
+        label: '招商银行'
+      }, {
+        value: 'CEBBANK',
+        label: '光大银行'
+      }, {
+        value: 'SPDB',
+        label: '浦发银行'
+      }, {
+        value: 'CIB',
+        label: '兴业银行'
+      }, {
+        value: 'ECITIC',
+        label: '中信银行'
+      }]
+      let currency = [
+        {
+          value: 'RMB',
+          label: '人民币'
+        },
+        {
+          value: 'HKD',
+          label: '港币'
+        },
+        {
+          value: 'TWD',
+          label: '新台币'
+        },
+        {
+          value: 'MOP',
+          label: '澳门元'
+        },
+        {
+          value: 'USD',
+          label: '美元'
+        },
+        {
+          value: 'KRW',
+          label: '韩元'
+        },
+        {
+          value: 'JPY',
+          label: '日元'
+        },
+        {
+          value: 'THB',
+          label: '泰铢'
+        },
+        {
+          value: 'EUR',
+          label: '欧元'
+        },
+        {
+          value: 'GBP',
+          label: '英镑'
+        },
+        {
+          value: 'RUB',
+          label: '卢布'
+        },
+        {
+          value: 'SGD',
+          label: '新加坡元'
+        },
+        {
+          value: 'CAD',
+          label: '加拿大元'
+        },
+        {
+          value: 'ZAR',
+          label: '南非兰特'
+        },
+        {
+          value: 'NZD',
+          label: '新西兰元'
+        },
+        {
+          value: 'AUD',
+          label: '澳大利亚元'
+        },
+        {
+          value: 'CHF',
+          label: '瑞士法郎'
+        },
+        {
+          value: 'PHP',
+          label: '菲律宾比索'
+        },
+        {
+          value: 'DKK',
+          label: '丹麦克朗'
+        },
+        {
+          value: 'NOK',
+          label: '挪威克朗'
+        },
+        {
+          value: 'SEK',
+          label: '瑞典克朗'
+        },
+        {
+          value: 'MYR',
+          label: '林吉特'
+        },
+        {
+          value: 'BRL',
+          label: '巴西里亚尔'
+        }
+      ]
       return {
         msg1: '1美元=6.7977人民币',
         msg2: '1人民币=0.1477美元',
+        msg3: '',
         input_num: 1,
         bank_value: 'ICBC',
         origin_currency: 'USD',
@@ -123,226 +272,10 @@
           axisColor: '#eeeeee',
           contentColor: '#bbbbbb'
         },
-        banks: [{
-          value: 'ICBC',
-          label: '工商银行'
-        }, {
-          value: 'BOC',
-          label: '中国银行'
-        }, {
-          value: 'ABCHINA',
-          label: '农业银行'
-        }, {
-          value: 'BANKCOMM',
-          label: '交通银行'
-        }, {
-          value: 'CCB',
-          label: '建设银行'
-        }, {
-          value: 'CMBCHINA',
-          label: '招商银行'
-        }, {
-          value: 'CEBBANK',
-          label: '光大银行'
-        }, {
-          value: 'SPDB',
-          label: '浦发银行'
-        }, {
-          value: 'CIB',
-          label: '兴业银行'
-        }, {
-          value: 'ECITIC',
-          label: '中信银行'
-        }],
-        origins: [
-          {
-            value: 'JPY',
-            label: '日元'
-          },
-          {
-            value: 'SGD',
-            label: '新加坡元'
-          },
-          {
-            value: 'HKD',
-            label: '港币'
-          },
-          {
-            value: 'MOP',
-            label: '澳门元'
-          },
-          {
-            value: 'CAD',
-            label: '加拿大元'
-          },
-          {
-            value: 'ZAR',
-            label: '南非兰特'
-          },
-          {
-            value: 'NZD',
-            label: '新西兰元'
-          },
-          {
-            value: 'AUD',
-            label: '澳大利亚元'
-          },
-          {
-            value: 'GBP',
-            label: '英镑'
-          },
-          {
-            value: 'DKK',
-            label: '丹麦克朗'
-          },
-          {
-            value: 'NOK',
-            label: '挪威克朗'
-          },
-          {
-            value: 'SEK',
-            label: '瑞典克朗'
-          },
-          {
-            value: 'MYR',
-            label: '林吉特'
-          },
-          {
-            value: 'BRL',
-            label: '巴西里亚尔'
-          },
-          {
-            value: 'CHF',
-            label: '瑞士法郎'
-          },
-          {
-            value: 'EUR',
-            label: '欧元'
-          },
-          {
-            value: 'RUB',
-            label: '卢布'
-          },
-          {
-            value: 'PHP',
-            label: '菲律宾比索'
-          },
-          {
-            value: 'USD',
-            label: '美元'
-          },
-          {
-            value: 'THB',
-            label: '泰铢'
-          },
-          {
-            value: 'RMB',
-            label: '人民币'
-          },
-          {
-            value: 'KRW',
-            label: '韩元'
-          },
-          {
-            value: 'TWD',
-            label: '新台币'
-          }
-        ],
-        trans: [
-          {
-            value: 'JPY',
-            label: '日元'
-          },
-          {
-            value: 'SGD',
-            label: '新加坡元'
-          },
-          {
-            value: 'HKD',
-            label: '港币'
-          },
-          {
-            value: 'MOP',
-            label: '澳门元'
-          },
-          {
-            value: 'CAD',
-            label: '加拿大元'
-          },
-          {
-            value: 'ZAR',
-            label: '南非兰特'
-          },
-          {
-            value: 'NZD',
-            label: '新西兰元'
-          },
-          {
-            value: 'AUD',
-            label: '澳大利亚元'
-          },
-          {
-            value: 'GBP',
-            label: '英镑'
-          },
-          {
-            value: 'DKK',
-            label: '丹麦克朗'
-          },
-          {
-            value: 'NOK',
-            label: '挪威克朗'
-          },
-          {
-            value: 'SEK',
-            label: '瑞典克朗'
-          },
-          {
-            value: 'MYR',
-            label: '林吉特'
-          },
-          {
-            value: 'BRL',
-            label: '巴西里亚尔'
-          },
-          {
-            value: 'CHF',
-            label: '瑞士法郎'
-          },
-          {
-            value: 'EUR',
-            label: '欧元'
-          },
-          {
-            value: 'RUB',
-            label: '卢布'
-          },
-          {
-            value: 'PHP',
-            label: '菲律宾比索'
-          },
-          {
-            value: 'USD',
-            label: '美元'
-          },
-          {
-            value: 'THB',
-            label: '泰铢'
-          },
-          {
-            value: 'RMB',
-            label: '人民币'
-          },
-          {
-            value: 'KRW',
-            label: '韩元'
-          },
-          {
-            value: 'TWD',
-            label: '新台币'
-          }
-        ],
-        tableData3: [{
+        banks: AllBanks,
+        origins: currency,
+        trans: currency,
+        tableData: [{
           type: '新台币',
           hui_in: '6.12',
           chao_out: '6.11',
