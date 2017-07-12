@@ -26,6 +26,18 @@
         </div>
       </div>
       <div id="left_half_mid" style="width: 100%;height: 200px">
+        <el-input v-model="input_num" placeholder="请输入金额"  v-on:blur="check_num" style="width: 280px;margin: 10px 0"></el-input>
+        <el-select v-model="currency_type">
+          <el-option
+            v-for="item in currencys"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+            <span style="float: left">{{ item.label }}</span>
+            <span style="float: right; color: #8492a6; font-size: 13px">{{ item.value }}</span>
+          </el-option>
+        </el-select>
+        <br/>
         <el-select v-model="origin_currency" v-on:change="check_currency">
           <el-option
             v-for="item in origins"
@@ -36,7 +48,7 @@
             <span style="float: right; color: #8492a6; font-size: 13px">{{ item.value }}</span>
           </el-option>
         </el-select>
-        <el-button type="primary">换位</el-button>
+        <el-button type="primary" @click="change_currency">换位</el-button>
         <el-select v-model="trans_currency" v-on:change="check_currency">
           <el-option
             v-for="item in trans"
@@ -48,8 +60,7 @@
           </el-option>
         </el-select>
         <br/>
-        <el-input v-model="input_num" placeholder="请输入金额"  v-on:blur="check_num" style="width: 280px;margin: 10px 0"></el-input>
-        <el-button type="danger" style="margin: 10px 0">转换货币</el-button>
+        <el-button type="success" style="margin: 10px 0">转换货币</el-button>
         <br/>
         <span style="font-size: 15px;font-weight: bold;color: #FF4949" v-text="msg3"></span>
       </div>
@@ -66,7 +77,7 @@
           </el-table-column>
           <el-table-column
             prop="hui_in"
-            label="现汇买入价">
+            label="现汇买入">
           </el-table-column>
           <el-table-column
             prop="chao_out"
@@ -98,6 +109,9 @@
   import ElButton from '../../../node_modules/element-ui/packages/button/src/button'
   export default {
     methods: {
+      change_currency () {
+        [this.origin_currency, this.trans_currency] = [this.trans_currency, this.origin_currency]
+      },
       check_num () {
         let num = this.input_num
         if (Number(num) || Number(num) === 0) {
@@ -123,6 +137,14 @@
       ElButton,
       ElInput},
     data () {
+      let currencys = [{
+        value: 'cash',
+        label: '现金'
+      }, {
+        value: 'account',
+        label: '账户金额'
+      }
+      ]
       let AllBanks = [{
         value: 'ICBC',
         label: '工商银行'
@@ -256,6 +278,7 @@
         bank_value: 'ICBC',
         origin_currency: 'USD',
         trans_currency: 'RMB',
+        currency_type: 'cash',
         data1: [
           {name: '2012', value: 1141},
           {name: '2013', value: 1499},
@@ -272,6 +295,7 @@
           axisColor: '#eeeeee',
           contentColor: '#bbbbbb'
         },
+        currencys: currencys,
         banks: AllBanks,
         origins: currency,
         trans: currency,
