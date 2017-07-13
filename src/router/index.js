@@ -25,13 +25,13 @@ const routes = [
       { path: '/tools/alltools', name: '所有工具', component: Overview, show: false }
     ]
   },
-  { path: '/life',
-    name: '生活服务',
+  { path: '/list',
+    name: '服务列表',
     show: true,
     component: Home,
     icon: 'fa fa-navicon',
     children: [
-      { path: '/life/exchange_rate', name: '汇率换算', component: ExchangeRate, show: true }
+      { path: '/list/exchange_rate', name: '汇率换算', component: ExchangeRate, show: true }
     ]
   },
   { path: '/', redirect: '/LogIn' },

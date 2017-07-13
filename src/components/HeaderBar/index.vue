@@ -1,7 +1,7 @@
 <template>
   <el-col :span="24" class="panel-top">
     <el-col :span="20" style="font-size: 26px">
-      <span class="logo-text"><span style="color: #F5FFFA">Smart-Tools</span></span>
+      <span class="logo-text"><el-button type="text" class="top-button" @click="return_all">Smart-Tools</el-button></span>
       <i class="fa fa-navicon sideBar-toggle-btn" @click="centerRightWidth"></i>
     </el-col>
     <el-col :span="4">
@@ -18,7 +18,9 @@
 
   import commonJs from '../../util/common'
   import { mapActions } from 'vuex'
+  import ElButton from '../../../node_modules/element-ui/packages/button/src/button'
   export default {
+    components: {ElButton},
     name: 'HeaderBar',
     computed: {
       username () {
@@ -38,6 +40,9 @@
       ...mapActions([
         'centerRightWidth'
       ]),
+      return_all () {
+        this.$router.push('/tools/alltools')
+      },
       logout () {
         localStorage.removeItem('ms_username')
         let cookieMaker = commonJs.cookieMaker
@@ -59,6 +64,9 @@
   color:#c0ccda;
 }
 
+.top-button {
+  font-size: 30px;
+}
 .tip-logout{
   float: right;
   margin-right: 20px;
@@ -75,11 +83,11 @@
 
 .logo-text {
   float: left;
-  margin-left: 30px;
+  margin-left: 10px;
 }
 
 .sideBar-toggle-btn {
-  margin-left: 40px;
+  margin-left: 20px;
   cursor: pointer;
 }
 

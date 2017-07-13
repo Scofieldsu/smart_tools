@@ -1,13 +1,14 @@
 <template>
   <el-row>
-    <el-col :span="8" v-for="(o, index) in 2" :key="o" :offset="index > 0 ? 2 : 0" style="height: 40px;width: 200px;margin: 20px">
+    <el-col :span="8" v-for="(o, index) in 20" :key="o" :offset="index > 0 ? 2 : 0" style="height: 40px;width: 200px;margin: 0px 20px 250px 20px">
       <el-card :body-style="{ padding: '0px' }">
+        <el-tag type="danger">docker</el-tag>
         <img src='../../assets/home.png' class="image">
         <div style="padding: 14px;">
-          <span>好吃的汉堡</span>
+          <span>内网服务</span>
           <div class="bottom clearfix">
-            <time class="time">{{ currentDate }}</time>
-            <el-button type="text" class="button">操作按钮</el-button>
+            <el-button type="text" class="button_go" @click="arrive">访问</el-button>
+            <el-button type="text" class="button_detail" >详情</el-button>
           </div>
         </div>
       </el-card>
@@ -16,10 +17,16 @@
 </template>
 
 <script>
+  import ElTag from '../../../node_modules/element-ui/packages/tag/src/tag'
   export default {
+    components: {ElTag},
     data () {
       return {
-        currentDate: new Date()
+      }
+    },
+    methods: {
+      arrive () {
+        window.open('http://192.168.5.91:5000/api_test')
       }
     }
   }
@@ -37,9 +44,14 @@
     line-height: 12px;
   }
 
-  .button {
+  .button_go {
     padding: 0;
     float: right;
+  }
+
+  .button_detail {
+    padding: 0;
+    float: left;
   }
 
   .image {
