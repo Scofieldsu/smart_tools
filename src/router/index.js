@@ -9,6 +9,9 @@ import LogIn from '../components/LogInAndSignUp/LogIn.vue'
 import SignUp from '../components/LogInAndSignUp/SignUp.vue'
 import ExchangeRate from '../components/NavForTools/ExchangeRate.vue'
 import Overview from '../components/NavForTools/Overview.vue'
+import AddService from '../components/NavForTools/AddService.vue'
+import ShowService from '../components/NavForTools/ShowService.vue'
+import ShowNotice from '../components/NavForTools/ShowNotice.vue'
 
 Vue.use(VueRouter)
 NProgress.configure({
@@ -22,16 +25,28 @@ const routes = [
     show: false,
     component: Home,
     children: [
-      { path: '/tools/alltools', name: '所有工具', component: Overview, show: false }
+      { path: '/tools/all_tools', name: '所有工具', component: Overview, show: false }
     ]
   },
-  { path: '/list',
-    name: '服务列表',
+  { path: '/yours',
+    name: '你的首页',
     show: true,
     component: Home,
-    icon: 'fa fa-navicon',
+    icon: 'fa fa-home',
     children: [
-      { path: '/list/exchange_rate', name: '汇率换算', component: ExchangeRate, show: true }
+      { path: '/yours/exchange_rate', name: '汇率换算', icon: 'fa fa-usd', component: ExchangeRate, show: false },
+      { path: '/tools/all_tools', name: '服务', icon: 'fa fa-lightbulb-o', component: Overview, show: true },
+      { path: '/yours/notices', name: '通知', icon: 'fa fa-info', component: ShowNotice, show: true }
+    ]
+  },
+  { path: '/manager',
+    name: '服务管理',
+    show: true,
+    component: Home,
+    icon: 'fa fa-cog',
+    children: [
+      { path: '/manager/add_service', name: '发布服务', icon: 'fa fa-upload', component: AddService, show: true },
+      { path: '/manager/show_service', name: '服务列表', icon: 'fa fa-table', component: ShowService, show: true }
     ]
   },
   { path: '/', redirect: '/LogIn' },

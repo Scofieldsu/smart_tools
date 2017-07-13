@@ -66,7 +66,7 @@
 //              cookieMaker.save('password', md5(that.ruleForm.password), 30)
               // cookieMaker.save('token', res.data.token, 7)
             }
-            that.$router.push('/tools/alltools')
+            that.$router.push('/yours/notices')
 //              } else {
 //                that.$notify({
 //                  title: '登录失败',
