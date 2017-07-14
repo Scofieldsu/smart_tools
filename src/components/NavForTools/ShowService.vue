@@ -14,17 +14,26 @@
     <el-table-column
       prop="link"
       label="链接"
+      sortable
       width="400px">
     </el-table-column>
     <el-table-column
       prop="type"
       label="分类"
-      width="150px">
+      sortable
+      width="120px">
     </el-table-column>
     <el-table-column
       prop="tag"
       label="标签"
-      width="120px">
+      sortable
+      width="100px">
+    </el-table-column>
+    <el-table-column
+      prop="publish_user"
+      label="发布人"
+      sortable
+      width="100px">
     </el-table-column>
     <el-table-column
       prop="publish_time"
@@ -38,7 +47,7 @@
       sortable
       width="180px">
     </el-table-column>
-    <el-table-column label="操作" width="350px">
+    <el-table-column label="操作" width="300px">
       <template scope="scope">
         <el-button
           style="margin-left: 30px"
@@ -69,13 +78,15 @@
           link: 'http://192.168.5.91:5000/api_test',
           type: 'common',
           tag: 'api',
-          publish_time: '2017-07-07',
-          change_time: '2017-07-10'
+          publish_user: 'xxx',
+          publish_time: '2017-07-07 18:05:06',
+          change_time: '2017-07-10 09:08:25'
         }, {
           name: '2内网api-test',
           link: 'http://192.168.5.91:5000/api_test',
           type: 'common',
           tag: 'api',
+          publish_user: 'xxx',
           publish_time: '2017-07-08',
           change_time: '2017-07-09'
         }, {
@@ -83,6 +94,7 @@
           link: 'http://192.168.5.91:5000/api_test',
           type: 'common',
           tag: 'api',
+          publish_user: 'xxx',
           publish_time: '2017-07-09',
           change_time: '2017-07-10'
         }, {
@@ -90,6 +102,7 @@
           link: 'http://192.168.5.91:5000/api_test',
           type: 'common',
           tag: 'api',
+          publish_user: 'xxx',
           publish_time: '2017-07-07',
           change_time: '2017-07-10'
         }, {
@@ -97,6 +110,7 @@
           link: 'http://192.168.5.91:5000/api_test',
           type: 'common',
           tag: 'api',
+          publish_user: 'xxx',
           publish_time: '2017-07-07',
           change_time: '2017-07-10'
         }, {
@@ -104,6 +118,7 @@
           link: 'http://192.168.5.91:5000/api_test',
           type: 'common',
           tag: 'api',
+          publish_user: 'xxx',
           publish_time: '2017-07-07',
           change_time: '2017-07-10'
         }]

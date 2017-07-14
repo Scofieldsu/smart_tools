@@ -19,15 +19,7 @@ NProgress.configure({
 })
 
 const routes = [
-  {
-    path: '/tools',
-    name: '所有工具',
-    show: false,
-    component: Home,
-    children: [
-      { path: '/tools/all_tools', name: '所有工具', component: Overview, show: false }
-    ]
-  },
+
   { path: '/yours',
     name: '你的首页',
     show: true,
