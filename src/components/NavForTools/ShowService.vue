@@ -1,7 +1,7 @@
 <template>
   <el-table
     :data="tableData"
-    height="500"
+    height="800"
     border
     style="width: 100%"
     :default-sort = "{prop: 'name', order: 'descending'}">
@@ -38,20 +38,20 @@
       sortable
       width="180px">
     </el-table-column>
-    <el-table-column label="操作">
+    <el-table-column label="操作" width="350px">
       <template scope="scope">
         <el-button
-          style="margin-left: 8%"
+          style="margin-left: 30px"
           size="small"
           type="success"
           @click="handleVisit(scope.$index, scope.row)">访问</el-button>
         <el-button
-          style="margin-left: 8%"
+          style="margin-left: 30px"
           size="small"
           type="primary"
           @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
         <el-button
-          style="margin-left: 8%"
+          style="margin-left: 30px"
           size="small"
           type="danger"
           @click="handleDelete(scope.$index, scope.row)">删除</el-button>
