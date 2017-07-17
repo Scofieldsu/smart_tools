@@ -12,6 +12,8 @@ import Overview from '../components/NavForTools/Overview.vue'
 import AddService from '../components/NavForTools/AddService.vue'
 import ShowService from '../components/NavForTools/ShowService.vue'
 import ShowNotice from '../components/NavForTools/ShowNotice.vue'
+import UserAccess from '../components/NavForTools/UserAccess.vue'
+import Test from '../components/NavForTools/Test.vue'
 
 Vue.use(VueRouter)
 NProgress.configure({
@@ -38,7 +40,9 @@ const routes = [
     icon: 'fa fa-cog',
     children: [
       { path: '/manager/add_service', name: '发布服务', icon: 'fa fa-upload', component: AddService, show: true },
-      { path: '/manager/show_service', name: '服务列表', icon: 'fa fa-table', component: ShowService, show: true }
+      { path: '/manager/show_service', name: '服务列表', icon: 'fa fa-table', component: ShowService, show: true },
+      { path: '/manager/user_access', name: '权限管理', icon: 'fa fa-user', component: UserAccess, show: true },
+      { path: '/manager/test', name: '测试', icon: 'fa fa-tumblr-square', component: Test, show: true }
     ]
   },
   { path: '/', redirect: '/LogIn' },

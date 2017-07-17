@@ -1,6 +1,6 @@
 <template>
   <div style="width: 100%">
-    <div style="width: 600px;height: 500px;float: left">
+    <div style="width: 40%;height: 500px;float: left">
       <div>
         <span>
          <i class="el-icon-information"></i>
@@ -30,7 +30,7 @@
         </el-alert>
       </div>
     </div>
-    <div style="width: 1020px;height:100%;float: right">
+    <div style="width: 60%;height:100%;float: left">
       <div>
         <span style="margin-left:20px">
           <i class="el-icon-star-on"></i>
