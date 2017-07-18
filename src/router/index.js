@@ -13,6 +13,7 @@ import AddService from '../components/NavForTools/AddService.vue'
 import ShowService from '../components/NavForTools/ShowService.vue'
 import ShowNotice from '../components/NavForTools/ShowNotice.vue'
 import UserAccess from '../components/NavForTools/UserAccess.vue'
+import UserSettings from '../components/NavForTools/UserSettings.vue'
 import Test from '../components/NavForTools/Test.vue'
 
 Vue.use(VueRouter)
@@ -30,7 +31,8 @@ const routes = [
     children: [
       { path: '/yours/exchange_rate', name: '汇率换算', icon: 'fa fa-usd', component: ExchangeRate, show: false },
       { path: '/tools/all_tools', name: '服务', icon: 'fa fa-lightbulb-o', component: Overview, show: true },
-      { path: '/yours/notices', name: '通知', icon: 'fa fa-info', component: ShowNotice, show: true }
+      { path: '/yours/notices', name: '通知', icon: 'fa fa-info', component: ShowNotice, show: true },
+      { path: '/yours/settings', name: '设置', icon: 'fa fa-lock', component: UserSettings, show: true }
     ]
   },
   { path: '/manager',
