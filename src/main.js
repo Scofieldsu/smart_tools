@@ -16,7 +16,7 @@ Vue.config.productionTip = false
 Vue.use(Vuex)
 Vue.use(ElementUI)
 let vjax = axios.create({
-  baseURL: 'http://localhost:5000',
+  baseURL: 'http://localhost:5050',
   timeout: 5000
   // headers: {'post': {'Content-Type': 'application/x-www-form-urlencoded'}}
 })

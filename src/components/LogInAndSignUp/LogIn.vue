@@ -3,11 +3,11 @@
       <el-form :model="ruleForm" ref="ruleForm"  class="login-form">
         <img src='../../assets/home.png' width="48" height="48" style="margin: 0 40%" >
         <h2 class="title">Sign in to SmtTol</h2>
-        <el-form-item label="" prop="name" >
+        <el-form-item label="" >
           <label class="login-label">Email address</label>
-          <el-input v-model="ruleForm.name" class="login-input" placeholder=""></el-input>
+          <el-input v-model="ruleForm.email" class="login-input" placeholder=""></el-input>
         </el-form-item>
-        <el-form-item label="" prop="password" style="margin-top: -20px">
+        <el-form-item label=""  style="margin-top: -20px">
           <label class="login-label">Password</label>
           <el-input v-model="ruleForm.password" class="login-input" placeholder="" type="password"></el-input>
         </el-form-item>
@@ -24,14 +24,14 @@
 <script>
   import ElIcon from '../../../node_modules/element-ui/packages/icon/src/icon'
 //  import commonJs from '../../util/common'
-//  import md5 from 'md5'
+  import md5 from 'md5'
   export default {
     components: {ElIcon},
     data () {
       return {
         rememberPWD: false,
         ruleForm: {
-          name: '',
+          email: '',
           password: ''
         }
       }
@@ -42,17 +42,17 @@
         this.$router.replace('/sign_up')
       },
       submitForm (formName) {
-        if (!this.ruleForm.name) {
+        if (this.ruleForm.name === '') {
           this.$notify({
-            title: 'Warning',
+            title: 'Login Failed',
             message: 'Please enter email_address',
             type: 'error',
             duration: 1200,
             offset: 40
           })
-        } else if (!this.ruleForm.password) {
+        } else if (this.ruleForm.password === '') {
           this.$notify({
-            title: 'Warning',
+            title: 'Login Failed',
             message: 'Please enter password',
             type: 'error',
             duration: 1200,
@@ -60,54 +60,42 @@
           })
         } else {
           console.log('login submit!')
-          this.$router.push('/yours/notices')
-        }
-//        let cookieMaker = commonJs.cookieMaker
-        let that = this
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            // that.$router.push('/')
-            window.localStorage.setItem('ms_username', that.ruleForm.name)
-//            that.axios.post('/login', qs.stringify({
-//              name: that.ruleForm.name,
-//              password: md5(that.ruleForm.password)
-//            }))
-//            .then((res) => {
-//              console.log(res)
-//              if (res.data === 'success') {
-            if (that.rememberPWD) {
-//              cookieMaker.save('name', that.ruleForm.name, 30)
-//              cookieMaker.save('password', md5(that.ruleForm.password), 30)
-              // cookieMaker.save('token', res.data.token, 7)
+          let that = this
+          let passwordHash = md5(that.ruleForm.password)
+          let resourse = {
+            'jsonrpc': '2.0',
+            'method': 'sign_in',
+            'id': 1111,
+            'params': {
+              'email': that.ruleForm.email,
+              'password': passwordHash
             }
-//              } else {
-//                that.$notify({
-//                  title: '登录失败',
-//                  type: 'error',
-//                  duration: 2000
-//                })
-//              }
-//            if (res.data.SignIn === 'true') {
-//              window.sessionStorage['name'] = that.ruleForm.name
-//              window.sessionStorage['password'] = that.ruleForm.password
-//            }
-//            })
-//              .catch((err) => {
-//                console.error(err)
-//                that.$notify({
-//                  title: '登录失败',
-//                  type: 'error',
-//                  duration: 2000
-//                })
-//              })
-//          } else {
-//            console.log('error submit!!')
-//            return false
-//          }
-//          }
-//        },)
           }
-        })
+          this.$refs[formName].validate((valid) => {
+            if (valid) {
+//              window.localStorage.setItem('ms_email', that.ruleForm.email)
+              that.axios.post('/api', resourse)
+                .then((res) => {
+                  console.log(res)
+                  if (res.data.result.msg === 'success') {
+//                    let user_id = res.data.result.user_id
+                    let username = res.data.result.user_name
+                    window.localStorage.setItem('user_name', username)
+                    this.$router.push('/yours/notices')
+                  } else {
+                    this.$notify({
+                      title: 'Login Failed',
+                      message: 'Login Failed',
+                      type: 'error',
+                      duration: 1200,
+                      offset: 40
+                    })
+                  }
+                })
+            }
+          }
+        )
+        }
       }
     }
   }

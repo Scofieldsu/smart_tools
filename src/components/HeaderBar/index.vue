@@ -24,7 +24,7 @@
     name: 'HeaderBar',
     computed: {
       username () {
-        let username = localStorage.getItem('ms_username')
+        let username = localStorage.getItem('user_name')
         return username ? username : this.name
       }
     },
@@ -44,7 +44,7 @@
         this.$router.push('/tools/all_tools')
       },
       logout () {
-        localStorage.removeItem('ms_username')
+        localStorage.removeItem('user_name')
         let cookieMaker = commonJs.cookieMaker
         cookieMaker.remove('name')
         cookieMaker.remove('password')
