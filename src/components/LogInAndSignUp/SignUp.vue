@@ -4,16 +4,16 @@
         <img src='../../assets/home.png' width="48" height="48" style="margin: 0 40%" >
         <h2 class="title">Sign Up to SmtTol</h2>
         <el-form-item label="" prop="email">
-          <el-input v-model="ruleForm.email" class="login-input" placeholder="*邮箱地址"></el-input>
+          <el-input v-model="ruleForm.email" class="login-input" placeholder="*email_address"></el-input>
         </el-form-item>
         <el-form-item label="" prop="name">
-          <el-input v-model="ruleForm.name" class="login-input" placeholder="*用户名"></el-input>
+          <el-input v-model="ruleForm.name" class="login-input" placeholder="*user_name"></el-input>
         </el-form-item>
         <el-form-item label="" prop="password">
-          <el-input v-model="ruleForm.password" class="login-input" type="password" placeholder="*密码"></el-input>
+          <el-input v-model="ruleForm.password" class="login-input" type="password" placeholder="*password"></el-input>
         </el-form-item>
         <el-form-item label="" prop="passwordComfirm">
-          <el-input v-model="ruleForm.passwordComfirm" class="login-input" type="password" placeholder="*确认密码"></el-input>
+          <el-input v-model="ruleForm.passwordComfirm" class="login-input" type="password" placeholder="*Confirm_password"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="success" @click="submitForm('ruleForm')" class="signin-btn">Sign Up</el-button>
@@ -31,9 +31,9 @@
     data () {
       var validatePassComfirm = (rule, value, callback) => {
         if (value === '') {
-          callback(new Error('*请再次输入密码'))
+          callback(new Error('*Please enter confirm password'))
         } else if (value !== this.ruleForm.password) {
-          callback(new Error('两次输入密码不一致'))
+          callback(new Error('The password for the two time is inconsistent'))
         } else {
           callback()
         }
@@ -47,13 +47,13 @@
         },
         rules: {
           email: [
-            { required: true, message: '*请输入邮箱地址', trigger: 'blur' }
+            { required: true, message: '*Please enter email_address!', trigger: 'blur' }
           ],
           name: [
-            { required: true, message: '*请输入用户名', trigger: 'blur' }
+            { required: true, message: '*Please enter user_name!', trigger: 'blur' }
           ],
           password: [
-            { required: true, message: '*请填写密码', trigger: 'blur' }
+            { required: true, message: '*Please enter password!', trigger: 'blur' }
           ],
           passwordComfirm: [
             {required: true, validator: validatePassComfirm, trigger: 'blur'}
@@ -79,13 +79,13 @@
               console.log(res)
               if (res.data === 'repeatUsername') {
                 that.$notify({
-                  title: '注册失败,重名了',
+                  title: 'Sign Up failed',
                   type: 'error',
                   duration: 2000
                 })
               } else if (res.data.username) {
                 that.$notify({
-                  title: '注册成功',
+                  title: 'Sign Up Success',
                   type: 'success',
                   duration: 2000
                 })
@@ -94,7 +94,7 @@
             .catch((err) => {
               console.error(err)
               that.$notify({
-                title: '注册失败',
+                title: 'Sign Up failed',
                 type: 'error',
                 duration: 2000
               })
