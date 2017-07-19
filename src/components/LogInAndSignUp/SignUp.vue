@@ -62,15 +62,14 @@
       }
     },
     methods: {
-      resetForm (formName) {
-        console.log('submit!')
+      resetForm () {
         this.$router.replace('/login')
       },
       submitForm (formName) {
         var that = this
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            console.log(that)
+            console.log(md5(that.ruleForm.password))
             that.axios.post('/sign_up', qs.stringify({
               name: that.ruleForm.name,
               password: md5(that.ruleForm.password)
