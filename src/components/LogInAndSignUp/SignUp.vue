@@ -2,7 +2,7 @@
   <el-col :span="24" class="login-layout">
       <el-form :model="signupForm" :rules="rules" ref="ruleForm"  class="login-form">
         <img src='../../assets/home.png' width="48" height="48" style="margin: 0 40%" >
-        <h2 class="title">Sign Up to SmtTol</h2>
+        <h2 class="title">Sign Up to One-Platform</h2>
         <el-form-item label="" prop="email">
           <el-input v-model="signupForm.email" class="login-input" placeholder="*email_address"></el-input>
         </el-form-item>

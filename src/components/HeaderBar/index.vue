@@ -1,7 +1,7 @@
 <template>
   <el-col :span="24" class="panel-top">
     <el-col :span="20" style="font-size: 26px">
-      <span class="logo-text"><el-button type="text" class="top-button" @click="return_all">Smart-Tools</el-button></span>
+      <span class="logo-text"><el-button type="text" class="top-button" @click="return_all">One-Platform</el-button></span>
       <i class="fa fa-navicon sideBar-toggle-btn" @click="centerRightWidth"></i>
     </el-col>
     <el-col :span="4">
