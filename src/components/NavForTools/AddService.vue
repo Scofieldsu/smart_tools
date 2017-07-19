@@ -6,14 +6,6 @@
     <el-form-item label="链接">
       <el-input v-model="form.link" style="width: 500px"></el-input>
     </el-form-item>
-    <el-form-item label="所属分类">
-      <el-select v-model="form.region" placeholder="请选择服务分类"
-                 filterable  allowCreate="true">
-        <el-option label="通用服务" value="common"></el-option>
-        <el-option label="运维服务" value="ops"></el-option>
-        <el-option label="内测服务" value="beta"></el-option>
-      </el-select>
-    </el-form-item>
     <el-form-item label="通知链接">
       <el-switch
         v-model="form.notice"
@@ -25,7 +17,7 @@
       <el-input v-model="form.tag" style="width: 500px"></el-input>
     </el-form-item>
     <el-form-item label="简介">
-      <el-input type="textarea" v-model="form.desc" style="width: 500px"></el-input>
+      <el-input type="textarea" v-model="form.desc" :autosize="{ minRows: 3, maxRows: 15}" style="width: 500px"></el-input>
     </el-form-item>
     <el-form-item label="上传图片">
       <el-upload
@@ -55,7 +47,6 @@
         form: {
           name: '',
           link: '',
-          region: '',
           notice: true,
           tag: '',
           desc: '',

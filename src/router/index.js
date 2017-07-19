@@ -47,16 +47,16 @@ const routes = [
       { path: '/manager/test', name: '测试', icon: 'fa fa-tumblr-square', component: Test, show: true }
     ]
   },
-  { path: '/', redirect: '/LogIn' },
+  { path: '/', redirect: '/login' },
   {
-    path: '/LogIn',
+    path: '/login',
     component: LogIn,
-    name: 'LogIn'
+    name: 'login'
   },
   {
-    path: '/SignUp',
+    path: '/sign_up',
     component: SignUp,
-    name: 'SignUp'
+    name: 'sign_up'
   }
 ]
 
@@ -68,7 +68,7 @@ router.beforeEach((to, from, next) => {
   NProgress.start()
   let cookieMaker = commonJs.cookieMaker
   if (!cookieMaker.get('name') && !cookieMaker.get('password')) {
-    if (to.name === 'LogIn' || to.name === 'SignUp') {
+    if (to.name === 'login' || to.name === 'sign_up') {
       next()
     } else {
       next(false)
@@ -85,7 +85,7 @@ router.afterEach(transition => {
 
 let cookieMaker = commonJs.cookieMaker
 if (!cookieMaker.get('name') || !cookieMaker.get('password')) {
-  router.push('/LogIn')
+  router.push('/login')
 }
 
 export default router

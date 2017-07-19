@@ -1,9 +1,9 @@
 <template>
   <el-tabs v-model="activeName" @tab-click="handleClick">
     <el-tab-pane label="修改密码" name="first">
-      <el-tag type="primary" class="tag">原始密码</el-tag><el-input class="input"></el-input><br/>
-      <el-tag type="success" class="tag">新密码</el-tag><el-input class="input"></el-input><br/>
-      <el-tag type="danger" class="tag">确认密码</el-tag><el-input class="input"></el-input><br>
+      <el-tag type="primary" class="tag">原始密码</el-tag><el-input class="input" type="password"></el-input><br/>
+      <el-tag type="success" class="tag">新密码</el-tag><el-input class="input" type="password"></el-input><br/>
+      <el-tag type="danger" class="tag">确认密码</el-tag><el-input class="input" type="password"></el-input><br>
       <el-button type="primary" class="button">提交修改</el-button>
     </el-tab-pane>
   </el-tabs>

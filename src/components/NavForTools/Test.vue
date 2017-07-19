@@ -11,9 +11,9 @@
       <el-input v-model="test_input" class="input_test"></el-input>
     </span>
       <br/>
-      <span>
-      <el-tag type="primary" style="width: 50px">Params</el-tag>
-      <el-input v-model="test_params" class="input_test" ></el-input>
+      <span >
+      <el-tag type="primary" style="width: 50px;float: left;margin-top: 20px">Params</el-tag>
+      <el-input v-model="test_params" class="input_test" type="textarea"  :autosize="{ minRows: 5, maxRows: 20 }"></el-input>
     </span>
       <br/>
       <el-button type="success" @click="for_test" style="margin: 20px 0">测试</el-button>
@@ -42,11 +42,14 @@
     methods: {
       for_test () {
         let RpcMethod = this.test_input
-        let Parama = JSON.parse(this.test_params)
+        let TemParams = this.test_params
+        if (!TemParams) {
+          TemParams = '{}'
+        }
         let Resource = {
           'jsonrpc': '2.0',
           'method': RpcMethod,
-          'params': Parama,
+          'params': JSON.parse(TemParams),
           'id': 111
         }
         console.log(JSON.stringify(Resource))

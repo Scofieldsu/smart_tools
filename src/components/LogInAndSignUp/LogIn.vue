@@ -1,10 +1,10 @@
 <template>
     <el-col :span="24" class="login-layout">
-      <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="0px" class="demo-ruleForm login-form">
+      <el-form :model="ruleForm" ref="ruleForm"  class="login-form">
         <img src='../../assets/home.png' width="48" height="48" style="margin: 0 40%" >
         <h2 class="title">Sign in to SmtTol</h2>
         <el-form-item label="" prop="name" >
-          <label class="login-label">Username or email address</label>
+          <label class="login-label">Email address</label>
           <el-input v-model="ruleForm.name" class="login-input" placeholder=""></el-input>
         </el-form-item>
         <el-form-item label="" prop="password" style="margin-top: -20px">
@@ -12,11 +12,11 @@
           <el-input v-model="ruleForm.password" class="login-input" placeholder="" type="password"></el-input>
         </el-form-item>
         <el-form-item label="">
-          <el-checkbox label="" v-model="rememberPWD" name="rememberPWD" class="remember-pwd">Keep password</el-checkbox>
+          <el-checkbox label="" v-model="rememberPWD" name="rememberPWD" class="remember-pwd">remember password</el-checkbox>
         </el-form-item>
         <el-form-item>
           <el-button type="success" @click="submitForm('ruleForm')" class="login-btn">Sign In</el-button>
-          <el-button @click="resetForm('ruleForm')" class="signin-btn">Sign Up</el-button>
+          <el-button @click="resetForm('ruleForm')" class="sign_up-btn">Sign Up</el-button>
         </el-form-item>
       </el-form>
     </el-col>
@@ -33,26 +33,40 @@
         ruleForm: {
           name: '',
           password: ''
-        },
-        rules: {
-//          name: [
-//            {required: true, message: '请输入用户名', trigger: 'blur'}
-//          ],
-//          password: [
-//            {required: true, message: '请填写密码', trigger: 'blur'}
-//          ]
-        },
-        token: ''
+        }
       }
     },
     methods: {
+      resetForm (formName) {
+        this.$refs[formName].resetFields()
+        this.$router.replace('/sign_up')
+      },
       submitForm (formName) {
+        if (!this.ruleForm.name) {
+          this.$notify({
+            title: 'Warning',
+            message: 'Please enter email_address',
+            type: 'error',
+            duration: 1200,
+            offset: 40
+          })
+        } else if (!this.ruleForm.password) {
+          this.$notify({
+            title: 'Warning',
+            message: 'Please enter password',
+            type: 'error',
+            duration: 1200,
+            offset: 40
+          })
+        } else {
+          console.log('login submit!')
+          this.$router.push('/yours/notices')
+        }
 //        let cookieMaker = commonJs.cookieMaker
         let that = this
         this.$refs[formName].validate((valid) => {
           if (valid) {
             // that.$router.push('/')
-            console.log('login submit!')
             window.localStorage.setItem('ms_username', that.ruleForm.name)
 //            that.axios.post('/login', qs.stringify({
 //              name: that.ruleForm.name,
@@ -66,7 +80,6 @@
 //              cookieMaker.save('password', md5(that.ruleForm.password), 30)
               // cookieMaker.save('token', res.data.token, 7)
             }
-            that.$router.push('/yours/notices')
 //              } else {
 //                that.$notify({
 //                  title: '登录失败',
@@ -93,10 +106,6 @@
 //          }
 //          }
 //        },)
-//      resetForm (formName){
-//        this.$refs[formName].resetFields()
-//        this.$router.replace('/SignUp')
-//      }
           }
         })
       }
@@ -113,8 +122,7 @@
     top: 30%;
     height: 450px;
     width: 308px;
-    background: transparent;
-    background-color: rgba(255,255,255,0.3);
+    background-color: rgba(255,255,255,0.2);
     padding: 30px;
     margin: -160px auto 0;
   }
@@ -141,9 +149,9 @@
     padding-bottom: 10px;
     margin: -15px 0 -15px 10%;
   }
-  .login-btn, .signin-btn {
+  .login-btn, .sign_up-btn {
     width: 85%;
-    margin: 0 0 15px 10%;
+    margin: 0 0 25px 10%;
   }
   .login-label {
     font-weight: bolder;
