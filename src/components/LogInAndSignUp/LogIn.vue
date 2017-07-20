@@ -108,9 +108,10 @@
                     window.localStorage.setItem('user_name', username)
                     this.$router.push('/yours/notices')
                   } else {
+                    let msg = res.data.result.msg
                     this.$notify({
                       title: 'Login Failed',
-                      message: 'Login Failed',
+                      message: msg,
                       type: 'error',
                       duration: 1200,
                       offset: 40
