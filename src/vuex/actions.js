@@ -7,9 +7,6 @@ export const decrement = ({commit}) => {
 export const centerRightWidth = ({commit}) => {
   commit('CENTERIGHTWIDTH')
 }
-export const addPageType = ({commit}, payload) => {
-  commit('ADDPAGETYPE', payload)
-}
-export const saveSwarmPage = ({ commit }, payload) => {
-  commit('SAVESWARMPAGE', payload)
+export const setApiUrl = ({commit}, msg) => {
+  commit('SETAPIURL', msg)
 }

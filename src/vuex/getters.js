@@ -4,4 +4,6 @@ export const getCount = state => {
 export const getCenterRightWidth = state => {
   return state.centerRightWidth
 }
-
+export const getApiUrl = state => {
+  return state.api_url
+}

@@ -1,45 +1,45 @@
 <template>
-    <el-col :span="24" class="login-layout">
-      <!--<el-button type="text" @click="dialogVisible = true" style="float: right;margin:0 10px"><i class="el-icon-setting"></i></el-button>-->
-      <el-dialog
-        title="设置"
-        :visible.sync="dialogVisible"
-        size="tiny"
-        :before-close="handleClose">
+  <el-col :span="24" class="login-layout">
+    <el-button type="text" @click="dialogVisible = true" style="float: right;margin:0 10px"><i class="el-icon-setting"></i></el-button>
+    <el-dialog
+      title="设置"
+      :visible.sync="dialogVisible"
+      size="tiny"
+      :before-close="handleClose">
             <span>
               <el-tag type="primary" style="font-size: medium;margin: 5px">服务器api_url</el-tag>
               <el-input v-model="api_url" style="width: 50%"></el-input>
             </span>
-        <span slot="footer" class="dialog-footer">
+      <span slot="footer" class="dialog-footer">
                     <el-button @click="dialogVisible = false">取 消</el-button>
                     <el-button type="primary" @click="set_url">确 定</el-button>
               </span>
-      </el-dialog>
-      <el-form :model="ruleForm" ref="ruleForm"  class="login-form">
-        <img src='../../assets/home.png' width="48" height="48" style="margin: 0 40%" >
-        <h2 class="title">Sign in to One-Platform</h2>
-        <el-form-item label="" >
-          <label class="login-label">Email address</label>
-          <el-input v-model="ruleForm.email" class="login-input" placeholder=""></el-input>
-        </el-form-item>
-        <el-form-item label=""  style="margin-top: -20px">
-          <label class="login-label">Password</label>
-          <el-input v-model="ruleForm.password" class="login-input" placeholder="" type="password"></el-input>
-        </el-form-item>
-        <el-form-item label="">
-          <el-checkbox label="" v-model="rememberPWD" name="rememberPWD" class="remember-pwd">remember password</el-checkbox>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="success" @click="submitForm('ruleForm')" class="login-btn">Sign In</el-button>
-          <el-button @click="resetForm('ruleForm')" class="sign_up-btn">Sign Up</el-button>
-        </el-form-item>
-      </el-form>
-    </el-col>
+    </el-dialog>
+    <el-form :model="ruleForm" ref="ruleForm"  class="login-form">
+      <img src='../../assets/home.png' width="48" height="48" style="margin: 0 40%" >
+      <h2 class="title">Sign in to One-Platform</h2>
+      <el-form-item label="" >
+        <label class="login-label">Email address</label>
+        <el-input v-model="ruleForm.email" class="login-input" placeholder=""></el-input>
+      </el-form-item>
+      <el-form-item label=""  style="margin-top: -20px">
+        <label class="login-label">Password</label>
+        <el-input v-model="ruleForm.password" class="login-input" placeholder="" type="password"></el-input>
+      </el-form-item>
+      <el-form-item label="">
+        <el-checkbox label="" v-model="rememberPWD" name="rememberPWD" class="remember-pwd">remember password</el-checkbox>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="success" @click="submitForm('ruleForm')" class="login-btn">Sign In</el-button>
+        <el-button @click="resetForm('ruleForm')" class="sign_up-btn">Sign Up</el-button>
+      </el-form-item>
+    </el-form>
+  </el-col>
 </template>
 <script>
   import { mapGetters, mapActions } from 'vuex'
   import ElIcon from '../../../node_modules/element-ui/packages/icon/src/icon'
-//  import commonJs from '../../util/common'
+  //  import commonJs from '../../util/common'
   import md5 from 'md5'
   export default {
     components: {ElIcon},
@@ -155,7 +155,7 @@
                 })
             }
           }
-        )
+          )
         }
       }
     }

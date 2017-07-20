@@ -15,6 +15,7 @@ import UserAccess from '../components/NavForTools/UserAccess.vue'
 import UserSettings from '../components/NavForTools/UserSettings.vue'
 import ServiceSettings from '../components/NavForTools/ServiceSettings.vue'
 import Transformation from '../components/NavForTools/Transformation.vue'
+import LoginDebug from '../components/LogInAndSignUp/LoginDebug.vue'
 import Test from '../components/NavForTools/Test.vue'
 
 Vue.use(VueRouter)
@@ -63,6 +64,11 @@ const routes = [
     path: '/login',
     component: LogIn,
     name: 'login'
+  },
+  {
+    path: '/login/debug',
+    component: LoginDebug,
+    name: 'login_debug'
   },
   {
     path: '/sign_up',

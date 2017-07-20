@@ -79,7 +79,8 @@
                 'password': passwordHash
               }
             }
-            that.axios.post('/api', resourse)
+            let getapiUrl = localStorage.getItem('api_url', 'http://localhost:5050/api')
+            that.axios.post(getapiUrl, resourse)
             .then((res) => {
               console.log(res)
               if (res.data !== '' && 'result' in res.data) {

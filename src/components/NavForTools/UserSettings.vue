@@ -66,7 +66,8 @@
               'new_pwd': md5(newpwd)
             }
           }
-          this.axios.post('/api', resourse)
+          let getapiUrl = localStorage.getItem('api_url', 'http://localhost:5050/api')
+          this.axios.post(getapiUrl, resourse)
             .then((res) => {
               console.log(res)
               if (res.data !== '' && 'result' in res.data) {
