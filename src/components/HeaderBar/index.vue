@@ -45,12 +45,13 @@
       },
       logout () {
         localStorage.removeItem('user_name')
+        localStorage.removeItem('user_id')
+        localStorage.removeItem('email')
         let cookieMaker = commonJs.cookieMaker
         cookieMaker.remove('name')
         cookieMaker.remove('password')
-        cookieMaker.remove('token')
         console.log('logout')
-        this.$router.push('/LogIn')
+        this.$router.push('/login')
       }
     }
   }

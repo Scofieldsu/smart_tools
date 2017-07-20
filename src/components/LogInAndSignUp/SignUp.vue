@@ -23,7 +23,6 @@
   </el-col>
 </template>
 <script>
-  import qs from 'qs'
   import md5 from 'md5'
   import ElTag from '../../../node_modules/element-ui/packages/tag/src/tag'
   export default {
@@ -66,41 +65,67 @@
         this.$router.replace('/login')
       },
       submitForm (formName) {
-        var that = this
+        let that = this
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            console.log(md5(that.signupForm.password))
-            that.axios.post('/sign_up', qs.stringify({
-              name: that.signupForm.name,
-              password: md5(that.signupForm.password)
-            }))
+            let passwordHash = md5(that.signupForm.passwordComfirm)
+            let resourse = {
+              'jsonrpc': '2.0',
+              'method': 'sign_up',
+              'id': 1111,
+              'params': {
+                'email': that.signupForm.email,
+                'username': that.signupForm.name,
+                'password': passwordHash
+              }
+            }
+            that.axios.post('/api', resourse)
             .then((res) => {
               console.log(res)
-              if (res.data === 'repeatUsername') {
+              if (res.data !== '' && 'result' in res.data) {
+                if ('msg' in res.data.result) {
+                  if (res.data.result.msg === 'success') {
+                    that.$notify({
+                      title: 'Sign Up Success',
+                      type: 'success',
+                      duration: 1200
+                    })
+                    that.$router.push('/login')
+                  } else {
+                    let msg = res.data.result.msg
+                    that.$notify({
+                      title: 'Sign Up Failed',
+                      message: msg,
+                      type: 'error',
+                      duration: 1200
+                    })
+                  }
+                }
+              } else if ('error' in res.data) {
+                let error = res.data.error
                 that.$notify({
-                  title: 'Sign Up failed',
+                  title: 'Sign Up Failed',
+                  message: error,
                   type: 'error',
-                  duration: 2000
+                  duration: 1200
                 })
-              } else if (res.data.username) {
+              } else {
                 that.$notify({
-                  title: 'Sign Up Success',
-                  type: 'success',
-                  duration: 2000
+                  title: 'Sign Up Failed',
+                  message: 'Some abnormal error has happened!',
+                  type: 'error',
+                  duration: 1200
                 })
               }
             })
             .catch((err) => {
               console.error(err)
               that.$notify({
-                title: 'Sign Up failed',
+                title: 'Sign Up Failed',
                 type: 'error',
-                duration: 2000
+                duration: 1200
               })
             })
-          } else {
-            console.log('error submit!!')
-            return false
           }
         })
       }

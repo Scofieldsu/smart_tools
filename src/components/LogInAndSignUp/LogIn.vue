@@ -1,5 +1,20 @@
 <template>
     <el-col :span="24" class="login-layout">
+      <el-button type="text" @click="dialogVisible = true" style="float: right;margin:0 10px"><i class="el-icon-setting"></i></el-button>
+      <el-dialog
+        title="设置"
+        :visible.sync="dialogVisible"
+        size="tiny"
+        :before-close="handleClose">
+            <span>
+              <el-tag type="primary" style="font-size: medium;margin: 5px">服务器api_url</el-tag>
+              <el-input v-model="api_url" style="width: 50%"></el-input>
+            </span>
+        <span slot="footer" class="dialog-footer">
+                    <el-button @click="dialogVisible = false">取 消</el-button>
+                    <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+              </span>
+      </el-dialog>
       <el-form :model="ruleForm" ref="ruleForm"  class="login-form">
         <img src='../../assets/home.png' width="48" height="48" style="margin: 0 40%" >
         <h2 class="title">Sign in to One-Platform</h2>
@@ -29,6 +44,8 @@
     components: {ElIcon},
     data () {
       return {
+        api_url: '',
+        dialogVisible: false,
         rememberPWD: false,
         ruleForm: {
           email: '',
@@ -37,12 +54,19 @@
       }
     },
     methods: {
+      handleClose (done) {
+        this.$confirm('确认关闭？')
+          .then(_ => {
+            done()
+          })
+          .catch(_ => {})
+      },
       resetForm (formName) {
         this.$refs[formName].resetFields()
         this.$router.replace('/sign_up')
       },
       submitForm (formName) {
-        if (this.ruleForm.name === '') {
+        if (this.ruleForm.email === '') {
           this.$notify({
             title: 'Login Failed',
             message: 'Please enter email_address',
@@ -73,13 +97,14 @@
           }
           this.$refs[formName].validate((valid) => {
             if (valid) {
-//              window.localStorage.setItem('ms_email', that.ruleForm.email)
               that.axios.post('/api', resourse)
                 .then((res) => {
                   console.log(res)
                   if (res.data.result.msg === 'success') {
-//                    let user_id = res.data.result.user_id
+                    let userid = res.data.result.user_id
                     let username = res.data.result.user_name
+                    window.localStorage.setItem('email', that.ruleForm.email)
+                    window.localStorage.setItem('user_id', userid)
                     window.localStorage.setItem('user_name', username)
                     this.$router.push('/yours/notices')
                   } else {
