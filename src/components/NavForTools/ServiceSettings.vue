@@ -1,8 +1,6 @@
 <template>
   <el-tabs v-model="activeName" @tab-click="handleClick">
     <el-tab-pane label="服务器设置" name="first">
-      <el-tag type="primary" style="font-size: medium;margin: 20px 0">服务器API_URL</el-tag>
-     <el-input v-model="api_url" class="api_url" ></el-input>
     </el-tab-pane>
   </el-tabs>
 </template>

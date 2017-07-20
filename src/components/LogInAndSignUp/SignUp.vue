@@ -30,9 +30,9 @@
     data () {
       var validatePassComfirm = (rule, value, callback) => {
         if (value === '') {
-          callback(new Error('*Please enter confirm password'))
+          callback(new Error('*Please enter confirm password!'))
         } else if (value !== this.signupForm.password) {
-          callback(new Error('The password for the two time is inconsistent'))
+          callback(new Error('The password for the two time is inconsistent!'))
         } else {
           callback()
         }

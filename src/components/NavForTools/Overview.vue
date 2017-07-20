@@ -4,7 +4,7 @@
       <el-card :body-style="{ padding: '0px' }">
         <el-tag type="danger">docker</el-tag>
         <el-button type="text" style="float: right;margin-right: 10px;margin-top: 10px" @click="star_on">收藏</el-button>
-        <img src='../../assets/home.png' class="image">
+        <img src='../../assets/service.png' class="image">
         <div style="padding: 14px;">
           <span>内网服务</span>
           <div class="bottom clearfix">
