@@ -18,8 +18,8 @@
       width="400px">
     </el-table-column>
     <el-table-column
-      prop="type"
-      label="分类"
+      prop="shortcut"
+      label="短称"
       sortable
       width="120px">
     </el-table-column>
@@ -70,59 +70,43 @@
 </template>
 
 <script>
+  import { mapGetters } from 'vuex'
   export default {
     data () {
       return {
-        tableData: [{
-          name: '1内网api-test',
-          link: 'http://192.168.5.91:5000/api_test',
-          type: 'common',
-          tag: 'api',
-          publish_user: 'xxx',
-          publish_time: '2017-07-07 18:05:06',
-          change_time: '2017-07-10 09:08:25'
-        }, {
-          name: '2内网api-test',
-          link: 'http://192.168.5.91:5000/api_test',
-          type: 'common',
-          tag: 'api',
-          publish_user: 'xxx',
-          publish_time: '2017-07-08',
-          change_time: '2017-07-09'
-        }, {
-          name: '3内网api-test',
-          link: 'http://192.168.5.91:5000/api_test',
-          type: 'common',
-          tag: 'api',
-          publish_user: 'xxx',
-          publish_time: '2017-07-09',
-          change_time: '2017-07-10'
-        }, {
-          name: '内网api-test',
-          link: 'http://192.168.5.91:5000/api_test',
-          type: 'common',
-          tag: 'api',
-          publish_user: 'xxx',
-          publish_time: '2017-07-07',
-          change_time: '2017-07-10'
-        }, {
-          name: '内网api-test',
-          link: 'http://192.168.5.91:5000/api_test',
-          type: 'common',
-          tag: 'api',
-          publish_user: 'xxx',
-          publish_time: '2017-07-07',
-          change_time: '2017-07-10'
-        }, {
-          name: '内网api-test',
-          link: 'http://192.168.5.91:5000/api_test',
-          type: 'common',
-          tag: 'api',
-          publish_user: 'xxx',
-          publish_time: '2017-07-07',
-          change_time: '2017-07-10'
-        }]
+        tableData: []
       }
+    },
+    computed: {
+      ...mapGetters([
+        'getApiUrl'
+      ])
+    },
+    created () {
+      let that = this
+      let getapiUrl = localStorage.getItem('api_url')
+      if (!getapiUrl) {
+        getapiUrl = this.getApiUrl
+      }
+      let userid = window.localStorage.getItem('user_id')
+      if (userid) {
+        userid = Number(userid)
+      }
+      let resourse = {
+        'jsonrpc': '2.0',
+        'method': 'get_service_list',
+        'id': 1111,
+        'params': {
+          'user_id': userid
+        }
+      }
+      that.axios.post(getapiUrl, resourse)
+        .then(function (res) {
+          that.tableData = res.data.result
+        })
+        .catch(function (err) {
+          console.log(err)
+        })
     },
     methods: {
       handleEdit (index, row) {
