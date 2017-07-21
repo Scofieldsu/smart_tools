@@ -16,6 +16,7 @@ import UserSettings from '../components/NavForTools/UserSettings.vue'
 import ServiceSettings from '../components/NavForTools/ServiceSettings.vue'
 import Transformation from '../components/NavForTools/Transformation.vue'
 import LoginDebug from '../components/LogInAndSignUp/LoginDebug.vue'
+import LeaveMessage from '../components/NavForTools/LeaveMessage.vue'
 import Test from '../components/NavForTools/Test.vue'
 
 Vue.use(VueRouter)
@@ -56,7 +57,8 @@ const routes = [
     children: [
       { path: '/test/exchange_rate', name: '汇率换算', icon: 'fa fa-usd', component: ExchangeRate, show: true },
       { path: '/test/apis', name: '开发测试', icon: 'fa fa-tumblr-square', component: Test, show: true },
-      { path: '/test/tools', name: '工具箱', icon: 'fa fa-wrench', component: Transformation, show: true }
+      { path: '/test/tools', name: '工具箱', icon: 'fa fa-wrench', component: Transformation, show: true },
+      { path: '/test/message', name: '留言板', icon: 'fa  fa-envelope', component: LeaveMessage, show: true }
     ]
   },
   { path: '/', redirect: '/login' },
