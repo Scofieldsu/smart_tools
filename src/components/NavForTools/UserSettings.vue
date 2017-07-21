@@ -11,6 +11,7 @@
   </el-tabs>
 </template>
 <script>
+  import { mapGetters } from 'vuex'
   import md5 from 'md5'
   import ElTag from '../../../node_modules/element-ui/packages/tag/src/tag'
   import ElInput from '../../../node_modules/element-ui/packages/input/src/input'
@@ -31,6 +32,11 @@
         new_pwd: '',
         confirm_pwd: ''
       }
+    },
+    computed: {
+      ...mapGetters([
+        'getApiUrl'
+      ])
     },
     methods: {
       handleClick (tab, event) {
@@ -66,7 +72,10 @@
               'new_pwd': md5(newpwd)
             }
           }
-          let getapiUrl = localStorage.getItem('api_url', 'http://localhost:5050/api')
+          let getapiUrl = localStorage.getItem('api_url')
+          if (!getapiUrl) {
+            getapiUrl = this.getApiUrl
+          }
           this.axios.post(getapiUrl, resourse)
             .then((res) => {
               console.log(res)

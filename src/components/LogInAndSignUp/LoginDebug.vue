@@ -8,7 +8,7 @@
       :before-close="handleClose">
             <span>
               <el-tag type="primary" style="font-size: medium;margin: 5px">服务器api_url</el-tag>
-              <el-input v-model="api_url" style="width: 50%"></el-input>
+              <el-input v-model="api_url_input" style="width: 50%"></el-input>
             </span>
       <span slot="footer" class="dialog-footer">
                     <el-button @click="dialogVisible = false">取 消</el-button>
@@ -37,7 +37,7 @@
   </el-col>
 </template>
 <script>
-  import { mapGetters, mapActions } from 'vuex'
+  import { mapGetters } from 'vuex'
   import ElIcon from '../../../node_modules/element-ui/packages/icon/src/icon'
   //  import commonJs from '../../util/common'
   import md5 from 'md5'
@@ -46,7 +46,7 @@
     data () {
       let getapiUrl = localStorage.getItem('api_url')
       return {
-        api_url: getapiUrl,
+        api_url_input: getapiUrl,
         dialogVisible: false,
         rememberPWD: false,
         ruleForm: {
@@ -61,13 +61,9 @@
       ])
     },
     methods: {
-      ...mapActions({
-        setApiUrl: 'setApiUrl'
-      }),
       set_url () {
-        console.log(this)
         this.dialogVisible = false
-        let apiurl = this.api_url
+        let apiurl = this.api_url_input
         if (!apiurl) {
           apiurl = 'http://localhost:5050/api'
         }
@@ -75,9 +71,6 @@
           apiurl = 'http://'.concat(apiurl)
         }
         window.localStorage.setItem('api_url', apiurl)
-        this.setApiUrl({
-          setApiUrl: this.api_url
-        })
       },
       handleClose (done) {
         this.$confirm('确认关闭？')
@@ -122,7 +115,10 @@
           }
           this.$refs[formName].validate((valid) => {
             if (valid) {
-              let getapiUrl = localStorage.getItem('api_url', 'http://localhost:5050/api')
+              let getapiUrl = localStorage.getItem('api_url')
+              if (!getapiUrl) {
+                getapiUrl = this.getApiUrl
+              }
               that.axios.post(getapiUrl, resourse)
                 .then((res) => {
                   console.log(res)

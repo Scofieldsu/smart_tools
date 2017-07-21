@@ -9,7 +9,7 @@ Vue.use(Vuex)
 const state = {
   count: 10,
   centerRightWidth: 230,
-  api_url: 'http://127.0.0.1:5050/api'
+  api_url: 'http://192.168.1.230:5050/api'
 }
 
 export default new Vuex.Store({

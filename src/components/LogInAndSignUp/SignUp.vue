@@ -23,6 +23,7 @@
   </el-col>
 </template>
 <script>
+  import { mapGetters } from 'vuex'
   import md5 from 'md5'
   import ElTag from '../../../node_modules/element-ui/packages/tag/src/tag'
   export default {
@@ -60,6 +61,11 @@
         }
       }
     },
+    computed: {
+      ...mapGetters([
+        'getApiUrl'
+      ])
+    },
     methods: {
       resetForm () {
         this.$router.replace('/login')
@@ -79,7 +85,10 @@
                 'password': passwordHash
               }
             }
-            let getapiUrl = localStorage.getItem('api_url', 'http://localhost:5050/api')
+            let getapiUrl = localStorage.getItem('api_url')
+            if (!getapiUrl) {
+              getapiUrl = this.getApiUrl
+            }
             that.axios.post(getapiUrl, resourse)
             .then((res) => {
               console.log(res)
