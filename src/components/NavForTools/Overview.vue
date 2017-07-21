@@ -4,12 +4,11 @@
       <el-card :body-style="{ padding: '0px' }">
         <el-tag type="danger">docker</el-tag>
         <el-button type="text" style="float: right;margin-right: 10px;margin-top: 10px" @click="star_on">收藏</el-button>
-        <img src='../../assets/service.png' class="image">
+        <el-button type="text" class="image" @click="arrive">Gitlab 内网</el-button>
         <div style="padding: 14px;">
           <span>内网服务</span>
           <div class="bottom clearfix">
-            <el-button type="text" class="button_go" @click="arrive">访问</el-button>
-            <el-button type="text" class="button_detail" >详情</el-button>
+            <el-button type="text" class="button_go" >详情</el-button>
           </div>
         </div>
       </el-card>
@@ -54,14 +53,17 @@
     float: right;
   }
 
-  .button_detail {
-    padding: 0;
-    float: left;
-  }
-
   .image {
     width: 80%;
+    height: 160px;
     display: block;
+    font-size: 50px;
+    font-weight: bold;
+    color: lightseagreen;
+    word-wrap: break-word;
+    word-break: keep-all;
+    white-space: normal;
+
   }
 
   .clearfix:before,

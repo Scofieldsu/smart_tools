@@ -29,7 +29,7 @@
   export default {
     components: {ElTag},
     data () {
-      var validatePassComfirm = (rule, value, callback) => {
+      let validatePassComfirm = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('*Please enter confirm password!'))
         } else if (value !== this.signupForm.password) {
