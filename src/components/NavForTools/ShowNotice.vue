@@ -39,7 +39,7 @@
       </div>
       <div style="margin-top: 20px">
         <el-row v-model="resultData">
-          <el-col :span="8" v-for="resultitem in resultData" :key="resultitem.name"  style="height: 40px;width: 200px;margin: 0px 20px 260px 20px">
+          <el-col :span="8" v-for="resultitem in resultData" :key="resultitem.name"  style="height: 40px;width: 200px;margin: 0px 20px 270px 20px">
             <el-card :body-style="{ padding: '0px' }">
               <el-tag type="danger">{{resultitem.tag}}</el-tag>
               <el-button type="text" style="float: right;margin-right: 10px;margin-top: 10px" @click="star_off">取消收藏</el-button>

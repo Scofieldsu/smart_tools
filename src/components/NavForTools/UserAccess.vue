@@ -25,13 +25,24 @@
           sortable
           width="400px">
         </el-table-column>
+        <el-table-column
+          prop="active"
+          label="有效"
+          sortable
+          width="100px">
+        </el-table-column>
         <el-table-column label="操作" >
           <template scope="scope">
             <el-button
               style="margin-left: 30px"
               size="small"
+              type="success"
+              @click="handleEnable(scope.$index, scope.row)">启用</el-button>
+            <el-button
+              style="margin-left: 30px"
+              size="small"
               type="primary"
-              @click="handleVisit(scope.$index, scope.row)">禁用</el-button>
+              @click="handleDisable(scope.$index, scope.row)">禁用</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -85,8 +96,16 @@
       handleClick (tab, event) {
         console.log(tab, event)
       },
-      handleVisit (index, row) {
-        console.log(index, row)
+      handleEnable (index, row) {
+        this.$message({
+          message: '启用成功',
+          type: 'success'
+        })
+      },
+      handleDisable (index, row) {
+        this.$message({
+          message: '禁用成功'
+        })
       }
     }
   }
