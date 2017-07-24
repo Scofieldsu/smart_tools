@@ -1,6 +1,6 @@
 <template>
   <el-row v-model="resultData">
-    <el-col :span="8" v-for="resultitem in resultData" :key="resultitem.name" :offset="index > 0 ? 2 : 0" style="height: 40px;width: 200px;margin: 0px 20px 260px 20px">
+    <el-col :span="8" v-for="resultitem in resultData" :key="resultitem.name"  style="height: 40px;width: 200px;margin: 0px 20px 260px 20px">
       <el-card :body-style="{ padding: '0px' }">
         <el-tag type="danger">{{resultitem.tag}}</el-tag>
         <el-button type="text" style="float: right;margin-right: 10px;margin-top: 10px" @click="star_on">收藏</el-button>
@@ -8,7 +8,7 @@
         <div style="padding: 14px;">
           <span>{{resultitem.name}}</span>
           <div class="bottom clearfix">
-            <el-button type="text" class="button_go" >详情</el-button>
+            <el-button type="text" class="button_go" @click="get_detail(resultitem.id)">详情</el-button>
           </div>
         </div>
       </el-card>
@@ -25,7 +25,8 @@
     components: {
       ElInput,
       ElButton,
-      ElTag},
+      ElTag
+    },
     data () {
       return {
         resultData: [
@@ -39,7 +40,8 @@
     },
     computed: {
       ...mapGetters([
-        'getApiUrl'
+        'getApiUrl',
+        'getService'
       ])
     },
     created () {
@@ -72,9 +74,36 @@
       arrive (link) {
         window.open(link)
       },
+      get_detail (id) {
+        this.$router.push('/manager/edit_service')
+        let getapiUrl = localStorage.getItem('api_url')
+        if (!getapiUrl) {
+          getapiUrl = this.getApiUrl
+        }
+        let userid = window.localStorage.getItem('user_id')
+        if (userid) {
+          userid = Number(userid)
+        }
+        let resourse = {
+          'jsonrpc': '2.0',
+          'method': 'get_service',
+          'id': 1111,
+          'params': {
+            'user_id': userid,
+            'service_id': id
+          }
+        }
+        this.axios.post(getapiUrl, resourse)
+          .then((res) => {
+            this.$store.commit('Service', res.data.result)
+          })
+          .catch(function (err) {
+            console.log(err)
+          })
+      },
       star_on () {
         this.$message({
-          message: '已收藏',
+          message: '收藏成功',
           type: 'success'
         })
       }

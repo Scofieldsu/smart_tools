@@ -9,12 +9,15 @@ Vue.use(Vuex)
 const state = {
   count: 10,
   centerRightWidth: 230,
-  api_url: 'http://192.168.1.230:5050/api'
+  api_url: 'http://192.168.1.230:5050/api',
+  EditService: {}
 }
 
-export default new Vuex.Store({
+const store = new Vuex.Store({
   state,
   actions,
   mutations,
   getters
 })
+
+export default store

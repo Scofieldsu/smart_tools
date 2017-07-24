@@ -32,7 +32,7 @@
         <el-table-column label="操作">
           <template scope="scope">
             <el-radio-group v-model="radio">
-              <el-radio-button label="赞未修改"></el-radio-button>
+              <el-radio-button label="暂未修改"></el-radio-button>
               <el-radio-button label="已修改"></el-radio-button>
               <el-radio-button label="需讨论"></el-radio-button>
             </el-radio-group>
@@ -50,7 +50,8 @@
   export default {
     components: {
       ElButton,
-      ElInput},
+      ElInput
+    },
     data () {
       return {
         tableData: [],
@@ -75,11 +76,10 @@
       }
       let resourse = {
         'jsonrpc': '2.0',
-        'method': 'leave_message',
+        'method': 'get_message_list',
         'id': 1111,
         'params': {
-          'user_id': userid,
-          'message': this.message
+          'user_id': userid
         }
       }
       that.axios.post(getapiUrl, resourse)
@@ -91,6 +91,86 @@
         })
     },
     methods: {
+      leave_message () {
+        let userid = window.localStorage.getItem('user_id')
+        if (userid) {
+          userid = Number(userid)
+        }
+        if (!userid) {
+          this.$notify({
+            title: '无效的用户',
+            type: 'error',
+            duration: 1200
+          })
+        } else if (!this.message) {
+          this.$notify({
+            title: '留言不能为空！',
+            type: 'error',
+            duration: 1200
+          })
+        } else {
+          let resourse = {
+            'jsonrpc': '2.0',
+            'method': 'add_message',
+            'id': 1111,
+            'params': {
+              'user_id': userid,
+              'content': this.message
+            }
+          }
+          let getapiUrl = localStorage.getItem('api_url')
+          if (!getapiUrl) {
+            getapiUrl = this.getApiUrl
+          }
+          this.axios.post(getapiUrl, resourse)
+            .then((res) => {
+              console.log(res)
+              if (res.data !== '' && 'result' in res.data) {
+                if ('msg' in res.data.result) {
+                  if (res.data.result.msg === 'success') {
+                    this.$notify({
+                      title: 'Add Message Success',
+                      type: 'success',
+                      duration: 1200
+                    })
+                    this.$router.push('/test/message')
+                  } else {
+                    let msg = res.data.result.msg
+                    this.$notify({
+                      title: 'Add Message Failed',
+                      message: msg,
+                      type: 'error',
+                      duration: 1200
+                    })
+                  }
+                }
+              } else if ('error' in res.data) {
+                let error = res.data.error
+                this.$notify({
+                  title: 'Add Message Failed',
+                  message: error,
+                  type: 'error',
+                  duration: 1200
+                })
+              } else {
+                this.$notify({
+                  title: 'Add Message Failed',
+                  message: 'Some abnormal error has happened!',
+                  type: 'error',
+                  duration: 1200
+                })
+              }
+            })
+            .catch((err) => {
+              console.error(err)
+              this.$notify({
+                title: 'Add Message Failed',
+                type: 'error',
+                duration: 1200
+              })
+            })
+        }
+      }
     }
   }
 </script>

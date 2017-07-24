@@ -27,7 +27,7 @@
         <el-input v-model="ruleForm.password" class="login-input" placeholder="" type="password"></el-input>
       </el-form-item>
       <el-form-item label="">
-        <el-checkbox label="" v-model="rememberPWD" name="rememberPWD" class="remember-pwd">remember password</el-checkbox>
+        <!--<el-checkbox label="" v-model="rememberPWD" name="rememberPWD" class="remember-pwd">remember password</el-checkbox>-->
       </el-form-item>
       <el-form-item>
         <el-button type="success" @click="submitForm('ruleForm')" class="login-btn">Sign In</el-button>

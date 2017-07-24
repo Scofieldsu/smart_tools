@@ -17,3 +17,6 @@ export const SETAPIURL = (state, msg) => {
     state.api_url = msg
   }
 }
+export const Service = (state, msg) => {
+  state.EditService = msg
+}
