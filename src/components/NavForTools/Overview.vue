@@ -3,7 +3,7 @@
     <el-col :span="8" v-for="resultitem in resultData" :key="resultitem.name"  style="height: 40px;width: 200px;margin: 0px 20px 260px 20px">
       <el-card :body-style="{ padding: '0px' }">
         <el-tag type="danger">{{resultitem.tag}}</el-tag>
-        <el-button type="text" style="float: right;margin-right: 10px;margin-top: 10px" @click="star_on">收藏</el-button>
+        <el-button type="text" style="float: right;margin-right: 10px;margin-top: 10px" @click="star_on(resultitem.id)">收藏</el-button>
         <el-button type="text" class="image" @click="arrive(resultitem.link)">{{resultitem.shortcut}}</el-button>
         <div style="padding: 14px;">
           <span>{{resultitem.name}}</span>
@@ -101,11 +101,71 @@
             console.log(err)
           })
       },
-      star_on () {
-        this.$message({
-          message: '收藏成功',
-          type: 'success'
-        })
+      star_on (serviceid) {
+        let that = this
+        let getapiUrl = localStorage.getItem('api_url')
+        if (!getapiUrl) {
+          getapiUrl = this.getApiUrl
+        }
+        let userid = window.localStorage.getItem('user_id')
+        if (userid) {
+          userid = Number(userid)
+        }
+        let resourse = {
+          'jsonrpc': '2.0',
+          'method': 'collections.star_on_service',
+          'id': 1111,
+          'params': {
+            'user_id': userid,
+            'service_id': serviceid
+          }
+        }
+        that.axios.post(getapiUrl, resourse)
+          .then((res) => {
+            console.log(res)
+            if (res.data !== '' && 'result' in res.data) {
+              if ('msg' in res.data.result) {
+                if (res.data.result.msg === 'success') {
+                  this.$message({
+                    message: '收藏成功',
+                    type: 'success'
+                  })
+                  this.$router.push('/tools/all_tools')
+                } else {
+                  let msg = res.data.result.msg
+                  this.$notify({
+                    title: 'Star  Failed',
+                    message: msg,
+                    type: 'error',
+                    duration: 1200
+                  })
+                }
+              }
+            } else if ('error' in res.data) {
+              let error = res.data.error
+              this.$notify({
+                title: 'Star  Failed',
+                message: error,
+                type: 'error',
+                duration: 1200
+              })
+            } else {
+              this.$notify({
+                title: 'Star  Failed',
+                message: 'Some abnormal error has happened!',
+                type: 'error',
+                duration: 1200
+              })
+            }
+          })
+          .catch((err) => {
+            console.error(err)
+            this.$notify({
+              title: 'Star  Failed',
+              type: 'error',
+              duration: 1200
+            })
+          })
       }
     }
   }
