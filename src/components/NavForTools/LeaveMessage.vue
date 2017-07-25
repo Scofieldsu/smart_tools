@@ -15,7 +15,7 @@
         <el-table-column
           prop="message"
           label="留言内容"
-          width="900px">
+          width="1300px">
         </el-table-column>
         <el-table-column
           prop="message_time"
@@ -28,15 +28,6 @@
           label="留言用户"
           sortable
           width="150px">
-        </el-table-column>
-        <el-table-column label="操作">
-          <template scope="scope">
-            <el-radio-group v-model="radio">
-              <el-radio-button label="暂未修改"></el-radio-button>
-              <el-radio-button label="已修改"></el-radio-button>
-              <el-radio-button label="需讨论"></el-radio-button>
-            </el-radio-group>
-          </template>
         </el-table-column>
       </el-table>
     </div>
@@ -55,7 +46,6 @@
     data () {
       return {
         tableData: [],
-        radio: '暂未修改',
         message: ''
       }
     },
@@ -76,7 +66,7 @@
       }
       let resourse = {
         'jsonrpc': '2.0',
-        'method': 'get_message_list',
+        'method': 'messageapi.get_message_list',
         'id': 1111,
         'params': {
           'user_id': userid
@@ -111,7 +101,7 @@
         } else {
           let resourse = {
             'jsonrpc': '2.0',
-            'method': 'add_message',
+            'method': 'messageapi.add_message',
             'id': 1111,
             'params': {
               'user_id': userid,
@@ -133,6 +123,7 @@
                       type: 'success',
                       duration: 1200
                     })
+                    this.message = ''
                     this.$router.push('/test/message')
                   } else {
                     let msg = res.data.result.msg

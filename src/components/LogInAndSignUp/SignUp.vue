@@ -77,7 +77,7 @@
             let passwordHash = md5(that.signupForm.passwordComfirm)
             let resourse = {
               'jsonrpc': '2.0',
-              'method': 'sign_up',
+              'method': 'userapi.sign_up',
               'id': 1111,
               'params': {
                 'email': that.signupForm.email,

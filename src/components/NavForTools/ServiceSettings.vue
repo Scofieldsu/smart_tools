@@ -1,8 +1,5 @@
 <template>
-  <el-tabs v-model="activeName" @tab-click="handleClick">
-    <el-tab-pane label="服务器设置" name="first">
-    </el-tab-pane>
-  </el-tabs>
+
 </template>
 <script>
   import ElInput from '../../../node_modules/element-ui/packages/input/src/input'

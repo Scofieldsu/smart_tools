@@ -48,7 +48,14 @@
     components: {ElFormItem},
     data () {
       return {
-        editform: {}
+        editform: {
+          name: '',
+          shortcut: '',
+          tag: '',
+          notice: true,
+          link: '',
+          desc: ''
+        }
       }
     },
     computed: {

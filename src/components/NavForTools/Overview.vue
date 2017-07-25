@@ -56,7 +56,7 @@
       }
       let resourse = {
         'jsonrpc': '2.0',
-        'method': 'get_service_list',
+        'method': 'serviceapi.get_service_list',
         'id': 1111,
         'params': {
           'user_id': userid
@@ -86,7 +86,7 @@
         }
         let resourse = {
           'jsonrpc': '2.0',
-          'method': 'get_service',
+          'method': 'serviceapi.get_service',
           'id': 1111,
           'params': {
             'user_id': userid,

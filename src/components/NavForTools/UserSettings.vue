@@ -64,7 +64,7 @@
           let userid = localStorage.getItem('user_id', 0)
           let resourse = {
             'jsonrpc': '2.0',
-            'method': 'change_pwd',
+            'method': 'userapi.change_pwd',
             'id': 1111,
             'params': {
               'user_id': userid,

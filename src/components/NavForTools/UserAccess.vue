@@ -47,8 +47,8 @@
         </el-table-column>
       </el-table>
     </el-tab-pane>
-    <el-tab-pane label="配置管理" name="second">配置管理</el-tab-pane>
-    <el-tab-pane label="角色管理" name="third">角色管理</el-tab-pane>
+    <el-tab-pane label="角色管理" name="second">角色管理</el-tab-pane>
+    <el-tab-pane label="配置管理" name="third">配置管理</el-tab-pane>
   </el-tabs>
 </template>
 <script>
@@ -78,7 +78,7 @@
       }
       let resourse = {
         'jsonrpc': '2.0',
-        'method': 'get_user_list',
+        'method': 'userapi.get_user_list',
         'id': 1111,
         'params': {
           'user_id': userid
@@ -97,15 +97,136 @@
         console.log(tab, event)
       },
       handleEnable (index, row) {
-        this.$message({
-          message: '启用成功',
-          type: 'success'
-        })
+        let that = this
+        let getapiUrl = localStorage.getItem('api_url')
+        if (!getapiUrl) {
+          getapiUrl = this.getApiUrl
+        }
+        let userid = window.localStorage.getItem('user_id')
+        if (userid) {
+          userid = Number(userid)
+        }
+        let resourse = {
+          'jsonrpc': '2.0',
+          'method': 'userapi.set_user_enable',
+          'id': 1111,
+          'params': {
+            'user_id': userid,
+            'op_user_id': row.id
+          }
+        }
+        that.axios.post(getapiUrl, resourse)
+          .then((res) => {
+            console.log(res)
+            if (res.data !== '' && 'result' in res.data) {
+              if ('msg' in res.data.result) {
+                if (res.data.result.msg === 'success') {
+                  this.$message({
+                    message: 'Set User Enable Success',
+                    type: 'success'
+                  })
+                  this.$router.push('/manager/user_access')
+                } else {
+                  let msg = res.data.result.msg
+                  this.$notify({
+                    title: 'Set User Enable Failed',
+                    message: msg,
+                    type: 'error',
+                    duration: 1200
+                  })
+                }
+              }
+            } else if ('error' in res.data) {
+              let error = res.data.error
+              this.$notify({
+                title: 'Set User Enable Failed',
+                message: error,
+                type: 'error',
+                duration: 1200
+              })
+            } else {
+              this.$notify({
+                title: 'Set User Enable Failed',
+                message: 'Some abnormal error has happened!',
+                type: 'error',
+                duration: 1200
+              })
+            }
+          })
+          .catch((err) => {
+            console.error(err)
+            this.$notify({
+              title: 'Set User Enable Failed',
+              type: 'error',
+              duration: 1200
+            })
+          })
       },
       handleDisable (index, row) {
-        this.$message({
-          message: '禁用成功'
-        })
+        let that = this
+        let getapiUrl = localStorage.getItem('api_url')
+        if (!getapiUrl) {
+          getapiUrl = this.getApiUrl
+        }
+        let userid = window.localStorage.getItem('user_id')
+        if (userid) {
+          userid = Number(userid)
+        }
+        let resourse = {
+          'jsonrpc': '2.0',
+          'method': 'userapi.set_user_disable',
+          'id': 1111,
+          'params': {
+            'user_id': userid,
+            'op_user_id': row.id
+          }
+        }
+        that.axios.post(getapiUrl, resourse)
+          .then((res) => {
+            console.log(res)
+            if (res.data !== '' && 'result' in res.data) {
+              if ('msg' in res.data.result) {
+                if (res.data.result.msg === 'success') {
+                  this.$message({
+                    message: 'Set User Disable Success',
+                    type: 'success'
+                  })
+                  this.$router.push('/manager/user_access')
+                } else {
+                  let msg = res.data.result.msg
+                  this.$notify({
+                    title: 'Set User Disable Failed',
+                    message: msg,
+                    type: 'error',
+                    duration: 1200
+                  })
+                }
+              }
+            } else if ('error' in res.data) {
+              let error = res.data.error
+              this.$notify({
+                title: 'Set User Disable Failed',
+                message: error,
+                type: 'error',
+                duration: 1200
+              })
+            } else {
+              this.$notify({
+                title: 'Set User Disable Failed',
+                message: 'Some abnormal error has happened!',
+                type: 'error',
+                duration: 1200
+              })
+            }
+          })
+          .catch((err) => {
+            console.error(err)
+            this.$notify({
+              title: 'Set User Disable Failed',
+              type: 'error',
+              duration: 1200
+            })
+          })
       }
     }
   }

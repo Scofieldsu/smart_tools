@@ -97,7 +97,7 @@
           }
           let resourse = {
             'jsonrpc': '2.0',
-            'method': 'add_service',
+            'method': 'serviceapi.add_service',
             'id': 1111,
             'params': {
               'user_id': userid,

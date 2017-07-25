@@ -106,7 +106,7 @@
           let passwordHash = md5(that.ruleForm.password)
           let resourse = {
             'jsonrpc': '2.0',
-            'method': 'sign_in',
+            'method': 'userapi.sign_in',
             'id': 1111,
             'params': {
               'email': that.ruleForm.email,
