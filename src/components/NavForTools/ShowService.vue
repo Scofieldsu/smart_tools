@@ -118,10 +118,70 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.$message({
-            type: 'success',
-            message: '删除成功!'
-          })
+          let that = this
+          let getapiUrl = localStorage.getItem('api_url')
+          if (!getapiUrl) {
+            getapiUrl = this.getApiUrl
+          }
+          let userid = window.localStorage.getItem('user_id')
+          if (userid) {
+            userid = Number(userid)
+          }
+          let resourse = {
+            'jsonrpc': '2.0',
+            'method': 'serviceapi.delete_service',
+            'id': 1111,
+            'params': {
+              'user_id': userid,
+              'service_link': row.link
+            }
+          }
+          that.axios.post(getapiUrl, resourse)
+            .then((res) => {
+              console.log(res)
+              if (res.data !== '' && 'result' in res.data) {
+                if ('msg' in res.data.result) {
+                  if (res.data.result.msg === 'success') {
+                    this.$message({
+                      type: 'success',
+                      message: 'Delete Service Success'
+                    })
+                    this.$router.push('/manager/show_service')
+                  } else {
+                    let msg = res.data.result.msg
+                    this.$notify({
+                      title: 'Delete Service Failed',
+                      message: msg,
+                      type: 'error',
+                      duration: 1200
+                    })
+                  }
+                }
+              } else if ('error' in res.data) {
+                let error = res.data.error
+                this.$notify({
+                  title: 'Delete Service Failed',
+                  message: error,
+                  type: 'error',
+                  duration: 1200
+                })
+              } else {
+                this.$notify({
+                  title: 'Delete Service Failed',
+                  message: 'Some abnormal error has happened!',
+                  type: 'error',
+                  duration: 1200
+                })
+              }
+            })
+            .catch((err) => {
+              console.error(err)
+              this.$notify({
+                title: 'Delete Service Failed',
+                type: 'error',
+                duration: 1200
+              })
+            })
         }).catch(() => {
           this.$message({
             type: 'info',
