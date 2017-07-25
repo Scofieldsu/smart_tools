@@ -111,6 +111,33 @@
       arrive (link) {
         window.open(link)
       },
+      get_detail (id) {
+        this.$router.push('/manager/edit_service')
+        let getapiUrl = localStorage.getItem('api_url')
+        if (!getapiUrl) {
+          getapiUrl = this.getApiUrl
+        }
+        let userid = window.localStorage.getItem('user_id')
+        if (userid) {
+          userid = Number(userid)
+        }
+        let resourse = {
+          'jsonrpc': '2.0',
+          'method': 'serviceapi.get_service',
+          'id': 1111,
+          'params': {
+            'user_id': userid,
+            'service_id': id
+          }
+        }
+        this.axios.post(getapiUrl, resourse)
+          .then((res) => {
+            this.$store.commit('Service', res.data.result)
+          })
+          .catch(function (err) {
+            console.log(err)
+          })
+      },
       star_off (serviceid) {
         let that = this
         let getapiUrl = localStorage.getItem('api_url')
