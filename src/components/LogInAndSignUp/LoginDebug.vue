@@ -16,7 +16,7 @@
               </span>
     </el-dialog>
     <el-form :model="ruleForm" ref="ruleForm"  class="login-form">
-      <img src='../../assets/home.png' width="48" height="48" style="margin: 0 40%" >
+      <img src='../../assets/index_icon.gif' width="48" height="48" style="margin: 0 40%" >
       <h2 class="title">Sign in to One-Platform</h2>
       <el-form-item label="" >
         <label class="login-label">Email address</label>
