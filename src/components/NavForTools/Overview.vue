@@ -1,19 +1,63 @@
 <template>
-  <el-row v-model="resultData">
-    <el-col :span="8" v-for="resultitem in resultData" :key="resultitem.name"  style="height: 40px;width: 200px;margin: 0px 20px 260px 20px">
-      <el-card :body-style="{ padding: '0px' }">
-        <el-tag type="danger">{{resultitem.tag}}</el-tag>
-        <el-button type="text" style="float: right;margin-right: 10px;margin-top: 10px" @click="star_on(resultitem.id)">收藏</el-button>
-        <el-button type="text" class="image" @click="arrive(resultitem.link)">{{resultitem.shortcut}}</el-button>
-        <div style="padding: 14px;">
-          <span>{{resultitem.name}}</span>
-          <div class="bottom clearfix">
-            <el-button type="text" class="button_go" @click="get_detail(resultitem.id)">详情</el-button>
-          </div>
-        </div>
-      </el-card>
-    </el-col>
-  </el-row>
+  <div>
+      <el-row v-model="resultData">
+        <el-col :span="8" v-for="resultitem in resultData" :key="resultitem.name"  style="height: 40px;width: 200px;margin: 0px 20px 260px 20px">
+          <el-card :body-style="{ padding: '0px' }">
+            <el-tag type="danger">{{resultitem.tag}}</el-tag>
+            <el-button type="text" style="float: right;margin-right: 10px;margin-top: 10px" @click="star_on(resultitem.id)">收藏</el-button>
+            <el-button type="text" class="image" @click="arrive(resultitem.link)">{{resultitem.shortcut}}</el-button>
+            <div style="padding: 14px;">
+              <span>{{resultitem.name}}</span>
+              <div class="bottom clearfix">
+                <el-button type="text" class="button_go" @click="get_detail(resultitem.id)">详情</el-button>
+              </div>
+            </div>
+          </el-card>
+        </el-col>
+      </el-row>
+      <el-dialog title="服务详情" :visible.sync="dialogTableVisible">
+        <el-form  :model="editform" label-width="80px">
+          <el-form-item label="服务名称">
+            <el-tooltip class="item" effect="dark" content="为了更好显示效果，请控制在20汉字或40字符以内。" placement="right-start">
+              <el-input v-model="editform.name" style="width: 500px" ></el-input>
+            </el-tooltip>
+          </el-form-item>
+          <el-form-item label="短称">
+            <el-tooltip class="item" effect="dark" content="为了更好显示效果，请控制在9汉字或18字符以内,将以空格为分隔符进行换行显示，最多可分3行显示。" placement="right-start">
+              <el-input v-model="editform.shortcut" style="width: 500px"></el-input>
+            </el-tooltip>
+          </el-form-item>
+          <el-form-item label="链接">
+            <el-tooltip class="item" effect="dark" content="请输入有效的服务链接地址。" placement="right-start">
+              <el-input v-model="editform.link" style="width: 500px" ></el-input>
+            </el-tooltip>
+          </el-form-item>
+          <el-form-item label="通知链接">
+            <el-tooltip class="item" effect="dark" content="默认打开此开关，则发布成功后会在个人首页的通知项显示一条通知。" placement="right-start">
+              <el-switch
+                v-model="editform.notice"
+                on-text=""
+                off-text="">
+              </el-switch>
+            </el-tooltip>
+          </el-form-item>
+          <el-form-item label="标签">
+            <el-tooltip class="item" effect="dark" content="为你的服务添加个性标签。" placement="right-start">
+              <el-input v-model="editform.tag" style="width: 500px" ></el-input>
+            </el-tooltip>
+          </el-form-item>
+          <el-form-item label="简介">
+            <el-tooltip class="item" effect="dark" content="简短的介绍你的服务。" placement="right-start">
+              <el-input type="textarea" v-model="editform.desc" :autosize="{ minRows: 3, maxRows: 15}" style="width: 500px" ></el-input>
+            </el-tooltip>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="update_service">提交修改</el-button>
+            <el-button @click="cancel">取消</el-button>
+          </el-form-item>
+        </el-form>
+      </el-dialog>
+    </div>
 </template>
 
 <script>
@@ -21,14 +65,25 @@
   import ElTag from '../../../node_modules/element-ui/packages/tag/src/tag'
   import ElButton from '../../../node_modules/element-ui/packages/button/src/button'
   import ElInput from '../../../node_modules/element-ui/packages/input/src/input'
+  import ElDialog from '../../../node_modules/element-ui/packages/dialog/src/component'
   export default {
     components: {
+      ElDialog,
       ElInput,
       ElButton,
       ElTag
     },
     data () {
       return {
+        dialogTableVisible: false,
+        editform: {
+          name: '',
+          shortcut: '',
+          tag: '',
+          notice: true,
+          link: '',
+          desc: ''
+        },
         resultData: [
           {
             tag: 'default',
@@ -74,8 +129,108 @@
       arrive (link) {
         window.open(link)
       },
+      update_service () {
+        let userid = window.localStorage.getItem('user_id')
+        if (userid) {
+          userid = Number(userid)
+        }
+        if (!userid) {
+          this.$notify({
+            title: '无效的用户',
+            type: 'error',
+            duration: 1200
+          })
+        } else if (!this.editform.name) {
+          this.$notify({
+            title: '请输入服务器名称',
+            type: 'error',
+            duration: 1200
+          })
+        } else if (!this.editform.link) {
+          this.$notify({
+            title: '请输入链接地址',
+            type: 'error',
+            duration: 1200
+          })
+        } else {
+          let notice = this.editform.notice
+          if (notice) {
+            notice = 1
+          } else {
+            notice = 0
+          }
+          let resourse = {
+            'jsonrpc': '2.0',
+            'method': 'serviceapi.update_service',
+            'id': 1111,
+            'params': {
+              'user_id': userid,
+              'service_name': this.editform.name,
+              'link': this.editform.link,
+              'tag': this.editform.tag,
+              'shortcut': this.editform.shortcut,
+              'desc': this.editform.desc,
+              'notice': this.editform.notice
+            }
+          }
+          let getapiUrl = localStorage.getItem('api_url')
+          if (!getapiUrl) {
+            getapiUrl = this.getApiUrl
+          }
+          this.axios.post(getapiUrl, resourse)
+            .then((res) => {
+              console.log(res)
+              if (res.data !== '' && 'result' in res.data) {
+                if ('msg' in res.data.result) {
+                  if (res.data.result.msg === 'success') {
+                    this.$notify({
+                      title: 'Add Service Success',
+                      type: 'success',
+                      duration: 1200
+                    })
+                    this.$router.push('/tools/all_tools')
+                  } else {
+                    let msg = res.data.result.msg
+                    this.$notify({
+                      title: 'Add Service Failed',
+                      message: msg,
+                      type: 'error',
+                      duration: 1200
+                    })
+                  }
+                }
+              } else if ('error' in res.data) {
+                let error = res.data.error
+                this.$notify({
+                  title: 'Add Service Failed',
+                  message: error,
+                  type: 'error',
+                  duration: 1200
+                })
+              } else {
+                this.$notify({
+                  title: 'Add Service Failed',
+                  message: 'Some abnormal error has happened!',
+                  type: 'error',
+                  duration: 1200
+                })
+              }
+            })
+            .catch((err) => {
+              console.error(err)
+              this.$notify({
+                title: 'Add Service Failed',
+                type: 'error',
+                duration: 1200
+              })
+            })
+        }
+        this.dialogTableVisible = false
+      },
+      cancel () {
+        this.dialogTableVisible = false
+      },
       get_detail (id) {
-        this.$router.push('/manager/edit_service')
         let getapiUrl = localStorage.getItem('api_url')
         if (!getapiUrl) {
           getapiUrl = this.getApiUrl
@@ -96,6 +251,8 @@
         this.axios.post(getapiUrl, resourse)
           .then((res) => {
             this.$store.commit('Service', res.data.result)
+            this.editform = res.data.result
+            this.dialogTableVisible = true
           })
           .catch(function (err) {
             console.log(err)

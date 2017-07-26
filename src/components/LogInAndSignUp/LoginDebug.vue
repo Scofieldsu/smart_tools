@@ -62,7 +62,6 @@
     },
     methods: {
       set_url () {
-        this.dialogVisible = false
         let apiurl = this.api_url_input
         if (!apiurl) {
           apiurl = 'http://localhost:5050/api'
@@ -71,6 +70,7 @@
           apiurl = 'http://'.concat(apiurl)
         }
         window.localStorage.setItem('api_url', apiurl)
+        this.dialogVisible = false
       },
       handleClose (done) {
         this.$confirm('确认关闭？')

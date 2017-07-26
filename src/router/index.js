@@ -17,7 +17,6 @@ import ServiceSettings from '../components/NavForTools/ServiceSettings.vue'
 import Transformation from '../components/NavForTools/Transformation.vue'
 import LoginDebug from '../components/LogInAndSignUp/LoginDebug.vue'
 import LeaveMessage from '../components/NavForTools/LeaveMessage.vue'
-import EditService from '../components/NavForTools/EditService.vue'
 import Test from '../components/NavForTools/Test.vue'
 
 Vue.use(VueRouter)
@@ -45,7 +44,6 @@ const routes = [
     icon: 'fa fa-cog',
     children: [
       { path: '/manager/add_service', name: '发布服务', icon: 'fa fa-upload', component: AddService, show: true },
-      { path: '/manager/edit_service', name: '修改服务', icon: 'fa fa-repeat', component: EditService, show: false },
       { path: '/manager/show_service', name: '服务列表', icon: 'fa fa-table', component: ShowService, show: true },
       { path: '/manager/user_access', name: '权限管理', icon: 'fa fa-user', component: UserAccess, show: true },
       { path: '/manager/service_settings', name: '服务设置', icon: 'fa fa-cogs', component: ServiceSettings, show: true }
