@@ -61,12 +61,13 @@
 .panel-top {
   height: 50px;
   line-height: 50px;
-  background: #000000;
+  background: #475669;
   color:#c0ccda;
 }
 
 .top-button {
   font-size: 30px;
+  color: lightseagreen;
 }
 .tip-logout{
   float: right;
