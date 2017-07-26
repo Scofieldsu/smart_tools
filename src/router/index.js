@@ -13,7 +13,6 @@ import ShowService from '../components/NavForTools/ShowService.vue'
 import ShowNotice from '../components/NavForTools/ShowNotice.vue'
 import UserAccess from '../components/NavForTools/UserAccess.vue'
 import UserSettings from '../components/NavForTools/UserSettings.vue'
-import ServiceSettings from '../components/NavForTools/ServiceSettings.vue'
 import Transformation from '../components/NavForTools/Transformation.vue'
 import LoginDebug from '../components/LogInAndSignUp/LoginDebug.vue'
 import LeaveMessage from '../components/NavForTools/LeaveMessage.vue'
@@ -45,8 +44,7 @@ const routes = [
     children: [
       { path: '/manager/add_service', name: '发布服务', icon: 'fa fa-upload', component: AddService, show: true },
       { path: '/manager/show_service', name: '服务列表', icon: 'fa fa-table', component: ShowService, show: true },
-      { path: '/manager/user_access', name: '权限管理', icon: 'fa fa-user', component: UserAccess, show: true },
-      { path: '/manager/service_settings', name: '服务设置', icon: 'fa fa-cogs', component: ServiceSettings, show: true }
+      { path: '/manager/user_access', name: '权限管理', icon: 'fa fa-user', component: UserAccess, show: true }
     ]
   },
   { path: '/test',
@@ -102,8 +100,8 @@ router.afterEach(transition => {
   NProgress.done()
 })
 
-let cookieMaker = commonJs.cookieMaker
-if (!cookieMaker.get('name') || !cookieMaker.get('password')) {
+// let cookieMaker = commonJs.cookieMaker
+if (!window.sessionStorage.getItem('login')) {
   router.push('/login')
 }
 

@@ -128,6 +128,7 @@
                     window.localStorage.setItem('email', that.ruleForm.email)
                     window.localStorage.setItem('user_id', userid)
                     window.localStorage.setItem('user_name', username)
+                    window.sessionStorage['login'] = true
                     this.$router.push('/yours/notices')
                   } else {
                     let msg = res.data.result.msg

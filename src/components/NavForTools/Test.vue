@@ -56,6 +56,7 @@
         this.axios.post(this.url, Resource)
           .then((res) => {
             console.log(res)
+            this.result = ''
             this.result = JSON.stringify(res.data.result, null, 4)
           }
           )
