@@ -17,6 +17,9 @@
       </el-row>
       <el-dialog title="服务详情" :visible.sync="dialogTableVisible">
         <el-form  :model="editform" label-width="80px">
+          <el-form-item label="服务ID">
+            <el-input v-model="editform.id" style="width: 500px" readonly disabled></el-input>
+          </el-form-item>
           <el-form-item label="服务名称">
             <el-tooltip class="item" effect="dark" content="为了更好显示效果，请控制在20汉字或40字符以内。" placement="right-start">
               <el-input v-model="editform.name" style="width: 500px" ></el-input>
@@ -77,6 +80,7 @@
       return {
         dialogTableVisible: false,
         editform: {
+          id: 0,
           name: '',
           shortcut: '',
           tag: '',
@@ -165,6 +169,7 @@
             'id': 1111,
             'params': {
               'user_id': userid,
+              'service_id': this.editform.id,
               'service_name': this.editform.name,
               'link': this.editform.link,
               'tag': this.editform.tag,
@@ -184,7 +189,7 @@
                 if ('msg' in res.data.result) {
                   if (res.data.result.msg === 'success') {
                     this.$notify({
-                      title: 'Add Service Success',
+                      title: 'Update Service Success',
                       type: 'success',
                       duration: 1200
                     })
@@ -192,7 +197,7 @@
                   } else {
                     let msg = res.data.result.msg
                     this.$notify({
-                      title: 'Add Service Failed',
+                      title: 'Update Service Failed',
                       message: msg,
                       type: 'error',
                       duration: 1200
@@ -202,14 +207,14 @@
               } else if ('error' in res.data) {
                 let error = res.data.error
                 this.$notify({
-                  title: 'Add Service Failed',
+                  title: 'Update Service Failed',
                   message: error,
                   type: 'error',
                   duration: 1200
                 })
               } else {
                 this.$notify({
-                  title: 'Add Service Failed',
+                  title: 'Update Service Failed',
                   message: 'Some abnormal error has happened!',
                   type: 'error',
                   duration: 1200
@@ -219,7 +224,7 @@
             .catch((err) => {
               console.error(err)
               this.$notify({
-                title: 'Add Service Failed',
+                title: 'Update Service Failed',
                 type: 'error',
                 duration: 1200
               })

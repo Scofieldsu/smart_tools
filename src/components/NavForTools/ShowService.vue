@@ -5,24 +5,31 @@
       height="800"
       border
       style="width: 100%"
-      :default-sort = "{prop: 'name', order: 'descending'}">
+      :default-sort = "{prop: 'id', order: 'ascending'}">
+      <el-table-column
+        prop="id"
+        label="服务ID"
+        sortable
+        :visible.sync="id_visible"
+        width="100px">
+      </el-table-column>
       <el-table-column
         prop="name"
         label="名称"
         sortable
-        width="250px">
+        width="240px">
       </el-table-column>
       <el-table-column
         prop="link"
         label="链接"
         sortable
-        width="400px">
+        width="380px">
       </el-table-column>
       <el-table-column
         prop="shortcut"
         label="短称"
         sortable
-        width="120px">
+        width="100px">
       </el-table-column>
       <el-table-column
         prop="tag"
@@ -42,34 +49,43 @@
         sortable
         width="180px">
       </el-table-column>
+      <el-table-column label="操作" width="250px">
+        <template scope="scope">
+          <el-button
+            style="margin-left: 10px"
+            size="small"
+            type="success"
+            @click="handleVisit(scope.$index, scope.row)">访问</el-button>
+          <el-button
+            style="margin-left: 20px"
+            size="small"
+            type="primary"
+            @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+          <el-button
+            style="margin-left: 20px"
+            size="small"
+            type="danger"
+            @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+        </template>
+      </el-table-column>
       <el-table-column
         prop="change_time"
         label="上次修改时间"
         sortable
         width="180px">
       </el-table-column>
-      <el-table-column label="操作" width="300px">
-        <template scope="scope">
-          <el-button
-            style="margin-left: 30px"
-            size="small"
-            type="success"
-            @click="handleVisit(scope.$index, scope.row)">访问</el-button>
-          <el-button
-            style="margin-left: 30px"
-            size="small"
-            type="primary"
-            @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-          <el-button
-            style="margin-left: 30px"
-            size="small"
-            type="danger"
-            @click="handleDelete(scope.$index, scope.row)">删除</el-button>
-        </template>
+      <el-table-column
+        prop="update_user"
+        label="修改人"
+        sortable
+        width="100px">
       </el-table-column>
     </el-table>
     <el-dialog title="服务详情" :visible.sync="dialogTableVisible">
       <el-form  :model="editform" label-width="80px">
+        <el-form-item label="服务ID">
+            <el-input v-model="editform.id" style="width: 500px" readonly disabled></el-input>
+        </el-form-item>
         <el-form-item label="服务名称">
           <el-tooltip class="item" effect="dark" content="为了更好显示效果，请控制在20汉字或40字符以内。" placement="right-start">
             <el-input v-model="editform.name" style="width: 500px" ></el-input>
@@ -115,13 +131,14 @@
 
 <script>
   import { mapGetters } from 'vuex'
-  import ElTable from '../../../node_modules/element-ui/packages/table/src/table'
   export default {
-    components: {ElTable},
+    components: {},
     data () {
       return {
+        id_visible: false,
         dialogTableVisible: false,
         editform: {
+          id: 0,
           name: '',
           shortcut: '',
           tag: '',
@@ -165,10 +182,131 @@
     },
     methods: {
       handleEdit (index, row) {
-        this.dialogTableVisible = true
+        let getapiUrl = localStorage.getItem('api_url')
+        if (!getapiUrl) {
+          getapiUrl = this.getApiUrl
+        }
+        let userid = window.localStorage.getItem('user_id')
+        if (userid) {
+          userid = Number(userid)
+        }
+        let resourse = {
+          'jsonrpc': '2.0',
+          'method': 'serviceapi.get_service',
+          'id': 1111,
+          'params': {
+            'user_id': userid,
+            'service_id': row.id
+          }
+        }
+        this.axios.post(getapiUrl, resourse)
+          .then((res) => {
+            this.$store.commit('Service', res.data.result)
+            this.editform = res.data.result
+            this.dialogTableVisible = true
+          })
+          .catch(function (err) {
+            console.log(err)
+          })
       },
       update_service () {
-        this.dialogTableVisible = false
+        let userid = window.localStorage.getItem('user_id')
+        if (userid) {
+          userid = Number(userid)
+        }
+        if (!userid) {
+          this.$notify({
+            title: '无效的用户',
+            type: 'error',
+            duration: 1200
+          })
+        } else if (!this.editform.name) {
+          this.$notify({
+            title: '请输入服务器名称',
+            type: 'error',
+            duration: 1200
+          })
+        } else if (!this.editform.link) {
+          this.$notify({
+            title: '请输入链接地址',
+            type: 'error',
+            duration: 1200
+          })
+        } else {
+          let notice = this.editform.notice
+          if (notice) {
+            notice = 1
+          } else {
+            notice = 0
+          }
+          let resourse = {
+            'jsonrpc': '2.0',
+            'method': 'serviceapi.update_service',
+            'id': 1111,
+            'params': {
+              'user_id': userid,
+              'service_id': this.editform.id,
+              'service_name': this.editform.name,
+              'link': this.editform.link,
+              'tag': this.editform.tag,
+              'shortcut': this.editform.shortcut,
+              'desc': this.editform.desc,
+              'notice': this.editform.notice
+            }
+          }
+          let getapiUrl = localStorage.getItem('api_url')
+          if (!getapiUrl) {
+            getapiUrl = this.getApiUrl
+          }
+          this.axios.post(getapiUrl, resourse)
+            .then((res) => {
+              console.log(res)
+              if (res.data !== '' && 'result' in res.data) {
+                if ('msg' in res.data.result) {
+                  if (res.data.result.msg === 'success') {
+                    this.$notify({
+                      title: 'Update Service Success',
+                      type: 'success',
+                      duration: 1200
+                    })
+                    this.dialogTableVisible = false
+                    this.$router.push('/manager/show_service')
+                  } else {
+                    let msg = res.data.result.msg
+                    this.$notify({
+                      title: 'Update Service Failed',
+                      message: msg,
+                      type: 'error',
+                      duration: 1200
+                    })
+                  }
+                }
+              } else if ('error' in res.data) {
+                let error = res.data.error
+                this.$notify({
+                  title: 'Update Service Failed',
+                  message: error,
+                  type: 'error',
+                  duration: 1200
+                })
+              } else {
+                this.$notify({
+                  title: 'Update Service Failed',
+                  message: 'Some abnormal error has happened!',
+                  type: 'error',
+                  duration: 1200
+                })
+              }
+            })
+            .catch((err) => {
+              console.error(err)
+              this.$notify({
+                title: 'Update Service Failed',
+                type: 'error',
+                duration: 1200
+              })
+            })
+        }
       },
       cancel () {
         this.dialogTableVisible = false
@@ -194,7 +332,7 @@
             'id': 1111,
             'params': {
               'user_id': userid,
-              'service_link': row.link
+              'service_id': row.id
             }
           }
           that.axios.post(getapiUrl, resourse)
