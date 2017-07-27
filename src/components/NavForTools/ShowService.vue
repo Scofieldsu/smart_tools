@@ -8,9 +8,14 @@
       :default-sort = "{prop: 'id', order: 'ascending'}">
       <el-table-column
         prop="id"
-        label="服务ID"
+        label="ID"
         sortable
-        :visible.sync="id_visible"
+        width="80px">
+      </el-table-column>
+      <el-table-column
+        prop="count"
+        label="访问量"
+        sortable
         width="100px">
       </el-table-column>
       <el-table-column
@@ -135,10 +140,10 @@
     components: {},
     data () {
       return {
-        id_visible: false,
         dialogTableVisible: false,
         editform: {
           id: 0,
+          count: 0,
           name: '',
           shortcut: '',
           tag: '',
@@ -391,6 +396,45 @@
       handleVisit (index, row) {
         console.log(index, row)
         window.open(row.link)
+        let getapiUrl = localStorage.getItem('api_url')
+        if (!getapiUrl) {
+          getapiUrl = this.getApiUrl
+        }
+        let userid = window.localStorage.getItem('user_id')
+        if (userid) {
+          userid = Number(userid)
+        }
+        let resourse = {
+          'jsonrpc': '2.0',
+          'method': 'serviceapi.visit_service',
+          'id': 1111,
+          'params': {
+            'user_id': userid,
+            'service_id': row.id
+          }
+        }
+        this.axios.post(getapiUrl, resourse).then((res) => {
+          console.log(res)
+          if (res.data !== '' && 'result' in res.data) {
+            if ('msg' in res.data.result) {
+              if (res.data.result.msg === 'success') {
+                console.log('visit success!')
+              } else {
+                let msg = res.data.result.msg
+                console.log('visit failed!' + msg)
+              }
+            }
+          } else if ('error' in res.data) {
+            let error = res.data.error
+            console.log('visit failed!' + error)
+          } else {
+            console.log('visit failed!')
+          }
+        })
+          .catch((err) => {
+            console.error(err)
+            console.log('visit failed!')
+          })
       }
     }
   }

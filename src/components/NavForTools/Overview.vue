@@ -5,7 +5,7 @@
           <el-card :body-style="{ padding: '0px' }">
             <el-tag type="danger">{{resultitem.tag}}</el-tag>
             <el-button type="text" style="float: right;margin-right: 10px;margin-top: 10px" @click="star_on(resultitem.id)">收藏</el-button>
-            <el-button type="text" class="image" @click="arrive(resultitem.link)">{{resultitem.shortcut}}</el-button>
+            <el-button type="text" class="image" @click="arrive(resultitem.link,resultitem.id)">{{resultitem.shortcut}}</el-button>
             <div style="padding: 14px;">
               <span>{{resultitem.name}}</span>
               <div class="bottom clearfix">
@@ -130,8 +130,47 @@
         })
     },
     methods: {
-      arrive (link) {
+      arrive (link, serviceid) {
         window.open(link)
+        let getapiUrl = localStorage.getItem('api_url')
+        if (!getapiUrl) {
+          getapiUrl = this.getApiUrl
+        }
+        let userid = window.localStorage.getItem('user_id')
+        if (userid) {
+          userid = Number(userid)
+        }
+        let resourse = {
+          'jsonrpc': '2.0',
+          'method': 'serviceapi.visit_service',
+          'id': 1111,
+          'params': {
+            'user_id': userid,
+            'service_id': serviceid
+          }
+        }
+        this.axios.post(getapiUrl, resourse).then((res) => {
+          console.log(res)
+          if (res.data !== '' && 'result' in res.data) {
+            if ('msg' in res.data.result) {
+              if (res.data.result.msg === 'success') {
+                console.log('visit success!')
+              } else {
+                let msg = res.data.result.msg
+                console.log('visit failed!' + msg)
+              }
+            }
+          } else if ('error' in res.data) {
+            let error = res.data.error
+            console.log('visit failed!' + error)
+          } else {
+            console.log('visit failed!')
+          }
+        })
+          .catch((err) => {
+            console.error(err)
+            console.log('visit failed!')
+          })
       },
       update_service () {
         let userid = window.localStorage.getItem('user_id')
