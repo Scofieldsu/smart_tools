@@ -43,6 +43,7 @@
             <el-option label="服务名称" value="name"></el-option>
             <el-option label="标签" value="tag"></el-option>
             <el-option label="短称" value="shortcut"></el-option>
+            <el-option label="链接" value="link"></el-option>
           </el-select>
           <el-button slot="append"  @click="doselect(input_select)">搜索</el-button>
         </el-input>
