@@ -37,13 +37,24 @@
           <label style="font-size: large;font-weight: bolder">收藏夹</label>
         </span>
       </div>
+      <div style="margin: 20px;">
+        <el-input placeholder="请输入内容" v-model="input_select" style="width: 400px">
+          <el-select v-model="select" slot="prepend" placeholder="默认名称搜索" style="width: 130px">
+            <el-option label="服务名称" value="name"></el-option>
+            <el-option label="标签" value="tag"></el-option>
+            <el-option label="短称" value="shortcut"></el-option>
+          </el-select>
+          <el-button slot="append"  @click="doselect(input_select)">搜索</el-button>
+        </el-input>
+        <el-button slot="append"  @click="reset" style="margin-left: 20px;" type="primary" size="small">清空搜索</el-button>
+      </div>
       <div style="margin-top: 20px">
         <el-row v-model="resultData">
           <el-col :span="8" v-for="resultitem in resultData" :key="resultitem.name"  style="height: 40px;width: 200px;margin: 0px 20px 270px 20px">
             <el-card :body-style="{ padding: '0px' }">
               <el-tag type="danger">{{resultitem.tag}}</el-tag>
               <el-button type="text" style="float: right;margin-right: 10px;margin-top: 10px" @click="star_off(resultitem.id)">取消收藏</el-button>
-              <el-button type="text" class="image" @click="arrive(resultitem.link)">{{resultitem.shortcut}}</el-button>
+              <el-button type="text" class="image" @click="arrive(resultitem.link,resultitem.id)">{{resultitem.shortcut}}</el-button>
               <div style="padding: 14px;">
                 <span>{{resultitem.name}}</span>
                 <div class="bottom clearfix">
@@ -63,6 +74,8 @@
   export default {
     data () {
       return {
+        input_select: '',
+        select: '',
         resultData: [
           {
             tag: 'default',
@@ -105,14 +118,100 @@
         })
     },
     methods: {
+      doselect (inputselect) {
+        let temresult = JSON.parse(JSON.stringify(this.resultData))
+        let lenth = temresult.length
+        let contion = 'name'
+        if (this.select) {
+          contion = this.select
+        }
+        for (let x = 0; x < lenth; x++) {
+          let temvalue = temresult[0][contion]
+          if (contion === 'shortcut') {
+            temvalue = temvalue.replace(' ', '')
+          }
+          if (temvalue.toLowerCase().indexOf(inputselect.toLowerCase()) === -1) {
+            temresult.shift()
+          } else {
+            let tem = temresult.shift()
+            temresult.push(tem)
+          }
+        }
+        this.resultData = temresult
+      },
+      reset () {
+        this.input_select = ''
+        let that = this
+        let getapiUrl = localStorage.getItem('api_url')
+        if (!getapiUrl) {
+          getapiUrl = this.getApiUrl
+        }
+        let userid = window.localStorage.getItem('user_id')
+        if (userid) {
+          userid = Number(userid)
+        }
+        let resourse = {
+          'jsonrpc': '2.0',
+          'method': 'collections.get_collect_service_list',
+          'id': 1111,
+          'params': {
+            'user_id': userid
+          }
+        }
+        that.axios.post(getapiUrl, resourse)
+          .then(function (res) {
+            that.resultData = res.data.result
+          })
+          .catch(function (err) {
+            console.log(err)
+          })
+      },
       handle_close (title) {
         console.log(title)
       },
-      arrive (link) {
+      arrive (link, serviceid) {
         window.open(link)
+        let getapiUrl = localStorage.getItem('api_url')
+        if (!getapiUrl) {
+          getapiUrl = this.getApiUrl
+        }
+        let userid = window.localStorage.getItem('user_id')
+        if (userid) {
+          userid = Number(userid)
+        }
+        let resourse = {
+          'jsonrpc': '2.0',
+          'method': 'serviceapi.visit_service',
+          'id': 1111,
+          'params': {
+            'user_id': userid,
+            'service_id': serviceid
+          }
+        }
+        this.axios.post(getapiUrl, resourse).then((res) => {
+          console.log(res)
+          if (res.data !== '' && 'result' in res.data) {
+            if ('msg' in res.data.result) {
+              if (res.data.result.msg === 'success') {
+                console.log('visit success!')
+              } else {
+                let msg = res.data.result.msg
+                console.log('visit failed!' + msg)
+              }
+            }
+          } else if ('error' in res.data) {
+            let error = res.data.error
+            console.log('visit failed!' + error)
+          } else {
+            console.log('visit failed!')
+          }
+        })
+          .catch((err) => {
+            console.error(err)
+            console.log('visit failed!')
+          })
       },
       get_detail (id) {
-        this.$router.push('/manager/edit_service')
         let getapiUrl = localStorage.getItem('api_url')
         if (!getapiUrl) {
           getapiUrl = this.getApiUrl
