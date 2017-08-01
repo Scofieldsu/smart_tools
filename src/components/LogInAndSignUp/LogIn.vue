@@ -26,12 +26,18 @@
           <label class="login-label">Password</label>
           <el-input v-model="ruleForm.password" class="login-input" placeholder="" type="password"></el-input>
         </el-form-item>
-        <el-form-item label="">
+        <!--<el-form-item label="">-->
           <!--<el-checkbox label="" v-model="rememberPWD" name="rememberPWD" class="remember-pwd">remember password</el-checkbox>-->
-        </el-form-item>
+        <!--</el-form-item>-->
         <el-form-item>
           <el-button type="success" @click="submitForm('ruleForm')" class="login-btn">Sign In</el-button>
           <el-button @click="resetForm('ruleForm')" class="sign_up-btn">Sign Up</el-button>
+        </el-form-item>
+        <el-form-item>
+          <span>
+            <i style="font-weight: bold">Sign with: </i>
+            <img src="../../assets/gitlab.png" width="32" height="32" @click="togitlab">
+          </span>
         </el-form-item>
       </el-form>
     </el-col>
@@ -41,8 +47,11 @@
   import ElIcon from '../../../node_modules/element-ui/packages/icon/src/icon'
 //  import commonJs from '../../util/common'
   import md5 from 'md5'
+  import ElButton from '../../../node_modules/element-ui/packages/button/src/button'
   export default {
-    components: {ElIcon},
+    components: {
+      ElButton,
+      ElIcon},
     data () {
       let getapiUrl = window.localStorage.getItem('api_url')
       return {
@@ -61,6 +70,9 @@
       ])
     },
     methods: {
+      togitlab () {
+        window.location.href = 'http://10.42.135.82/oauth/authorize?client_id=2e78f1c6c3311767da17fd17fb86bdc4d70426a48e40d81da5dcf57b5fb865c0&redirect_uri=http://192.168.1.230:5050/login/gitlab&response_type=code&state=oneplatform'
+      },
       set_url () {
         this.dialogVisible = false
         let apiurl = this.api_url_input
@@ -166,7 +178,7 @@
   .login-form {
     position: relative;
     top: 30%;
-    height: 450px;
+    height: 460px;
     width: 308px;
     background-color: rgba(255,255,255,0.2);
     padding: 30px;
