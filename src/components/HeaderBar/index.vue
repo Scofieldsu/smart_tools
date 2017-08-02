@@ -47,7 +47,7 @@
         localStorage.removeItem('user_name')
         localStorage.removeItem('user_id')
         localStorage.removeItem('email')
-        sessionStorage['login'] = false
+        sessionStorage.removeItem('login')
         let cookieMaker = commonJs.cookieMaker
         cookieMaker.remove('name')
         cookieMaker.remove('password')

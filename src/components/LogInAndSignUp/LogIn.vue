@@ -36,7 +36,7 @@
         <el-form-item>
           <span>
             <i style="font-weight: bold">Sign with: </i>
-            <img src="../../assets/gitlab.png" width="32" height="32" @click="togitlab">
+            <el-button @click="togitlab" style="height: 32px;width: 32px;margin: 10px;padding: 0"><img src="../../assets/gitlab.png" width="32" height="32"  ></el-button>
           </span>
         </el-form-item>
       </el-form>
@@ -66,18 +66,20 @@
     },
     computed: {
       ...mapGetters([
-        'getApiUrl'
+        'getApiUrl',
+        'getGitlabInfo'
       ])
     },
     methods: {
       togitlab () {
-        window.location.href = 'http://10.42.135.82/oauth/authorize?client_id=2e78f1c6c3311767da17fd17fb86bdc4d70426a48e40d81da5dcf57b5fb865c0&redirect_uri=http://192.168.1.230:5050/login/gitlab&response_type=code&state=oneplatform'
+        console.log(this.getGitlabInfo)
+        window.location.href = this.getGitlabInfo
       },
       set_url () {
         this.dialogVisible = false
         let apiurl = this.api_url_input
         if (!apiurl) {
-          apiurl = 'http://localhost:5050/api'
+          apiurl = this.getApiUrl
         }
         if (!(apiurl.startsWith('http://'))) {
           apiurl = 'http://'.concat(apiurl)
