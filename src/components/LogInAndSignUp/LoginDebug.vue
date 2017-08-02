@@ -24,7 +24,7 @@
       </el-form-item>
       <el-form-item label=""  style="margin-top: -20px">
         <label class="login-label">Password</label>
-        <el-input v-model="ruleForm.password" class="login-input" placeholder="" type="password"></el-input>
+        <el-input v-model="ruleForm.password" class="login-input" placeholder="" type="password" @keyup.enter.native="submitForm('ruleForm')"></el-input>
       </el-form-item>
       <el-form-item label="">
         <!--<el-checkbox label="" v-model="rememberPWD" name="rememberPWD" class="remember-pwd">remember password</el-checkbox>-->
