@@ -20,7 +20,7 @@
         <h2 class="title">Sign in to One-Platform</h2>
         <el-form-item label="" >
           <label class="login-label">Email address</label>
-          <el-input v-model="ruleForm.email" class="login-input" placeholder=""></el-input>
+          <el-input v-model="ruleForm.email" class="login-input" placeholder="" @keyup.enter.native="submitForm('ruleForm')"></el-input>
         </el-form-item>
         <el-form-item label=""  style="margin-top: -20px">
           <label class="login-label">Password</label>

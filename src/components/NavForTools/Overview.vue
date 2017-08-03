@@ -1,7 +1,7 @@
 <template>
   <div>
     <div style="margin: 20px">
-      <el-input placeholder="请输入内容" v-model="input_select" style="width: 400px">
+      <el-input placeholder="请输入关键词" v-model="input_select" style="width: 400px" @keyup.enter.native="doselect(input_select)">
         <el-select v-model="select" slot="prepend" placeholder="默认名称搜索" style="width: 130px">
           <el-option label="服务名称" value="name"></el-option>
           <el-option label="标签" value="tag"></el-option>
@@ -10,7 +10,6 @@
         </el-select>
         <el-button slot="append"  @click="doselect(input_select)">搜索</el-button>
       </el-input>
-      <el-button slot="append"  @click="reset" style="margin-left: 20px;" type="primary" size="small">清空搜索</el-button>
     </div>
     <div>
       <el-row v-model="resultData">
@@ -147,52 +146,53 @@
     },
     methods: {
       doselect (inputselect) {
-        let temresult = JSON.parse(JSON.stringify(this.resultData))
-        let lenth = temresult.length
-        let contion = 'name'
-        if (this.select) {
-          contion = this.select
-        }
-        for (let x = 0; x < lenth; x++) {
-          let temvalue = temresult[0][contion]
-          if (contion === 'shortcut') {
-            temvalue = temvalue.replace(' ', '')
+        if (inputselect === '') {
+          this.input_select = ''
+          let that = this
+          let getapiUrl = localStorage.getItem('api_url')
+          if (!getapiUrl) {
+            getapiUrl = this.getApiUrl
           }
-          if (temvalue.toLowerCase().indexOf(inputselect.toLowerCase()) === -1) {
-            temresult.shift()
-          } else {
-            let tem = temresult.shift()
-            temresult.push(tem)
+          let userid = window.localStorage.getItem('user_id')
+          if (userid) {
+            userid = Number(userid)
           }
-        }
-        this.resultData = temresult
-      },
-      reset () {
-        this.input_select = ''
-        let that = this
-        let getapiUrl = localStorage.getItem('api_url')
-        if (!getapiUrl) {
-          getapiUrl = this.getApiUrl
-        }
-        let userid = window.localStorage.getItem('user_id')
-        if (userid) {
-          userid = Number(userid)
-        }
-        let resourse = {
-          'jsonrpc': '2.0',
-          'method': 'serviceapi.get_service_list',
-          'id': 1111,
-          'params': {
-            'user_id': userid
+          let resourse = {
+            'jsonrpc': '2.0',
+            'method': 'serviceapi.get_service_list',
+            'id': 1111,
+            'params': {
+              'user_id': userid
+            }
           }
+          that.axios.post(getapiUrl, resourse)
+            .then(function (res) {
+              that.resultData = res.data.result
+            })
+            .catch(function (err) {
+              console.log(err)
+            })
+        } else {
+          let temresult = JSON.parse(JSON.stringify(this.resultData))
+          let lenth = temresult.length
+          let contion = 'name'
+          if (this.select) {
+            contion = this.select
+          }
+          for (let x = 0; x < lenth; x++) {
+            let temvalue = temresult[0][contion]
+            if (contion === 'shortcut') {
+              temvalue = temvalue.replace(' ', '')
+            }
+            if (temvalue.toLowerCase().indexOf(inputselect.toLowerCase()) === -1) {
+              temresult.shift()
+            } else {
+              let tem = temresult.shift()
+              temresult.push(tem)
+            }
+          }
+          this.resultData = temresult
         }
-        that.axios.post(getapiUrl, resourse)
-          .then(function (res) {
-            that.resultData = res.data.result
-          })
-          .catch(function (err) {
-            console.log(err)
-          })
       },
       arrive (link, serviceid) {
         window.open(link)
@@ -437,7 +437,7 @@
 </script>
 
 
-<style>
+<style scoped>
   .bottom {
     margin-top: 13px;
     line-height: 12px;
