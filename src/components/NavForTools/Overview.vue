@@ -370,7 +370,6 @@
         }
         this.axios.post(getapiUrl, resourse)
           .then((res) => {
-            this.$store.commit('Service', res.data.result)
             this.editform = res.data.result
             this.dialogTableVisible = true
           })

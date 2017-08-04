@@ -7,9 +7,6 @@ export const getCenterRightWidth = state => {
 export const getApiUrl = state => {
   return state.api_url
 }
-export const getService = state => {
-  return state.EditService
-}
 export const getGitlabInfo = state => {
   let a = state.gitlab_info
   let paramsstr = ''
