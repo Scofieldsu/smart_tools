@@ -1,20 +1,5 @@
 <template>
     <el-col :span="24" class="login-layout">
-      <!--<el-button type="text" @click="dialogVisible = true" style="float: right;margin:0 10px"><i class="el-icon-setting"></i></el-button>-->
-      <el-dialog
-        title="设置"
-        :visible.sync="dialogVisible"
-        size="tiny"
-        :before-close="handleClose">
-            <span>
-              <el-tag type="primary" style="font-size: medium;margin: 5px">服务器api_url</el-tag>
-              <el-input v-model="api_url_input" style="width: 50%"></el-input>
-            </span>
-        <span slot="footer" class="dialog-footer">
-                    <el-button @click="dialogVisible = false">取 消</el-button>
-                    <el-button type="primary" @click="set_url">确 定</el-button>
-              </span>
-      </el-dialog>
       <el-form :model="ruleForm" ref="ruleForm"  class="login-form">
         <img src='../../assets/index_icon.gif' width="48" height="48" style="margin: 0 40%" >
         <h2 class="title">Sign in to One-Platform</h2>
@@ -26,9 +11,6 @@
           <label class="login-label">Password</label>
           <el-input v-model="ruleForm.password" class="login-input" placeholder="" type="password"  @keyup.enter.native="submitForm('ruleForm')"></el-input>
         </el-form-item>
-        <!--<el-form-item label="">-->
-          <!--<el-checkbox label="" v-model="rememberPWD" name="rememberPWD" class="remember-pwd">remember password</el-checkbox>-->
-        <!--</el-form-item>-->
         <el-form-item>
           <el-button type="success" @click="submitForm('ruleForm')" class="login-btn">Sign In</el-button>
           <el-button @click="resetForm('ruleForm')" class="sign_up-btn">Sign Up</el-button>
@@ -45,7 +27,6 @@
 <script>
   import { mapGetters } from 'vuex'
   import ElIcon from '../../../node_modules/element-ui/packages/icon/src/icon'
-//  import commonJs from '../../util/common'
   import md5 from 'md5'
   import ElButton from '../../../node_modules/element-ui/packages/button/src/button'
   export default {
@@ -53,11 +34,9 @@
       ElButton,
       ElIcon},
     data () {
-      let getapiUrl = window.localStorage.getItem('api_url')
       return {
-        api_url_input: getapiUrl,
+        api_url_input: this.getApiUrl,
         dialogVisible: false,
-        rememberPWD: false,
         ruleForm: {
           email: '',
           password: ''
@@ -67,30 +46,49 @@
     computed: {
       ...mapGetters([
         'getApiUrl',
-        'getGitlabInfo'
+//        'getGitlabInfo',
+        'getApplication'
       ])
     },
     methods: {
       togitlab () {
-        window.location.href = this.getGitlabInfo
-      },
-      set_url () {
-        this.dialogVisible = false
-        let apiurl = this.api_url_input
-        if (!apiurl) {
-          apiurl = this.getApiUrl
+        let that = this
+        let resourse = {
+          'jsonrpc': '2.0',
+          'method': 'settingapi.get_info',
+          'id': 1111,
+          'params': {
+            'application_name': this.getApplication
+          }
         }
-        if (!(apiurl.startsWith('http://'))) {
-          apiurl = 'http://'.concat(apiurl)
-        }
-        window.localStorage.setItem('api_url', apiurl)
-      },
-      handleClose (done) {
-        this.$confirm('确认关闭？')
-          .then(_ => {
-            done()
+        that.axios.post(this.getApiUrl, resourse)
+          .then((res) => {
+            console.log(res)
+            if (res.data.result.msg === 'success') {
+              let result = res.data.result
+              let path = '/oauth/authorize?'
+              let others = '&response_type=code&state=oneplatform'
+              window.location.href = result.gitlab_url + path + 'client_id=' + result.client_id + '&redirect_uri=' + result.redirect_uri + others
+            } else {
+              let msg = res.data.result.msg
+              this.$notify({
+                title: 'Get_info Failed',
+                message: msg,
+                type: 'error',
+                duration: 1200,
+                offset: 40
+              })
+            }
           })
-          .catch(_ => {})
+          .catch((err) => {
+            console.error(err)
+            that.$notify({
+              title: 'Get_info Failed',
+              message: 'Network error. Please check your settings.',
+              type: 'error',
+              duration: 1200
+            })
+          })
       },
       resetForm (formName) {
         this.$refs[formName].resetFields()
@@ -128,11 +126,7 @@
           }
           this.$refs[formName].validate((valid) => {
             if (valid) {
-              let getapiUrl = localStorage.getItem('api_url')
-              if (!getapiUrl) {
-                getapiUrl = this.getApiUrl
-              }
-              that.axios.post(getapiUrl, resourse)
+              that.axios.post(this.getApiUrl, resourse)
                 .then((res) => {
                   console.log(res)
                   if (res.data.result.msg === 'success') {

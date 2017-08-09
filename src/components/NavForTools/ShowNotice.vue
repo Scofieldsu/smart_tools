@@ -148,10 +148,6 @@
     },
     created () {
       let that = this
-      let getapiUrl = localStorage.getItem('api_url')
-      if (!getapiUrl) {
-        getapiUrl = this.getApiUrl
-      }
       let userid = window.localStorage.getItem('user_id')
       if (userid) {
         userid = Number(userid)
@@ -164,7 +160,7 @@
           'user_id': userid
         }
       }
-      that.axios.post(getapiUrl, resourse)
+      that.axios.post(this.getApiUrl, resourse)
         .then(function (res) {
           that.resultData = res.data.result
         })
@@ -177,10 +173,6 @@
         if (inputselect === '') {
           this.input_select = ''
           let that = this
-          let getapiUrl = localStorage.getItem('api_url')
-          if (!getapiUrl) {
-            getapiUrl = this.getApiUrl
-          }
           let userid = window.localStorage.getItem('user_id')
           if (userid) {
             userid = Number(userid)
@@ -193,7 +185,7 @@
               'user_id': userid
             }
           }
-          that.axios.post(getapiUrl, resourse)
+          that.axios.post(this.getApiUrl, resourse)
             .then(function (res) {
               that.resultData = res.data.result
             })
@@ -239,10 +231,6 @@
       },
       arrive (link, serviceid) {
         window.open(link)
-        let getapiUrl = localStorage.getItem('api_url')
-        if (!getapiUrl) {
-          getapiUrl = this.getApiUrl
-        }
         let userid = window.localStorage.getItem('user_id')
         if (userid) {
           userid = Number(userid)
@@ -256,7 +244,7 @@
             'service_id': serviceid
           }
         }
-        this.axios.post(getapiUrl, resourse).then((res) => {
+        this.axios.post(this.getApiUrl, resourse).then((res) => {
           console.log(res)
           if (res.data !== '' && 'result' in res.data) {
             if ('msg' in res.data.result) {
@@ -324,11 +312,7 @@
               'notice': this.editform.notice
             }
           }
-          let getapiUrl = localStorage.getItem('api_url')
-          if (!getapiUrl) {
-            getapiUrl = this.getApiUrl
-          }
-          this.axios.post(getapiUrl, resourse)
+          this.axios.post(this.getApiUrl, resourse)
             .then((res) => {
               console.log(res)
               if (res.data !== '' && 'result' in res.data) {
@@ -382,10 +366,6 @@
         this.dialogTableVisible = false
       },
       get_detail (id) {
-        let getapiUrl = localStorage.getItem('api_url')
-        if (!getapiUrl) {
-          getapiUrl = this.getApiUrl
-        }
         let userid = window.localStorage.getItem('user_id')
         if (userid) {
           userid = Number(userid)
@@ -399,7 +379,7 @@
             'service_id': id
           }
         }
-        this.axios.post(getapiUrl, resourse)
+        this.axios.post(this.getApiUrl, resourse)
           .then((res) => {
             this.editform = res.data.result
             this.dialogTableVisible = true
@@ -410,10 +390,6 @@
       },
       star_off (serviceid) {
         let that = this
-        let getapiUrl = localStorage.getItem('api_url')
-        if (!getapiUrl) {
-          getapiUrl = this.getApiUrl
-        }
         let userid = window.localStorage.getItem('user_id')
         if (userid) {
           userid = Number(userid)
@@ -427,7 +403,7 @@
             'service_id': serviceid
           }
         }
-        that.axios.post(getapiUrl, resourse)
+        that.axios.post(this.getApiUrl, resourse)
           .then((res) => {
             console.log(res)
             if (res.data !== '' && 'result' in res.data) {

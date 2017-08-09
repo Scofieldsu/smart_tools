@@ -85,11 +85,7 @@
                 'password': passwordHash
               }
             }
-            let getapiUrl = localStorage.getItem('api_url')
-            if (!getapiUrl) {
-              getapiUrl = this.getApiUrl
-            }
-            that.axios.post(getapiUrl, resourse)
+            that.axios.post(this.getApiUrl, resourse)
             .then((res) => {
               console.log(res)
               if (res.data !== '' && 'result' in res.data) {

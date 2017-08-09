@@ -1,10 +1,10 @@
 <template>
   <div style="width: 100%">
     <div style="width: 50%;float: left">
-    <span>
-      <el-tag type="primary" style="width: 50px">URL</el-tag>
-      <el-input v-model="url" placeholder="url" class="input_test"></el-input>
-    </span>
+    <!--<span>-->
+      <!--<el-tag type="primary" style="width: 50px">URL</el-tag>-->
+      <!--<el-input v-model="url" placeholder="url" class="input_test"></el-input>-->
+    <!--</span>-->
       <br/>
       <span>
       <el-tag type="primary" style="width: 50px">Method</el-tag>
@@ -28,16 +28,22 @@
 </template>
 
 <script>
+  import { mapGetters } from 'vuex'
   import ElInput from '../../../node_modules/element-ui/packages/input/src/input'
   export default {
     components: {ElInput},
     data () {
       return {
         test_input: 'get_exchange_data',
-        url: 'http://127.0.0.1:5050/api',
+//        url: this.getApiUrl,
         test_params: '',
         result: ''
       }
+    },
+    computed: {
+      ...mapGetters([
+        'getApiUrl'
+      ])
     },
     methods: {
       for_test () {
@@ -53,7 +59,7 @@
           'id': 111
         }
         console.log(JSON.stringify(Resource))
-        this.axios.post(this.url, Resource)
+        this.axios.post(this.getApiUrl, Resource)
           .then((res) => {
             console.log(res)
             this.result = ''

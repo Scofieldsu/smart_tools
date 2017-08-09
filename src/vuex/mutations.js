@@ -9,7 +9,7 @@ export const CENTERIGHTWIDTH = state => {
 }
 export const SETAPIURL = (state, msg) => {
   if (!msg) {
-    msg = 'http://localhost:5050/api'
+    msg = state.api_url
   }
   if (!msg.startsWith('http://')) {
     state.api_url = 'http://'.concat(msg)

@@ -109,11 +109,7 @@
               'notice': notice
             }
           }
-          let getapiUrl = localStorage.getItem('api_url')
-          if (!getapiUrl) {
-            getapiUrl = this.getApiUrl
-          }
-          this.axios.post(getapiUrl, resourse)
+          this.axios.post(this.getApiUrl, resourse)
             .then((res) => {
               console.log(res)
               if (res.data !== '' && 'result' in res.data) {

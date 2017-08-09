@@ -68,10 +68,6 @@
     },
     created () {
       let that = this
-      let getapiUrl = localStorage.getItem('api_url')
-      if (!getapiUrl) {
-        getapiUrl = this.getApiUrl
-      }
       let userid = window.localStorage.getItem('user_id')
       if (userid) {
         userid = Number(userid)
@@ -84,7 +80,7 @@
           'user_id': userid
         }
       }
-      that.axios.post(getapiUrl, resourse)
+      that.axios.post(this.getApiUrl, resourse)
         .then(function (res) {
           that.tableData = res.data.result
         })
@@ -98,10 +94,6 @@
       },
       handleEnable (index, row) {
         let that = this
-        let getapiUrl = localStorage.getItem('api_url')
-        if (!getapiUrl) {
-          getapiUrl = this.getApiUrl
-        }
         let userid = window.localStorage.getItem('user_id')
         if (userid) {
           userid = Number(userid)
@@ -115,7 +107,7 @@
             'op_user_id': row.id
           }
         }
-        that.axios.post(getapiUrl, resourse)
+        that.axios.post(this.getApiUrl, resourse)
           .then((res) => {
             console.log(res)
             if (res.data !== '' && 'result' in res.data) {
