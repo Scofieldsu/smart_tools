@@ -47,7 +47,8 @@
         </el-table-column>
       </el-table>
     </el-tab-pane>
-    <el-tab-pane label="角色管理" name="second">角色管理</el-tab-pane>
+    <el-tab-pane label="角色管理" name="second">
+    </el-tab-pane>
     <el-tab-pane label="配置管理" name="third">配置管理</el-tab-pane>
   </el-tabs>
 </template>
@@ -90,7 +91,67 @@
     },
     methods: {
       handleClick (tab, event) {
-        console.log(tab, event)
+        if (tab.name === 'second') {
+          this.axios.get('https://gitlab.dianchu.cc/api/v4/groups?access_token=f2ca08c7762d4f76e59426f7db47799e23988a829f38f9192b0909a5d4317869')
+            .then((res) => {
+              console.log(res)
+            })
+//          let that = this
+//          let userid = window.localStorage.getItem('user_id')
+//          if (userid) {
+//            userid = Number(userid)
+//          }
+//          let resourse = {
+//            'jsonrpc': '2.0',
+//            'method': 'userapi.set_user_enable',
+//            'id': 1111,
+//            'params': {
+//              'user_id': userid
+//            }
+//          }
+//          that.axios.post(this.getApiUrl, resourse)
+//            .then((res) => {
+//              console.log(res)
+//              if (res.data !== '' && 'result' in res.data) {
+//                if ('msg' in res.data.result) {
+//                  if (res.data.result.msg === 'success') {
+//                    let access_token = res.data.result.access_token
+//                  } else {
+//                    let msg = res.data.result.msg
+//                    this.$notify({
+//                      title: 'Set User Enable Failed',
+//                      message: msg,
+//                      type: 'error',
+//                      duration: 1200
+//                    })
+//                  }
+//                }
+//              } else if ('error' in res.data) {
+//                let error = res.data.error
+//                this.$notify({
+//                  title: 'Set User Enable Failed',
+//                  message: error,
+//                  type: 'error',
+//                  duration: 1200
+//                })
+//              } else {
+//                this.$notify({
+//                  title: 'Set User Enable Failed',
+//                  message: 'Some abnormal error has happened!',
+//                  type: 'error',
+//                  duration: 1200
+//                })
+//              }
+//            })
+//            .catch((err) => {
+//              console.error(err)
+//              this.$notify({
+//                title: 'Set User Enable Failed',
+//                type: 'error',
+//                duration: 1200
+//              })
+//            })
+        }
       },
       handleEnable (index, row) {
         let that = this
