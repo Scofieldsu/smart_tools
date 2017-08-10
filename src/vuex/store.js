@@ -9,8 +9,8 @@ Vue.use(Vuex)
 const state = {
   count: 10,
   centerRightWidth: 230,
-  api_url: 'http://192.168.1.230/api',
-  application: 'One-Platform-local'
+  api_url: 'http://192.168.1.230/api'
+  // application: 'One-Platform-local'
 //   gitlab_info: {
 //     gitlaburl: 'https://gitlab.dianchu.cc',
 //     path: '/oauth/authorize?',

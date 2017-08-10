@@ -45,9 +45,9 @@
     },
     computed: {
       ...mapGetters([
-        'getApiUrl',
+        'getApiUrl'
 //        'getGitlabInfo',
-        'getApplication'
+//        'getApplication'
       ])
     },
     methods: {
@@ -57,9 +57,7 @@
           'jsonrpc': '2.0',
           'method': 'settingapi.get_info',
           'id': 1111,
-          'params': {
-            'application_name': this.getApplication
-          }
+          'params': {}
         }
         that.axios.post(this.getApiUrl, resourse)
           .then((res) => {

@@ -18,7 +18,26 @@
             <el-button type="primary" @click="set_url">确 定</el-button>
           </span>
         </el-tab-pane>
-        <el-tab-pane label="Gitlab验证设置" name="second">
+        <el-tab-pane label="选择Gitlab应用" name="second">
+          <span>
+            <el-tag type="primary" style="font-size: medium;margin: 5px">Gitlab应用</el-tag>
+            <el-select v-model="select_application" placeholder="请选择" style="width: 40%">
+              <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+            <el-button type="danger" style="margin-left: 20px" @click="get_application_list">查询</el-button>
+          </span>
+          <br/>
+          <span style="margin-top: 50px;float: right">
+            <el-button @click="dialogVisible = false">取 消</el-button>
+            <el-button type="primary" @click="set_application">确 定</el-button>
+          </span>
+        </el-tab-pane>
+        <el-tab-pane label="新增Gitlab应用设置" name="third">
           <span>
             <el-tag type="danger" style="font-size: medium;margin: 5px;width: 140px">*Application</el-tag>
             <el-input v-model="application_name" style="width: 60%;margin-top: 10px"></el-input>
@@ -82,12 +101,17 @@
   import ElIcon from '../../../node_modules/element-ui/packages/icon/src/icon'
   //  import commonJs from '../../util/common'
   import md5 from 'md5'
+  import ElButton from '../../../node_modules/element-ui/packages/button/src/button'
   export default {
-    components: {ElIcon},
+    components: {
+      ElButton,
+      ElIcon},
     data () {
       return {
         activeName: 'first',
         api_url_input: this.getApiUrl,
+        select_application: '',
+        options: [],
         application_name: '',
         gitlab_url: '',
         client_id: '',
@@ -108,6 +132,64 @@
       ])
     },
     methods: {
+      get_application_list () {
+        let that = this
+        let resourse = {
+          'jsonrpc': '2.0',
+          'method': 'settingapi.get_application_list',
+          'id': 1111,
+          'params': {}
+        }
+        that.axios.post(this.getApiUrl, resourse)
+          .then((res) => {
+            console.log(res.data.result)
+            let result = res.data.result
+            that.select_application = result.shift()
+            that.options = result
+          })
+      },
+      set_application () {
+        let that = this
+        let resourse = {
+          'jsonrpc': '2.0',
+          'method': 'configurationapi.set_application',
+          'id': 1111,
+          'params': {
+            'application_name': that.select_application
+          }
+        }
+        that.axios.post(this.getApiUrl, resourse)
+          .then((res) => {
+            if (res.data.result.msg === 'success') {
+              this.$notify({
+                title: 'Configuration success',
+                message: 'success',
+                type: 'success',
+                duration: 1200,
+                offset: 40
+              })
+              this.dialogVisible = false
+            } else {
+              let msg = res.data.result.msg
+              this.$notify({
+                title: 'Configuration Failed',
+                message: msg,
+                type: 'error',
+                duration: 1200,
+                offset: 40
+              })
+            }
+          })
+          .catch((err) => {
+            console.error(err)
+            that.$notify({
+              title: 'Configuration Failed',
+              message: 'Network error. Please check your configuration.',
+              type: 'error',
+              duration: 1200
+            })
+          })
+      },
       set_url () {
         let apiurl = this.api_url_input
         if (!apiurl) {
@@ -161,7 +243,7 @@
             .catch((err) => {
               console.error(err)
               that.$notify({
-                title: 'Login Failed',
+                title: 'Setting Failed',
                 message: 'Network error. Please check your settings.',
                 type: 'error',
                 duration: 1200
