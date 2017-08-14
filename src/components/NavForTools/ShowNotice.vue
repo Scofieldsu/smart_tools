@@ -8,10 +8,9 @@
         </span>
       </div>
       <div style="margin-top: 20px">
-        <el-alert
-          title="xxx 发布了 内网api-test服务！"
-          @close="handle_close"
-          type="success">
+        <el-alert v-for="notice in noticeData" :key="notice.id"
+          @close="handle_close" title="noticeservice"
+          type="info" style="margin-top: 10px">
         </el-alert>
         <br/>
         <el-alert
@@ -137,6 +136,13 @@
             shortcut: 'default',
             name: 'service_name'
           }
+        ],
+        noticeData: [
+          {
+            user_name: '',
+            action: '',
+            service_name: ''
+          }
         ]
       }
     },
@@ -166,6 +172,19 @@
         })
         .catch(function (err) {
           console.log(err)
+        })
+      let resnotice = {
+        'jsonrpc': '2.0',
+        'method': 'noticeapi.get_notice_list',
+        'id': 1111,
+        'params': {
+          'user_id': userid
+        }
+      }
+      that.axios.post(this.getApiUrl, resnotice)
+        .then(function (res) {
+          that.noticeData = res.data.result
+          console.log(res.data.result)
         })
     },
     methods: {
