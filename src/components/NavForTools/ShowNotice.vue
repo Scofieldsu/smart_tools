@@ -9,23 +9,9 @@
       </div>
       <div style="margin-top: 20px">
         <el-alert v-for="notice in noticeData" :key="notice.id"
-          @close="handle_close" title="noticeservice"
+          @close="handle_close" title=""
           type="info" style="margin-top: 10px">
-        </el-alert>
-        <br/>
-        <el-alert
-          title="xxx 发布了 内网服务2 ！"
-          type="info">
-        </el-alert>
-        <br/>
-        <el-alert
-          title="xxx 发布了 内网服务3！"
-          type="warning">
-        </el-alert>
-        <br/>
-        <el-alert
-          title="xxx 发布了 内网服务4！"
-          type="error">
+          {{notice.user_name}} {{notice.action}} {{notice.service_name}} ！
         </el-alert>
       </div>
     </div>
