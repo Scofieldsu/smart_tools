@@ -53,7 +53,7 @@ const routes = [
     component: Home,
     icon: 'fa fa-gift',
     children: [
-      { path: '/test/exchange_rate', name: '汇率换算', icon: 'fa fa-usd', component: ExchangeRate, show: true },
+      { path: '/test/exchange_rate', name: '汇率换算', icon: 'fa fa-usd', component: ExchangeRate, show: false },
       { path: '/test/apis', name: '开发测试', icon: 'fa fa-tumblr-square', component: Test, show: true },
       { path: '/test/tools', name: '工具箱', icon: 'fa fa-wrench', component: Transformation, show: true },
       { path: '/test/message', name: '留言板', icon: 'fa  fa-envelope', component: LeaveMessage, show: true }

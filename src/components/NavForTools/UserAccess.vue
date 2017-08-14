@@ -47,9 +47,54 @@
         </el-table-column>
       </el-table>
     </el-tab-pane>
-    <el-tab-pane label="角色管理" name="second">
+    <el-tab-pane label="所属用户组" name="second">
+      <el-table
+        :data="tableData2"
+        height="800"
+        border
+        style="width: 100%"
+        :default-sort = "{prop: 'id', order: 'ascending'}">
+        <el-table-column
+          prop="id"
+          label="用户组ID"
+          sortable
+          width="120px">
+        </el-table-column>
+        <el-table-column
+          prop="name"
+          label="组名"
+          sortable
+          width="200px">
+        </el-table-column>
+        <el-table-column
+          prop="description"
+          label="用户组备注"
+          sortable
+          width="200px">
+        </el-table-column>
+        <el-table-column
+          prop="web_url"
+          label="访问地址"
+          sortable
+          width="400px">
+        </el-table-column>
+        <el-table-column
+          prop="parent_id"
+          label="上级用户组ID"
+          sortable
+          width="100px">
+        </el-table-column>
+        <el-table-column label="操作" >
+          <template scope="scope">
+            <el-button
+              style="margin-left: 30px"
+              size="small"
+              type="success"
+              @click="handleVisit(scope.$index, scope.row)">查看</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
     </el-tab-pane>
-    <el-tab-pane label="配置管理" name="third">配置管理</el-tab-pane>
   </el-tabs>
 </template>
 <script>
@@ -59,7 +104,8 @@
       return {
         activeName: 'first',
         value: true,
-        tableData: []
+        tableData: [],
+        tableData2: []
       }
     },
     computed: {
@@ -92,66 +138,69 @@
     methods: {
       handleClick (tab, event) {
         if (tab.name === 'second') {
-          this.axios.get('https://gitlab.dianchu.cc/api/v4/groups?access_token=f2ca08c7762d4f76e59426f7db47799e23988a829f38f9192b0909a5d4317869')
+          let groupurl = 'https://gitlab.dianchu.cc/api/v4/groups?access_token='
+          let that = this
+          let userid = window.localStorage.getItem('user_id')
+          if (userid) {
+            userid = Number(userid)
+          }
+          let resourse = {
+            'jsonrpc': '2.0',
+            'method': 'userapi.get_access_token',
+            'id': 1111,
+            'params': {
+              'user_id': userid
+            }
+          }
+          that.axios.post(this.getApiUrl, resourse)
             .then((res) => {
-              console.log(res)
+              if (res.data !== '' && 'result' in res.data) {
+                if ('msg' in res.data.result) {
+                  if (res.data.result.msg === 'success') {
+                    this.axios.get(groupurl + res.data.result.access_token)
+                      .then((res) => {
+                        console.log(res.data)
+                        that.tableData2 = res.data
+                      })
+                  } else {
+                    let msg = res.data.result.msg
+                    this.$notify({
+                      title: 'Get access_token Failed',
+                      message: msg,
+                      type: 'error',
+                      duration: 1200
+                    })
+                  }
+                }
+              } else if ('error' in res.data) {
+                let error = res.data.error
+                this.$notify({
+                  title: 'Get access_token Failed',
+                  message: error,
+                  type: 'error',
+                  duration: 1200
+                })
+              } else {
+                this.$notify({
+                  title: 'Get access_token Failed',
+                  message: 'Some abnormal error has happened!',
+                  type: 'error',
+                  duration: 1200
+                })
+              }
             })
-//          let that = this
-//          let userid = window.localStorage.getItem('user_id')
-//          if (userid) {
-//            userid = Number(userid)
-//          }
-//          let resourse = {
-//            'jsonrpc': '2.0',
-//            'method': 'userapi.set_user_enable',
-//            'id': 1111,
-//            'params': {
-//              'user_id': userid
-//            }
-//          }
-//          that.axios.post(this.getApiUrl, resourse)
-//            .then((res) => {
-//              console.log(res)
-//              if (res.data !== '' && 'result' in res.data) {
-//                if ('msg' in res.data.result) {
-//                  if (res.data.result.msg === 'success') {
-//                    let access_token = res.data.result.access_token
-//                  } else {
-//                    let msg = res.data.result.msg
-//                    this.$notify({
-//                      title: 'Set User Enable Failed',
-//                      message: msg,
-//                      type: 'error',
-//                      duration: 1200
-//                    })
-//                  }
-//                }
-//              } else if ('error' in res.data) {
-//                let error = res.data.error
-//                this.$notify({
-//                  title: 'Set User Enable Failed',
-//                  message: error,
-//                  type: 'error',
-//                  duration: 1200
-//                })
-//              } else {
-//                this.$notify({
-//                  title: 'Set User Enable Failed',
-//                  message: 'Some abnormal error has happened!',
-//                  type: 'error',
-//                  duration: 1200
-//                })
-//              }
-//            })
-//            .catch((err) => {
-//              console.error(err)
-//              this.$notify({
-//                title: 'Set User Enable Failed',
-//                type: 'error',
-//                duration: 1200
-//              })
-//            })
+            .catch((err) => {
+              console.error(err)
+              this.$notify({
+                title: 'Get access_token Failed',
+                type: 'error',
+                duration: 1200
+              })
+            })
         }
+      },
+      handleVisit (index, row) {
+        window.open(row.web_url)
       },
       handleEnable (index, row) {
         let that = this

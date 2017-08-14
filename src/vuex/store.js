@@ -10,17 +10,6 @@ const state = {
   count: 10,
   centerRightWidth: 230,
   api_url: 'http://192.168.1.230/api'
-  // application: 'One-Platform-local'
-//   gitlab_info: {
-//     gitlaburl: 'https://gitlab.dianchu.cc',
-//     path: '/oauth/authorize?',
-//     params: {
-//       client_id: 'a164506151fbd065a97d3cd9654ee0e37f80ffe81616a8311c320022a097e2c3',
-//       redirect_uri: 'http://192.168.1.230/login/gitlab',
-//       response_type: 'code',
-//       state: 'oneplatform'
-//     }
-//   }
 }
 
 const store = new Vuex.Store({
