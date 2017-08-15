@@ -9,9 +9,12 @@
       </div>
       <div style="margin-top: 20px">
         <el-alert v-for="notice in noticeData" :key="notice.id"
-          @close="handle_close" title=""
-          type="info" style="margin-top: 10px">
-          {{notice.user_name}} {{notice.action}} {{notice.service_name}} ！
+          @close="handle_close(notice.id)" title="" style="margin-top: 10px;background-color: lightcoral">
+          <span v-show="false">{{notice.id}}</span>
+          <span style="color: #333333;font-weight: bold">{{notice.user_name}}</span>
+          <span style="color: gold">{{notice.action}}</span>
+          <span style="color: black;font-weight: normal">{{notice.service_name}}</span> ！
+          <span style="float: right;margin-right: 20px;font-size: small">( {{ notice.time}})</span>
         </el-alert>
       </div>
     </div>
@@ -231,8 +234,42 @@
           this.resultData = temresult
         }
       },
-      handle_close (title) {
-        console.log(title)
+      handle_close (noticeid) {
+        console.log(noticeid)
+        let userid = window.localStorage.getItem('user_id')
+        if (userid) {
+          userid = Number(userid)
+        }
+        let resourse = {
+          'jsonrpc': '2.0',
+          'method': 'noticeapi.check_notice',
+          'id': 1111,
+          'params': {
+            'user_id': userid,
+            'notice_id': noticeid
+          }
+        }
+        this.axios.post(this.getApiUrl, resourse).then((res) => {
+          if (res.data !== '' && 'result' in res.data) {
+            if ('msg' in res.data.result) {
+              if (res.data.result.msg === 'success') {
+                console.log('check notice success!')
+              } else {
+                let msg = res.data.result.msg
+                console.log('check notice failed!' + msg)
+              }
+            }
+          } else if ('error' in res.data) {
+            let error = res.data.error
+            console.log('check notice failed!' + error)
+          } else {
+            console.log('check notice failed!')
+          }
+        })
+          .catch((err) => {
+            console.error(err)
+            console.log('check notice failed!')
+          })
       },
       arrive (link, serviceid) {
         window.open(link)
