@@ -82,7 +82,7 @@
           prop="parent_id"
           label="上级用户组ID"
           sortable
-          width="100px">
+          width="200px">
         </el-table-column>
         <el-table-column label="操作" >
           <template scope="scope">
