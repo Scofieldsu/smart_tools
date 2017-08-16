@@ -15,6 +15,7 @@
           <span style="color: gold">{{notice.action}}</span>
           <span style="color: black;font-weight: normal">{{notice.service_name}}</span> ！
           <span style="float: right;margin-right: 20px;font-size: small">( {{ notice.time}})</span>
+          <el-button v-if="notice.action !== '删除'" @click="handlelook(notice.link)" style="background-color:lightcoral;color: #324157;float: right;margin-right:30px" type="text" size="small">去看看</el-button>
         </el-alert>
       </div>
     </div>
@@ -104,7 +105,9 @@
 
 <script>
   import { mapGetters } from 'vuex'
+  import ElButton from '../../../node_modules/element-ui/packages/button/src/button'
   export default {
+    components: {ElButton},
     data () {
       return {
         input_select: '',
@@ -270,6 +273,9 @@
             console.error(err)
             console.log('check notice failed!')
           })
+      },
+      handlelook (link) {
+        window.open(link)
       },
       arrive (link, serviceid) {
         window.open(link)
