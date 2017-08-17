@@ -443,7 +443,7 @@
     width: 80%;
     height: 160px;
     display: block;
-    font-size: 50px;
+    font-size: 43px;
     font-weight: bold;
     color: lightseagreen;
     word-wrap: break-word;
