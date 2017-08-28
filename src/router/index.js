@@ -16,6 +16,7 @@ import UserSettings from '../components/NavForTools/UserSettings.vue'
 import Transformation from '../components/NavForTools/Transformation.vue'
 import LoginDebug from '../components/LogInAndSignUp/LoginDebug.vue'
 import LeaveMessage from '../components/NavForTools/LeaveMessage.vue'
+import UserTips from '../components/NavForTools/UserTips.vue'
 import Test from '../components/NavForTools/Test.vue'
 
 Vue.use(VueRouter)
@@ -33,6 +34,7 @@ const routes = [
     children: [
       { path: '/tools/all_tools', name: '服务', icon: 'fa fa-lightbulb-o', component: Overview, show: true },
       { path: '/yours/notices', name: '通知', icon: 'fa fa-info', component: ShowNotice, show: true },
+      { path: '/yours/tips', name: '便签', icon: 'fa fa-check-circle', component: UserTips, show: false },
       { path: '/yours/settings', name: '个人设置', icon: 'fa fa-lock', component: UserSettings, show: true }
     ]
   },

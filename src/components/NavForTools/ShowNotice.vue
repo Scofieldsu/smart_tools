@@ -176,7 +176,6 @@
       that.axios.post(this.getApiUrl, resnotice)
         .then(function (res) {
           that.noticeData = res.data.result
-          console.log(res.data.result)
         })
     },
     methods: {
@@ -293,7 +292,6 @@
           }
         }
         this.axios.post(this.getApiUrl, resourse).then((res) => {
-          console.log(res)
           if (res.data !== '' && 'result' in res.data) {
             if ('msg' in res.data.result) {
               if (res.data.result.msg === 'success') {
@@ -362,7 +360,6 @@
           }
           this.axios.post(this.getApiUrl, resourse)
             .then((res) => {
-              console.log(res)
               if (res.data !== '' && 'result' in res.data) {
                 if ('msg' in res.data.result) {
                   if (res.data.result.msg === 'success') {
@@ -453,7 +450,6 @@
         }
         that.axios.post(this.getApiUrl, resourse)
           .then((res) => {
-            console.log(res)
             if (res.data !== '' && 'result' in res.data) {
               if ('msg' in res.data.result) {
                 if (res.data.result.msg === 'success') {
@@ -517,7 +513,7 @@
     width: 80%;
     height: 160px;
     display: block;
-    font-size: 50px;
+    font-size: 42px;
     font-weight: bold;
     color: lightseagreen;
     word-wrap: break-word;

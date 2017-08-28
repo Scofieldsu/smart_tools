@@ -21,7 +21,7 @@
     <div style="width: 50%;float: left">
       <span>
         <el-tag type="danger" style="width: 50px;font-size: small;margin: 10px">Result</el-tag>
-        <el-input v-model="result" type="textarea" :autosize={minRows:10,maxRows:35} style="margin: 0 10px;width: 100%" rows="15"></el-input>
+        <el-input v-model="result" type="textarea" :autosize={minRows:10,maxRows:35} style="margin: 0 10px;width: 100%" ></el-input>
       </span>
     </div>
   </div>
@@ -29,9 +29,8 @@
 
 <script>
   import { mapGetters } from 'vuex'
-  import ElInput from '../../../node_modules/element-ui/packages/input/src/input'
   export default {
-    components: {ElInput},
+    components: {},
     data () {
       return {
         test_input: 'get_exchange_data',

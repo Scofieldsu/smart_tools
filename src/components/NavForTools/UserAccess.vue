@@ -1,52 +1,5 @@
 <template>
-  <el-tabs v-model="activeName" @tab-click="handleClick">
-    <el-tab-pane label="用户管理" name="first">
-      <el-table
-        :data="tableData"
-        height="800"
-        border
-        style="width: 100%"
-        :default-sort = "{prop: 'id', order: 'ascending'}">
-        <el-table-column
-          prop="id"
-          label="用户ID"
-          sortable
-          width="120px">
-        </el-table-column>
-        <el-table-column
-          prop="username"
-          label="用户名"
-          sortable
-          width="300px">
-        </el-table-column>
-        <el-table-column
-          prop="email"
-          label="邮箱"
-          sortable
-          width="400px">
-        </el-table-column>
-        <el-table-column
-          prop="active"
-          label="有效"
-          sortable
-          width="100px">
-        </el-table-column>
-        <el-table-column label="操作" >
-          <template scope="scope">
-            <el-button
-              style="margin-left: 30px"
-              size="small"
-              type="success"
-              @click="handleEnable(scope.$index, scope.row)">启用</el-button>
-            <el-button
-              style="margin-left: 30px"
-              size="small"
-              type="primary"
-              @click="handleDisable(scope.$index, scope.row)">禁用</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-    </el-tab-pane>
+  <el-tabs v-model="activeName" @tab-click="handleClick" >
     <el-tab-pane label="所属用户组" name="second">
       <el-table
         :data="tableData2"
@@ -95,14 +48,68 @@
         </el-table-column>
       </el-table>
     </el-tab-pane>
+    <el-tab-pane label="用户管理" name="first" v-if=value_admin>
+      <el-table
+        :data="tableData"
+        height="800"
+        border
+        style="width: 100%"
+        :default-sort = "{prop: 'id', order: 'ascending'}">
+        <el-table-column
+          prop="id"
+          label="用户ID"
+          sortable
+          width="120px">
+        </el-table-column>
+        <el-table-column
+          prop="username"
+          label="用户名"
+          sortable
+          width="300px">
+        </el-table-column>
+        <el-table-column
+          prop="email"
+          label="邮箱"
+          sortable
+          width="400px">
+        </el-table-column>
+        <el-table-column
+          prop="active"
+          label="有效"
+          sortable
+          width="100px">
+        </el-table-column>
+        <el-table-column label="操作" >
+          <template scope="scope">
+            <el-button
+              style="margin-left: 30px"
+              size="small"
+              type="success"
+              @click="handleEnable(scope.$index, scope.row)">启用</el-button>
+            <el-button
+              style="margin-left: 30px"
+              size="small"
+              type="primary"
+              @click="handleDisable(scope.$index, scope.row)">禁用</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </el-tab-pane>
   </el-tabs>
 </template>
 <script>
   import { mapGetters } from 'vuex'
   export default {
     data () {
+      let valueAdmin = window.localStorage.getItem('admin') || 'false'
+      if (valueAdmin.toLowerCase() === 'true') {
+        valueAdmin = true
+      } else {
+        valueAdmin = false
+      }
       return {
-        activeName: 'first',
+        activeName: 'second',
+        value_admin: valueAdmin,
         value: true,
         tableData: [],
         tableData2: []
@@ -134,70 +141,65 @@
         .catch(function (err) {
           console.log(err)
         })
-    },
-    methods: {
-      handleClick (tab, event) {
-        if (tab.name === 'second') {
-          let groupurl = 'https://gitlab.dianchu.cc/api/v4/groups?access_token='
-          let that = this
-          let userid = window.localStorage.getItem('user_id')
-          if (userid) {
-            userid = Number(userid)
-          }
-          let resourse = {
-            'jsonrpc': '2.0',
-            'method': 'userapi.get_access_token',
-            'id': 1111,
-            'params': {
-              'user_id': userid
-            }
-          }
-          that.axios.post(this.getApiUrl, resourse)
-            .then((res) => {
-              if (res.data !== '' && 'result' in res.data) {
-                if ('msg' in res.data.result) {
-                  if (res.data.result.msg === 'success') {
-                    this.axios.get(groupurl + res.data.result.access_token)
-                      .then((res) => {
-                        console.log(res.data)
-                        that.tableData2 = res.data
-                      })
-                  } else {
-                    let msg = res.data.result.msg
-                    this.$notify({
-                      title: 'Get access_token Failed',
-                      message: msg,
-                      type: 'error',
-                      duration: 1200
-                    })
-                  }
-                }
-              } else if ('error' in res.data) {
-                let error = res.data.error
-                this.$notify({
-                  title: 'Get access_token Failed',
-                  message: error,
-                  type: 'error',
-                  duration: 1200
-                })
+      let groupurl = 'https://gitlab.dianchu.cc/api/v4/groups?access_token='
+      if (userid) {
+        userid = Number(userid)
+      }
+      let resoursetoken = {
+        'jsonrpc': '2.0',
+        'method': 'userapi.get_access_token',
+        'id': 1111,
+        'params': {
+          'user_id': userid
+        }
+      }
+      that.axios.post(this.getApiUrl, resoursetoken)
+        .then((res) => {
+          if (res.data !== '' && 'result' in res.data) {
+            if ('msg' in res.data.result) {
+              if (res.data.result.msg === 'success') {
+                this.axios.get(groupurl + res.data.result.access_token)
+                  .then((res) => {
+                    that.tableData2 = res.data
+                  })
               } else {
+                let msg = res.data.result.msg
                 this.$notify({
                   title: 'Get access_token Failed',
-                  message: 'Some abnormal error has happened!',
+                  message: msg,
                   type: 'error',
                   duration: 1200
                 })
               }
+            }
+          } else if ('error' in res.data) {
+            let error = res.data.error
+            this.$notify({
+              title: 'Get access_token Failed',
+              message: error,
+              type: 'error',
+              duration: 1200
             })
-            .catch((err) => {
-              console.error(err)
-              this.$notify({
-                title: 'Get access_token Failed',
-                type: 'error',
-                duration: 1200
-              })
+          } else {
+            this.$notify({
+              title: 'Get access_token Failed',
+              message: 'Some abnormal error has happened!',
+              type: 'error',
+              duration: 1200
             })
-        }
+          }
+        })
+        .catch((err) => {
+          console.error(err)
+          this.$notify({
+            title: 'Get access_token Failed',
+            type: 'error',
+            duration: 1200
+          })
+        })
+    },
+    methods: {
+      handleClick (tab, event) {
       },
       handleVisit (index, row) {
         window.open(row.web_url)
