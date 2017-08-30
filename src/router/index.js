@@ -19,6 +19,8 @@ import LeaveMessage from '../components/NavForTools/LeaveMessage.vue'
 import UserTips from '../components/NavForTools/UserTips.vue'
 import Test from '../components/NavForTools/Test.vue'
 import Favorites from '../components/NavForTools/Favorites.vue'
+import ServiceChart from '../components/NavForTools/ServiceChart.vue'
+import ChartDemo from '../components/NavForTools/ChartDemo.vue'
 
 Vue.use(VueRouter)
 NProgress.configure({
@@ -33,7 +35,7 @@ const routes = [
     component: Home,
     icon: 'fa fa-home',
     children: [
-      { path: '/tools/all_tools', name: '服务', icon: 'fa fa-lightbulb-o', component: Overview, show: true },
+      { path: '/yours/all_tools', name: '服务', icon: 'fa fa-lightbulb-o', component: Overview, show: true },
       { path: '/yours/favorites', name: '收藏夹', icon: 'fa fa-star', component: Favorites, show: true },
       { path: '/yours/notices', name: '动态', icon: 'fa fa-info', component: ShowNotice, show: true },
       { path: '/yours/tips', name: '便签', icon: 'fa fa-pencil-square-o', component: UserTips, show: false },
@@ -48,6 +50,8 @@ const routes = [
     children: [
       { path: '/manager/add_service', name: '发布信息', icon: 'fa fa-upload', component: AddService, show: true },
       { path: '/manager/show_service', name: '服务列表', icon: 'fa fa-table', component: ShowService, show: true },
+      { path: '/manager/chart_service', name: '图表', icon: 'fa fa-bar-chart-o', component: ServiceChart, show: true },
+      { path: '/manager/chart_demo', name: '图表2', icon: 'fa fa-bar-chart-o', component: ChartDemo, show: true },
       { path: '/manager/user_access', name: '权限管理', icon: 'fa fa-user', component: UserAccess, show: true }
     ]
   },
