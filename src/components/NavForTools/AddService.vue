@@ -1,53 +1,77 @@
 <template>
-  <el-form ref="form" :model="form" label-width="80px">
-    <el-form-item label="服务名称">
-      <el-tooltip class="item" effect="dark" content="为了更好显示效果，请控制在20汉字或40字符以内。" placement="right-start">
-        <el-input v-model="form.name" style="width: 500px" ></el-input>
-      </el-tooltip>
-    </el-form-item>
-    <el-form-item label="短称">
-      <el-tooltip class="item" effect="dark" content="为了更好显示效果，请控制在9汉字或18字符以内,将以空格为分隔符进行换行显示，最多可分3行显示。" placement="right-start">
-      <el-input v-model="form.shortcut" style="width: 500px"></el-input>
-      </el-tooltip>
-    </el-form-item>
-    <el-form-item label="链接">
-      <el-tooltip class="item" effect="dark" content="请输入有效的服务链接地址。" placement="right-start">
-      <el-input v-model="form.link" style="width: 500px"></el-input>
-      </el-tooltip>
-    </el-form-item>
-    <el-form-item label="通知链接">
-      <el-tooltip class="item" effect="dark" content="默认打开此开关，则发布成功后会在个人首页的通知项显示一条通知。" placement="right-start">
-      <el-switch
-        v-model="form.notice"
-        on-text=""
-        off-text="">
-      </el-switch>
-      </el-tooltip>
-    </el-form-item>
-    <el-form-item label="标签">
-      <el-tooltip class="item" effect="dark" content="为你的服务添加个性标签。" placement="right-start">
-      <el-input v-model="form.tag" style="width: 500px"></el-input>
-      </el-tooltip>
-    </el-form-item>
-    <el-form-item label="简介">
-      <el-tooltip class="item" effect="dark" content="简短的介绍你的服务。" placement="right-start">
-      <el-input type="textarea" v-model="form.desc" :autosize="{ minRows: 3, maxRows: 15}" style="width: 500px"></el-input>
-      </el-tooltip>
-    </el-form-item>
-    <el-form-item>
-      <el-button type="primary" @click="onSubmit">发布</el-button>
-      <el-button>取消</el-button>
-    </el-form-item>
-  </el-form>
+  <el-tabs v-model="activeName" @tab-click="handleClick" >
+    <el-tab-pane label="发布服务" name="first">
+      <el-form ref="form" :model="form" label-width="80px">
+        <el-form-item label="服务名称">
+          <el-tooltip class="item" effect="dark" content="为了更好显示效果，请控制在20汉字或40字符以内。" placement="right-start">
+            <el-input v-model="form.name" style="width: 500px" ></el-input>
+          </el-tooltip>
+        </el-form-item>
+        <el-form-item label="短称">
+          <el-tooltip class="item" effect="dark" content="为了更好显示效果，请控制在9汉字或18字符以内,将以空格为分隔符进行换行显示，最多可分3行显示。" placement="right-start">
+            <el-input v-model="form.shortcut" style="width: 500px"></el-input>
+          </el-tooltip>
+        </el-form-item>
+        <el-form-item label="链接">
+          <el-tooltip class="item" effect="dark" content="请输入有效的服务链接地址。" placement="right-start">
+            <el-input v-model="form.link" style="width: 500px"></el-input>
+          </el-tooltip>
+        </el-form-item>
+        <el-form-item label="通知链接">
+          <el-tooltip class="item" effect="dark" content="默认打开此开关，则发布成功后会在个人首页的通知项显示一条通知。" placement="right-start">
+            <el-switch
+              v-model="form.notice"
+              on-text=""
+              off-text="">
+            </el-switch>
+          </el-tooltip>
+        </el-form-item>
+        <el-form-item label="标签">
+          <el-tooltip class="item" effect="dark" content="为你的服务添加个性标签。" placement="right-start">
+            <el-input v-model="form.tag" style="width: 500px"></el-input>
+          </el-tooltip>
+        </el-form-item>
+        <el-form-item label="简介">
+          <el-tooltip class="item" effect="dark" content="简短的介绍你的服务。" placement="right-start">
+            <el-input type="textarea" v-model="form.desc" :autosize="{ minRows: 3, maxRows: 15}" style="width: 500px"></el-input>
+          </el-tooltip>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="onSubmit">发布</el-button>
+        </el-form-item>
+      </el-form>
+    </el-tab-pane>
+    <el-tab-pane label="发布公告" name="second">
+      <div style="width: 60%;height:100%;float:left;">
+        <div style="margin:20px 0px;width:80%;">
+        <span>
+          <el-tag type="success" style="width: 50px;font-size: medium;margin-top: 5px;float: left">主题</el-tag>
+          <el-input v-model="proclamation" style="width: 90%;float: right"></el-input>
+        </span>
+          <span style="margin-top: 20px">
+          <el-tag type="primary" style="width: 50px;font-size: medium;margin-top: 25px;float: left">内容</el-tag>
+          <el-input v-model="proclamation" style="width: 90%;float: right;margin-top: 20px" type="textarea"  :autosize={minRows:20,maxRows:50}></el-input>
+        </span>
+          <br/>
+          <el-button type="success" style="margin: 10px;float: right">发布</el-button>
+        </div>
+      </div>
+    </el-tab-pane>
+  </el-tabs>
+
 </template>
 
 <script>
   import { mapGetters } from 'vuex'
   import ElFormItem from '../../../node_modules/element-ui/packages/form/src/form-item'
+  import ElTabPane from '../../../node_modules/element-ui/packages/tabs/src/tab-pane'
   export default {
-    components: {ElFormItem},
+    components: {
+      ElTabPane,
+      ElFormItem},
     data () {
       return {
+        activeName: 'first',
         form: {
           name: '',
           link: '',

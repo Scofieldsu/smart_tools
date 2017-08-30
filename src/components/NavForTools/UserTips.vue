@@ -1,6 +1,6 @@
 <template>
   <el-tabs v-model="activeName" @tab-click="handleClick">
-    <el-tab-pane label="个人链接" name="first">
+    <el-tab-pane label="待做事项" name="first">
       <div>
         <el-form :model="alltips">
           <template>

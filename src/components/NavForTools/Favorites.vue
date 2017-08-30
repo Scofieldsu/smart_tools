@@ -1,31 +1,83 @@
 <template>
-  <div style="width: 100%">
-    <div style="width: 40%;height: 500px;float: left">
-      <div>
-        <span>
-         <i class="el-icon-information"></i>
-         <label style="font-size: large;font-weight: bolder">最新动态</label>
-        </span>
-      </div>
-      <div style="margin-top: 20px">
-        <el-alert v-for="notice in noticeData" :key="notice.id"
-          @close="handle_close(notice.id)" title="" style="margin-top: 10px;background-color: lightcoral">
-          <span v-show="false">{{notice.id}}</span>
-          <span style="color: #333333;font-weight: bold">{{notice.user_name}}</span>
-          <span style="color: gold">{{notice.action}}</span>
-          <span style="color: black;font-weight: normal">{{notice.service_name}}</span> ！
-          <span style="float: right;margin-right: 20px;font-size: small">( {{ notice.time}})</span>
-          <el-button v-if="notice.action !== '删除'" @click="handlelook(notice.link)" style="background-color:lightcoral;color: #324157;float: right;margin-right:30px" type="text" size="small">去看看</el-button>
-        </el-alert>
-      </div>
-    </div>
-    <div style="width: 60%;height:100%;float:left;">
-      <div style="margin-left: 50px">
+  <div style="width: 90%;height:100%;float: left">
+    <div>
         <span style="margin-left:20px">
-          <i class="fa fa-tachometer"></i>
-          <label style="font-size: large;font-weight: bolder">公告</label>
+          <i class="el-icon-star-on"></i>
+          <label style="font-size: large;font-weight: bolder">收藏夹</label>
         </span>
-      </div>
+    </div>
+    <div style="margin: 20px;">
+      <el-input placeholder="请输入内容" v-model="input_select" style="width: 400px" @keyup.enter.native="doselect(input_select)">
+        <el-select v-model="select" slot="prepend" placeholder="综合搜索" style="width: 110px">
+          <el-option label="服务名称" value="name"></el-option>
+          <el-option label="标签" value="tag"></el-option>
+          <el-option label="短称" value="shortcut"></el-option>
+          <el-option label="链接" value="link"></el-option>
+        </el-select>
+        <el-button slot="append"  @click="doselect(input_select)">搜索</el-button>
+      </el-input>
+    </div>
+    <div style="margin-top: 20px">
+      <el-row v-model="resultData">
+        <el-col :span="8" v-for="resultitem in resultData" :key="resultitem.name"  style="height: 40px;width: 200px;margin: 0px 20px 270px 20px">
+          <el-card :body-style="{ padding: '0px' }">
+            <el-tag type="danger">{{resultitem.tag}}</el-tag>
+            <el-button type="text" style="float: right;margin-right: 10px;margin-top: 10px" @click="star_off(resultitem.id)">取消收藏</el-button>
+            <el-button type="text" class="image" @click="arrive(resultitem.link,resultitem.id)">{{resultitem.shortcut}}</el-button>
+            <div style="padding: 14px;">
+              <span>{{resultitem.name}}</span>
+              <div class="bottom clearfix">
+                <el-button type="text" class="button_go" @click="get_detail(resultitem.id)">详情</el-button>
+              </div>
+            </div>
+          </el-card>
+        </el-col>
+      </el-row>
+      <el-dialog title="服务详情" :visible.sync="dialogTableVisible">
+        <el-form  :model="editform" label-width="80px">
+          <el-form-item label="服务ID">
+            <el-input v-model="editform.id" style="width: 500px" readonly disabled></el-input>
+          </el-form-item>
+          <el-form-item label="服务名称">
+            <el-tooltip class="item" effect="dark" content="为了更好显示效果，请控制在20汉字或40字符以内。" placement="right-start">
+              <el-input v-model="editform.name" style="width: 500px" ></el-input>
+            </el-tooltip>
+          </el-form-item>
+          <el-form-item label="短称">
+            <el-tooltip class="item" effect="dark" content="为了更好显示效果，请控制在9汉字或18字符以内,将以空格为分隔符进行换行显示，最多可分3行显示。" placement="right-start">
+              <el-input v-model="editform.shortcut" style="width: 500px"></el-input>
+            </el-tooltip>
+          </el-form-item>
+          <el-form-item label="链接">
+            <el-tooltip class="item" effect="dark" content="请输入有效的服务链接地址。" placement="right-start">
+              <el-input v-model="editform.link" style="width: 500px" ></el-input>
+            </el-tooltip>
+          </el-form-item>
+          <el-form-item label="通知链接">
+            <el-tooltip class="item" effect="dark" content="默认打开此开关，则发布成功后会在个人首页的通知项显示一条通知。" placement="right-start">
+              <el-switch
+                v-model="editform.notice"
+                on-text=""
+                off-text="">
+              </el-switch>
+            </el-tooltip>
+          </el-form-item>
+          <el-form-item label="标签">
+            <el-tooltip class="item" effect="dark" content="为你的服务添加个性标签。" placement="right-start">
+              <el-input v-model="editform.tag" style="width: 500px" ></el-input>
+            </el-tooltip>
+          </el-form-item>
+          <el-form-item label="简介">
+            <el-tooltip class="item" effect="dark" content="简短的介绍你的服务。" placement="right-start">
+              <el-input type="textarea" v-model="editform.desc" :autosize="{ minRows: 3, maxRows: 15}" style="width: 500px" ></el-input>
+            </el-tooltip>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="update_service">提交修改</el-button>
+            <el-button @click="cancel">取消</el-button>
+          </el-form-item>
+        </el-form>
+      </el-dialog>
     </div>
   </div>
 </template>
@@ -37,7 +89,6 @@
     components: {ElButton},
     data () {
       return {
-        proclamation: '',
         input_select: '',
         select: '',
         dialogTableVisible: false,
@@ -163,46 +214,6 @@
           }
           this.resultData = temresult
         }
-      },
-      handle_close (noticeid) {
-        console.log(noticeid)
-        let userid = window.localStorage.getItem('user_id')
-        if (userid) {
-          userid = Number(userid)
-        }
-        let resourse = {
-          'jsonrpc': '2.0',
-          'method': 'noticeapi.check_notice',
-          'id': 1111,
-          'params': {
-            'user_id': userid,
-            'notice_id': noticeid
-          }
-        }
-        this.axios.post(this.getApiUrl, resourse).then((res) => {
-          if (res.data !== '' && 'result' in res.data) {
-            if ('msg' in res.data.result) {
-              if (res.data.result.msg === 'success') {
-                console.log('check notice success!')
-              } else {
-                let msg = res.data.result.msg
-                console.log('check notice failed!' + msg)
-              }
-            }
-          } else if ('error' in res.data) {
-            let error = res.data.error
-            console.log('check notice failed!' + error)
-          } else {
-            console.log('check notice failed!')
-          }
-        })
-          .catch((err) => {
-            console.error(err)
-            console.log('check notice failed!')
-          })
-      },
-      handlelook (link) {
-        window.open(link)
       },
       arrive (link, serviceid) {
         window.open(link)
@@ -385,7 +396,7 @@
                     message: '已取消收藏',
                     type: 'success'
                   })
-                  this.$router.push('/yours/notices')
+                  this.$router.push('/yours/favorites')
                 } else {
                   let msg = res.data.result.msg
                   this.$notify({
