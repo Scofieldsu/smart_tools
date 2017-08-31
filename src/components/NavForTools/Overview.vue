@@ -1,5 +1,9 @@
 <template>
   <div>
+    <!--<el-breadcrumb separator="/" style="margin: 20px">-->
+      <!--<el-breadcrumb-item :to="{ path: '/yours/all_tools' }">你的首页</el-breadcrumb-item>-->
+      <!--<el-breadcrumb-item>服务</el-breadcrumb-item>-->
+    <!--</el-breadcrumb>-->
     <div style="margin: 20px">
       <el-input placeholder="请输入关键词" v-model="input_select" style="width: 400px" @keyup.enter.native="doselect(input_select)">
         <el-select v-model="select" slot="prepend" placeholder="综合搜索" style="width: 110px">

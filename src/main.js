@@ -9,7 +9,9 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import store from './vuex/store'
 import App from './App.vue'
+import echarts from 'echarts'
 
+Vue.prototype.$echarts = echarts
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

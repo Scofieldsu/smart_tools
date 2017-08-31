@@ -2,7 +2,7 @@
   <div>
     <el-table
       :data="tableData"
-      height="800"
+      height="780"
       border
       style="width: 100%"
       :default-sort = "{prop: 'id', order: 'ascending'}">
@@ -22,13 +22,13 @@
         prop="name"
         label="名称"
         sortable
-        width="240px">
+        width="180px">
       </el-table-column>
       <el-table-column
         prop="link"
         label="链接"
         sortable
-        width="380px">
+        width="250px">
       </el-table-column>
       <el-table-column
         prop="shortcut"
@@ -86,6 +86,16 @@
         width="100px">
       </el-table-column>
     </el-table>
+    <el-pagination
+      style="float: right"
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :current-page="currentPage4"
+      :page-sizes="[100, 200, 300, 400]"
+      :page-size="100"
+      layout="total, sizes, prev, pager, next, jumper"
+      :total="400">
+    </el-pagination>
     <el-dialog title="服务详情" :visible.sync="dialogTableVisible">
       <el-form  :model="editform" label-width="80px">
         <el-form-item label="服务ID">
@@ -182,6 +192,12 @@
         })
     },
     methods: {
+      handleSizeChange (val) {
+        console.log(`每页 ${val} 条`)
+      },
+      handleCurrentChange (val) {
+        console.log(`当前页: ${val}`)
+      },
       handleEdit (index, row) {
         let userid = window.localStorage.getItem('user_id')
         if (userid) {
