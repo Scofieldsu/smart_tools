@@ -312,7 +312,7 @@
                     window.localStorage.setItem('user_id', userid)
                     window.localStorage.setItem('user_name', username)
                     window.sessionStorage['login'] = true
-                    this.$router.push('/yours/notices')
+                    this.$router.push('/yours/all_tools')
                   } else {
                     let msg = res.data.result.msg
                     this.$notify({

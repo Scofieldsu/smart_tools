@@ -4,7 +4,7 @@
       <div>
         <span>
          <i class="el-icon-information"></i>
-         <label style="font-size: large;font-weight: bolder">最新动态</label>
+         <label style="font-size: large;font-weight: bolder">最新动态</label><i>(7天内)</i>
         </span>
       </div>
       <div style="margin-top: 20px">
@@ -26,6 +26,7 @@
           <label style="font-size: large;font-weight: bolder">公告</label>
         </span>
       </div>
+      <h1 style="margin-left: 60px;color: black">暂无</h1>
     </div>
   </div>
 </template>
@@ -33,8 +34,11 @@
 <script>
   import { mapGetters } from 'vuex'
   import ElButton from '../../../node_modules/element-ui/packages/button/src/button'
+  import ElAlert from '../../../node_modules/element-ui/packages/alert/src/main'
   export default {
-    components: {ElButton},
+    components: {
+      ElAlert,
+      ElButton},
     data () {
       return {
         proclamation: '',
@@ -57,13 +61,7 @@
             name: 'service_name'
           }
         ],
-        noticeData: [
-          {
-            user_name: '',
-            action: '',
-            service_name: ''
-          }
-        ]
+        noticeData: []
       }
     },
     computed: {

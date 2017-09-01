@@ -1,6 +1,6 @@
 <template>
   <el-tabs v-model="activeName" @tab-click="handleClick" >
-    <el-tab-pane label="所属用户组" name="second">
+    <el-tab-pane label="所属用户组" name="second" v-if="false">
       <el-table
         :data="tableData2"
         height="800"
@@ -108,7 +108,7 @@
         valueAdmin = false
       }
       return {
-        activeName: 'second',
+        activeName: 'first',
         value_admin: valueAdmin,
         value: true,
         tableData: [],
@@ -141,62 +141,62 @@
         .catch(function (err) {
           console.log(err)
         })
-      let groupurl = 'https://gitlab.dianchu.cc/api/v4/groups?access_token='
-      if (userid) {
-        userid = Number(userid)
-      }
-      let resoursetoken = {
-        'jsonrpc': '2.0',
-        'method': 'userapi.get_access_token',
-        'id': 1111,
-        'params': {
-          'user_id': userid
-        }
-      }
-      that.axios.post(this.getApiUrl, resoursetoken)
-        .then((res) => {
-          if (res.data !== '' && 'result' in res.data) {
-            if ('msg' in res.data.result) {
-              if (res.data.result.msg === 'success') {
-                this.axios.get(groupurl + res.data.result.access_token)
-                  .then((res) => {
-                    that.tableData2 = res.data
-                  })
-              } else {
-                let msg = res.data.result.msg
-                this.$notify({
-                  title: 'Get access_token Failed',
-                  message: msg,
-                  type: 'error',
-                  duration: 1200
-                })
-              }
-            }
-          } else if ('error' in res.data) {
-            let error = res.data.error
-            this.$notify({
-              title: 'Get access_token Failed',
-              message: error,
-              type: 'error',
-              duration: 1200
-            })
-          } else {
-            this.$notify({
-              title: 'Get access_token Failed',
-              message: 'Some abnormal error has happened!',
-              type: 'error',
-              duration: 1200
-            })
-          }
-        })
-        .catch((err) => {
-          console.error(err)
-          this.$notify({
-            title: 'Get access_token Failed',
-            type: 'error',
-            duration: 1200
-          })
-        })
+//      let groupurl = 'https://gitlab.dianchu.cc/api/v4/groups?access_token='
+//      if (userid) {
+//        userid = Number(userid)
+//      }
+//      let resoursetoken = {
+//        'jsonrpc': '2.0',
+//        'method': 'userapi.get_access_token',
+//        'id': 1111,
+//        'params': {
+//          'user_id': userid
+//        }
+//      }
+//      that.axios.post(this.getApiUrl, resoursetoken)
+//        .then((res) => {
+//          if (res.data !== '' && 'result' in res.data) {
+//            if ('msg' in res.data.result) {
+//              if (res.data.result.msg === 'success') {
+//                this.axios.get(groupurl + res.data.result.access_token)
+//                  .then((res) => {
+//                    that.tableData2 = res.data
+//                  })
+//              } else {
+//                let msg = res.data.result.msg
+//                this.$notify({
+//                  title: 'Get access_token Failed',
+//                  message: msg,
+//                  type: 'error',
+//                  duration: 1200
+//                })
+//              }
+//            }
+//          } else if ('error' in res.data) {
+//            let error = res.data.error
+//            this.$notify({
+//              title: 'Get access_token Failed',
+//              message: error,
+//              type: 'error',
+//              duration: 1200
+//            })
+//          } else {
+//            this.$notify({
+//              title: 'Get access_token Failed',
+//              message: 'Some abnormal error has happened!',
+//              type: 'error',
+//              duration: 1200
+//            })
+//          }
+//        })
+//        .catch((err) => {
+//          console.error(err)
+//          this.$notify({
+//            title: 'Get access_token Failed',
+//            type: 'error',
+//            duration: 1200
+//          })
+//        })
     },
     methods: {
       handleClick (tab, event) {

@@ -71,6 +71,7 @@
       ElFormItem},
     data () {
       return {
+        proclamation: '',
         activeName: 'first',
         form: {
           name: '',
@@ -88,6 +89,7 @@
       ])
     },
     methods: {
+      handleClick () {},
       onSubmit () {
         console.log('submit!')
         let userid = window.localStorage.getItem('user_id')

@@ -86,16 +86,16 @@
         width="100px">
       </el-table-column>
     </el-table>
-    <el-pagination
-      style="float: right"
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
-      :current-page="currentPage4"
-      :page-sizes="[100, 200, 300, 400]"
-      :page-size="100"
-      layout="total, sizes, prev, pager, next, jumper"
-      :total="400">
-    </el-pagination>
+    <!--<el-pagination-->
+      <!--style="float: right"-->
+      <!--@size-change="handleSizeChange"-->
+      <!--@current-change="handleCurrentChange"-->
+      <!--:current-page="currentPage4"-->
+      <!--:page-sizes="[100, 200, 300, 400]"-->
+      <!--:page-size="100"-->
+      <!--layout="total, sizes, prev, pager, next, jumper"-->
+      <!--:total="400">-->
+    <!--</el-pagination>-->
     <el-dialog title="服务详情" :visible.sync="dialogTableVisible">
       <el-form  :model="editform" label-width="80px">
         <el-form-item label="服务ID">

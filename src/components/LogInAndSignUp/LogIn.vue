@@ -65,7 +65,7 @@
             if (res.data.result.msg === 'success') {
               let result = res.data.result
               let path = '/oauth/authorize?'
-              let others = '&response_type=code&state=oneplatform'
+              let others = '&response_type=code&state=oneplatform&scope=read_user'
               window.location.href = result.gitlab_url + path + 'client_id=' + result.client_id + '&redirect_uri=' + result.redirect_uri + others
             } else {
               let msg = res.data.result.msg
@@ -134,7 +134,7 @@
                     window.localStorage.setItem('user_id', userid)
                     window.localStorage.setItem('user_name', username)
                     window.sessionStorage['login'] = true
-                    this.$router.push('/yours/notices')
+                    this.$router.push('/yours/all_tools')
                   } else {
                     let msg = res.data.result.msg
                     this.$notify({
