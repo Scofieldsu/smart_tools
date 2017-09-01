@@ -63,13 +63,13 @@
             },
             xAxis: {
               axisLabel: {interval: 0},
-              data: namelist.slice(0, 10),
-              nameTextStyle: {width: 50}
+              data: namelist.slice(0, 10)
             },
             yAxis: {},
             series: [{
               name: '访问量',
               type: 'bar',
+              barWidth: 30,
               data: countlist.slice(0, 10)
             }]
           })
