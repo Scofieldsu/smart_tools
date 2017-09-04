@@ -34,9 +34,9 @@ const routes = [
     component: Home,
     icon: 'fa fa-home',
     children: [
-      { path: '/yours/all_tools', name: '服务', icon: 'fa fa-lightbulb-o', component: Overview, show: true },
-      { path: '/yours/favorites', name: '收藏夹', icon: 'fa fa-star', component: Favorites, show: true },
-      { path: '/yours/notices', name: '动态', icon: 'fa fa-info', component: ShowNotice, show: true },
+      { path: '/yours/all_tools', name: '服务', icon: 'fa fa-bullhorn', component: Overview, show: true },
+      { path: '/yours/favorites', name: '收藏', icon: 'fa fa-star', component: Favorites, show: true },
+      { path: '/yours/notices', name: '动态', icon: 'fa fa-info-circle', component: ShowNotice, show: true },
       { path: '/yours/tips', name: '便签', icon: 'fa fa-pencil-square-o', component: UserTips, show: false },
       { path: '/yours/settings', name: '个人设置', icon: 'fa fa-lock', component: UserSettings, show: true }
     ]

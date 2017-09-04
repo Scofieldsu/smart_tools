@@ -300,7 +300,6 @@
                       type: 'success',
                       duration: 1200
                     })
-                    this.$router.push('/tools/all_tools')
                   } else {
                     let msg = res.data.result.msg
                     this.$notify({
@@ -390,7 +389,6 @@
                     message: '收藏成功',
                     type: 'success'
                   })
-                  this.$router.push('/tools/all_tools')
                 } else {
                   let msg = res.data.result.msg
                   this.$notify({

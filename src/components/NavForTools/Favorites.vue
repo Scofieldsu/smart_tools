@@ -307,7 +307,6 @@
                       type: 'success',
                       duration: 1200
                     })
-                    this.$router.push('/yours/notices')
                   } else {
                     let msg = res.data.result.msg
                     this.$notify({
@@ -396,7 +395,6 @@
                     message: '已取消收藏',
                     type: 'success'
                   })
-                  this.$router.push('/yours/favorites')
                 } else {
                   let msg = res.data.result.msg
                   this.$notify({
