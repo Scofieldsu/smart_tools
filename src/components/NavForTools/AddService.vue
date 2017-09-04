@@ -146,7 +146,7 @@
                       type: 'success',
                       duration: 1200
                     })
-                    this.$router.push('/tools/all_tools')
+                    this.$router.push('/yours/all_tools')
                   } else {
                     let msg = res.data.result.msg
                     this.$notify({
