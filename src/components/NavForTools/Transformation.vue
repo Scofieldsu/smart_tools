@@ -15,8 +15,10 @@
   import ElTag from '../../../node_modules/element-ui/packages/tag/src/tag'
   import ElInput from '../../../node_modules/element-ui/packages/input/src/input'
   import ElButton from '../../../node_modules/element-ui/packages/button/src/button'
+  import ElTabPane from '../../../node_modules/element-ui/packages/tabs/src/tab-pane'
   export default {
     components: {
+      ElTabPane,
       ElButton,
       ElInput,
       ElTag},

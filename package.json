@@ -27,7 +27,8 @@
     "vue-schart": "^0.1.2",
     "vue-chartjs": "2.8.2",
     "chart.js": "^2.6.0",
-    "echarts": "^3.7.0"
+    "echarts": "^3.7.0",
+    "simplemde":"^1.11.2"
   },
   "devDependencies": {
     "autoprefixer": "^6.7.2",

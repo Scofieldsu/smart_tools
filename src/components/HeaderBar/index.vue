@@ -41,7 +41,7 @@
         'centerRightWidth'
       ]),
       return_all () {
-        this.$router.push('/tools/all_tools')
+        this.$router.push('/yours/all_tools')
       },
       logout () {
         localStorage.removeItem('user_name')

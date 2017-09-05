@@ -41,22 +41,6 @@
         </el-form-item>
       </el-form>
     </el-tab-pane>
-    <el-tab-pane label="发布公告" name="second">
-      <div style="width: 60%;height:100%;float:left;">
-        <div style="margin:20px 0px;width:80%;">
-        <span>
-          <el-tag type="success" style="width: 50px;font-size: medium;margin-top: 5px;float: left">主题</el-tag>
-          <el-input v-model="proclamation" style="width: 90%;float: right"></el-input>
-        </span>
-          <span style="margin-top: 20px">
-          <el-tag type="primary" style="width: 50px;font-size: medium;margin-top: 25px;float: left">内容</el-tag>
-          <el-input v-model="proclamation" style="width: 90%;float: right;margin-top: 20px" type="textarea"  :autosize={minRows:20,maxRows:50}></el-input>
-        </span>
-          <br/>
-          <el-button type="success" style="margin: 10px;float: right">发布</el-button>
-        </div>
-      </div>
-    </el-tab-pane>
   </el-tabs>
 
 </template>
@@ -71,7 +55,6 @@
       ElFormItem},
     data () {
       return {
-        proclamation: '',
         activeName: 'first',
         form: {
           name: '',

@@ -26,7 +26,18 @@
           <label style="font-size: large;font-weight: bolder">公告</label>
         </span>
       </div>
-      <h1 style="margin-left: 60px;color: black">暂无</h1>
+      <el-card class="box-card" v-for="o in 10" :key="o">
+        <div  class="text item">
+          <i style="font-weight: bolder;color: #ff4949">{{'公告标题'}}</i>
+          <br/>
+          {{'公告内容' + o }}
+          <br/>
+          <el-button type="text" style="float: right">展开</el-button>
+          <br/>
+          <i style="font-size: small;font-weight: lighter;color: #324157;">{{'公告作者'}}</i>
+          <i style="font-size: small;font-weight: lighter;color: lightseagreen; margin-left: 5px">{{'2017-09-05'}}</i>
+        </div>
+      </el-card>
     </div>
   </div>
 </template>
@@ -150,6 +161,13 @@
 </script>
 
 <style scoped>
+  .box-card {
+    width: 400px;
+    margin-left: 60px;
+    margin-top: 20px;
+    float: left;
+    background-color: blanchedalmond;
+  }
   .bottom {
     margin-top: 13px;
     line-height: 12px;

@@ -20,7 +20,7 @@ import UserTips from '../components/NavForTools/UserTips.vue'
 import Test from '../components/NavForTools/Test.vue'
 import Favorites from '../components/NavForTools/Favorites.vue'
 import ChartService from '../components/NavForTools/ChartService.vue'
-
+import Markdown from '../components/NavForTools/Markdown.vue'
 Vue.use(VueRouter)
 NProgress.configure({
   showSpinner: false
@@ -48,6 +48,7 @@ const routes = [
     icon: 'fa fa-cog',
     children: [
       { path: '/manager/add_service', name: '发布信息', icon: 'fa fa-upload', component: AddService, show: true },
+      { path: '/manager/public_notice', name: '发布公告', icon: 'fa fa-tag', component: Markdown, show: true },
       { path: '/manager/show_service', name: '服务列表', icon: 'fa fa-table', component: ShowService, show: true },
       { path: '/manager/chart_service', name: '图表统计', icon: 'fa fa-bar-chart-o', component: ChartService, show: true },
       { path: '/manager/user_access', name: '权限管理', icon: 'fa fa-user', component: UserAccess, show: true }
