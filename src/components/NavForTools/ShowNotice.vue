@@ -279,7 +279,7 @@
                   } else {
                     let msg = res.data.result.msg
                     this.$notify({
-                      title: 'Delete Delete Public info Success Failed',
+                      title: 'Delete Public info Success Failed',
                       message: msg,
                       type: 'error',
                       duration: 1200
@@ -289,14 +289,14 @@
               } else if ('error' in res.data) {
                 let error = res.data.error
                 this.$notify({
-                  title: 'Delete Delete Public info Success Failed',
+                  title: 'Delete  Public info Success Failed',
                   message: error,
                   type: 'error',
                   duration: 1200
                 })
               } else {
                 this.$notify({
-                  title: 'Delete Delete Public info Success Failed',
+                  title: 'Delete  Public info Success Failed',
                   message: 'Some abnormal error has happened!',
                   type: 'error',
                   duration: 1200
