@@ -107,13 +107,6 @@
             shortcut: 'default',
             name: 'service_name'
           }
-        ],
-        noticeData: [
-          {
-            user_name: '',
-            action: '',
-            service_name: ''
-          }
         ]
       }
     },
@@ -143,18 +136,6 @@
         })
         .catch(function (err) {
           console.log(err)
-        })
-      let resnotice = {
-        'jsonrpc': '2.0',
-        'method': 'noticeapi.get_notice_list',
-        'id': 1111,
-        'params': {
-          'user_id': userid
-        }
-      }
-      that.axios.post(this.getApiUrl, resnotice)
-        .then(function (res) {
-          that.noticeData = res.data.result
         })
     },
     methods: {
