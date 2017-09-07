@@ -137,7 +137,9 @@
         'method': 'serviceapi.get_service_list',
         'id': 1111,
         'params': {
-          'user_id': userid
+          'user_id': userid,
+          'current_page': 0,
+          'size': 15
         }
       }
       that.axios.post(getapiUrl, resourse)

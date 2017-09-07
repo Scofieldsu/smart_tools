@@ -2,7 +2,6 @@
   <div>
     <el-table
       :data="tableData"
-      height="780"
       border
       style="width: 100%"
       :default-sort = "{prop: 'id', order: 'ascending'}">
@@ -86,16 +85,15 @@
         width="100px">
       </el-table-column>
     </el-table>
-    <!--<el-pagination-->
-      <!--style="float: right"-->
-      <!--@size-change="handleSizeChange"-->
-      <!--@current-change="handleCurrentChange"-->
-      <!--:current-page="currentPage4"-->
-      <!--:page-sizes="[100, 200, 300, 400]"-->
-      <!--:page-size="100"-->
-      <!--layout="total, sizes, prev, pager, next, jumper"-->
-      <!--:total="400">-->
-    <!--</el-pagination>-->
+    <i v-model="count" v-show="false"></i>
+    <el-pagination
+      style="float: left;margin-top: 10px"
+      @current-change="handleCurrentChange"
+      :current-page="currentPage"
+      :page-size="15"
+      layout="total, prev, pager, next, jumper"
+      :total="count">
+    </el-pagination>
     <el-dialog title="服务详情" :visible.sync="dialogTableVisible">
       <el-form  :model="editform" label-width="80px">
         <el-form-item label="服务ID">
@@ -150,6 +148,8 @@
     components: {},
     data () {
       return {
+        count: 100,
+        currentPage: 1,
         dialogTableVisible: false,
         editform: {
           id: 0,
@@ -180,7 +180,9 @@
         'method': 'serviceapi.get_service_list',
         'id': 1111,
         'params': {
-          'user_id': userid
+          'user_id': userid,
+          'current_page': 1,
+          'size': 15
         }
       }
       that.axios.post(this.getApiUrl, resourse)
@@ -191,12 +193,52 @@
           console.log(err)
         })
     },
+    mounted () {
+      let that = this
+      let userid = window.localStorage.getItem('user_id')
+      if (userid) {
+        userid = Number(userid)
+      }
+      let recount = {
+        'jsonrpc': '2.0',
+        'method': 'serviceapi.get_service_count',
+        'id': 1111,
+        'params': {
+          'user_id': userid
+        }
+      }
+      that.axios.post(this.getApiUrl, recount)
+        .then(function (res) {
+          that.count = res.data.result.count
+        })
+        .catch(function (err) {
+          console.log(err)
+        })
+    },
     methods: {
-      handleSizeChange (val) {
-        console.log(`每页 ${val} 条`)
-      },
       handleCurrentChange (val) {
-        console.log(`当前页: ${val}`)
+        let that = this
+        let userid = window.localStorage.getItem('user_id')
+        if (userid) {
+          userid = Number(userid)
+        }
+        let resourse = {
+          'jsonrpc': '2.0',
+          'method': 'serviceapi.get_service_list',
+          'id': 1111,
+          'params': {
+            'user_id': userid,
+            'current_page': val,
+            'size': 15
+          }
+        }
+        that.axios.post(this.getApiUrl, resourse)
+          .then(function (res) {
+            that.tableData = res.data.result
+          })
+          .catch(function (err) {
+            console.log(err)
+          })
       },
       handleEdit (index, row) {
         let userid = window.localStorage.getItem('user_id')
